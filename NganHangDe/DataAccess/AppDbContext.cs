@@ -14,8 +14,10 @@ public class AppDbContext : DbContext
     public DbSet<Answer> Answers { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=localhost;Database=NganHangDe;Trusted_Connection=True;Encrypt=False;");
+        string databaseFilePath = App.GetDatabaseFilePath();
+        optionsBuilder.UseSqlServer($"Server=(localdb)\\mssqllocaldb;AttachDbFilename={databaseFilePath};Database=NganHangDe;Trusted_Connection=True;");
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<QuizQuestion>()

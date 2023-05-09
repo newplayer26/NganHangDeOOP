@@ -1,5 +1,5 @@
 ﻿using NganHangDe.Models;
-using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

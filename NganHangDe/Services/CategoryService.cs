@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NganHangDe.DataAccess;
 using NganHangDe.Models;
-using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,24 +13,29 @@ namespace NganHangDe.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly AppDbContext _context;
-
-        public CategoryService(AppDbContext context)
+        public async Task<Category> GetFullCategoryById(int categoryId)
         {
-            _context = context;
+            using (var _context = new AppDbContext())
+            {
+                return await _context.Categories
+                    .Include(c => c.Questions)
+                    .Include(c => c.ChildCategories)
+                    .FirstOrDefaultAsync(c => c.Id == categoryId);
+            }
         }
-
         public async Task<List<CategoryViewModel>> GetAllCategoriesAsync()
         {
-            var categoryViewModels = new List<CategoryViewModel>();
-            var categoryList = await _context.Categories.ToListAsync();
-            var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
-            foreach (var category in topCategories)
+            using (var _context = new AppDbContext ())
             {
-                AddCategoryWithIndentation(category, 0, categoryViewModels, categoryList);
+                var categoryViewModels = new List<CategoryViewModel>();
+                var categoryList = await _context.Categories.ToListAsync();
+                var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
+                foreach (var category in topCategories)
+                {
+                    AddCategoryWithIndentation(category, 0, categoryViewModels, categoryList);
+                }
+                return categoryViewModels;
             }
-
-            return categoryViewModels;
         }
         private void AddCategoryWithIndentation(Category category, int level, List<CategoryViewModel> categoryViewModels, List<Category> allCategories)
         {

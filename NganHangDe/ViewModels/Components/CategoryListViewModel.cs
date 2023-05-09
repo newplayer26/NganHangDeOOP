@@ -1,6 +1,7 @@
 ﻿using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.Services;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,15 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace NganHangDe.ViewModels
+namespace NganHangDe.ViewModels.Components
 {
     public class CategoryListViewModel : ViewModelBase
     {
         private ObservableCollection<CategoryViewModel> _categories;
         private readonly ICategoryService _categoryService;
-        private CategoryViewModel _selectedCategory;
         public ICommand CategorySelectedCommand { get; }
-
+        private CategoryViewModel _selectedCategory;
         public CategoryViewModel SelectedCategory
         {
             get => _selectedCategory;

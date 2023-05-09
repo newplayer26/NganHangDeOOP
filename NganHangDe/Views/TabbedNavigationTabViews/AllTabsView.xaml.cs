@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NganHangDe.Views
+namespace NganHangDe.Views.TabbedNavigationTabViews
 {
     /// <summary>
-    /// Interaction logic for NewQuestionView.xaml
+    /// Interaction logic for AllTabsView.xaml
     /// </summary>
-    public partial class NewQuestionView : UserControl
+    public partial class AllTabsView : UserControl
     {
-        public NewQuestionView()
+        public AllTabsView()
         {
             InitializeComponent();
         }
