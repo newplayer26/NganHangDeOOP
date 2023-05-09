@@ -1,5 +1,5 @@
 ﻿using NganHangDe.Models;
-using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +11,6 @@ namespace NganHangDe.Services
     public interface IQuestionService
     {
         Task<List<QuestionViewModel>> GetQuestionsByCategoryIdAsync(int categoryId);
+        Task<List<QuestionViewModel>> GetSubcategoriesQuestionsByCategoryIdAsync(int categoryId);
     }
 }

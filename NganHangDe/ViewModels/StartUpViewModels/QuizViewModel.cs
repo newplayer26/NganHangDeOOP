@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NganHangDe.ViewModels
+namespace NganHangDe.ViewModels.StartUpViewModels
 {
     public class QuizViewModel : ViewModelBase
     {
@@ -19,6 +19,5 @@ namespace NganHangDe.ViewModels
                 OnPropertyChanged(nameof(Name));
             }
         }
-
     }
 }

@@ -4,8 +4,9 @@ using NganHangDe.Commands;
 using NganHangDe.DataAccess;
 using NganHangDe.Models;
 using NganHangDe.Services;
+using NganHangDe.ViewModels.StartUpViewModels;
 
-namespace NganHangDe.ViewModels
+namespace NganHangDe.ViewModels.Components
 {
     public class QuizListViewModel : ViewModelBase
     {
@@ -32,9 +33,9 @@ namespace NganHangDe.ViewModels
             }
         }
 
-        public QuizListViewModel()
+        public QuizListViewModel(IQuizService QuizService)
         {
-            _quizService = new QuizService(new AppDbContext());
+            _quizService = QuizService;
             LoadQuizzes();
             QuizSelectedCommand = new QuizSelectedCommand(QuizSelected);
         }
@@ -44,7 +45,7 @@ namespace NganHangDe.ViewModels
             var quizList = await _quizService.GetAllQuizzesAsync();
             Quizzes = new ObservableCollection<QuizViewModel>(quizList);
         }
-        
+
         private void QuizSelected()
         {
             //TODO: 
