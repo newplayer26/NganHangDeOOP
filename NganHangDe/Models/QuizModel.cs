@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NganHangDe.ViewModels;
 
-namespace NganHangDe.ViewModels.StartUpViewModels
+namespace NganHangDe.Models
 {
-    public class QuizViewModel : ViewModelBase
+    public class QuizModel : ViewModelBase
     {
         private string _name;
         public int Id { get; set; }
