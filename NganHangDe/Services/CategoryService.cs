@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NganHangDe.DataAccess;
 using NganHangDe.Models;
-using NganHangDe.ModelsDb;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,23 +23,23 @@ namespace NganHangDe.Services
                     .FirstOrDefaultAsync(c => c.Id == categoryId);
             }
         }
-        public async Task<List<CategoryModel>> GetAllCategoriesAsync()
+        public async Task<List<CategoryViewModel>> GetAllCategoriesAsync()
         {
             using (var _context = new AppDbContext ())
             {
-                var categoryViewModels = new List<CategoryModel>();
+                var categoryViewModels = new List<CategoryViewModel>();
                 var categoryList = await _context.Categories.ToListAsync();
                 var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
                 foreach (var category in topCategories)
                 {
-                    AddCategoryWithIndentation(category, "", categoryViewModels, categoryList);
+                    AddCategoryWithIndentation(category, 0, categoryViewModels, categoryList);
                 }
                 return categoryViewModels;
             }
         }
-        private void AddCategoryWithIndentation(Category category, string level, List<CategoryModel> categoryViewModels, List<Category> allCategories)
+        private void AddCategoryWithIndentation(Category category, int level, List<CategoryViewModel> categoryViewModels, List<Category> allCategories)
         {
-            categoryViewModels.Add(new CategoryModel
+            categoryViewModels.Add(new CategoryViewModel
             {
                 Id = category.Id,
                 Name = category.Name,
@@ -50,7 +50,7 @@ namespace NganHangDe.Services
 
             foreach (var childCategory in childCategories)
             {
-                AddCategoryWithIndentation(childCategory, level + "   ", categoryViewModels, allCategories);
+                AddCategoryWithIndentation(childCategory, level + 1, categoryViewModels, allCategories);
             }
         }
     }

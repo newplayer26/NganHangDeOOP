@@ -1,5 +1,5 @@
 ﻿using NganHangDe.Models;
-using NganHangDe.ModelsDb;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace NganHangDe.Services
 {
     public interface IQuizService
     {
-        Task<List<QuizModel>> GetAllQuizzesAsync();
+        Task<List<QuizViewModel>> GetAllQuizzesAsync();
         Task<Quiz> GetFullQuizById(int id);
     }
 

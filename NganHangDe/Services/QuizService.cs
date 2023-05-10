@@ -4,19 +4,19 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NganHangDe.DataAccess;
 using NganHangDe.Models;
-using NganHangDe.ModelsDb;
 using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 
 namespace NganHangDe.Services
 {
     public class QuizService : IQuizService
     {
-        public async Task<List<QuizModel>> GetAllQuizzesAsync()
+        public async Task<List<QuizViewModel>> GetAllQuizzesAsync()
         {
             using (var _context = new AppDbContext())
             {
                 return await _context.Quizzes
-                    .Select(q => new QuizModel { Id = q.Id, Name = q.Name })
+                    .Select(q => new QuizViewModel { Id = q.Id, Name = q.Name })
                     .ToListAsync();
             }
         }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NganHangDe.ModelsDb
+namespace NganHangDe.Models
 {
     public class Quiz
     {
