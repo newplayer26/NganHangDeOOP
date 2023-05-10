@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using NganHangDe.ViewModels;
 
-namespace NganHangDe.ViewModels.StartUpViewModels
+namespace NganHangDe.DisplayModel
 {
-    public class CategoryViewModel : ViewModelBase
+    public class CategoryDisplayModel : ViewModelBase
     {
         private string _name;
-        private int _level;
+        private string _level;
         public int Id { get; set; }
         public string Name
         {
@@ -20,13 +17,21 @@ namespace NganHangDe.ViewModels.StartUpViewModels
                 OnPropertyChanged(nameof(Name));
             }
         }
-        public int Level
+        public string Level
         {
             get => _level;
             set
             {
                 _level = value;
                 OnPropertyChanged(nameof(Level));
+            }
+        }
+        private string _displayedName;
+        public string DisplayedName
+        {
+            get
+            {
+                return Level + Name;
             }
         }
     }

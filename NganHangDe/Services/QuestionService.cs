@@ -26,7 +26,6 @@ namespace NganHangDe.Services
                     .Select(q => new QuestionViewModel { Id = q.Id, Text = q.Text })
                     .ToListAsync();
             }
-            
         }
         public async Task<Question> GetFullQuestionById (int id)
         {

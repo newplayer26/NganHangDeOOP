@@ -1,24 +1,20 @@
 ﻿using NganHangDe.Commands;
-using NganHangDe.Models;
+using NganHangDe.DisplayModel;
 using NganHangDe.Services;
-using NganHangDe.ViewModels.StartUpViewModels;
-using System;
-using System.Collections.Generic;
+
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.Components
 {
     public class CategoryListViewModel : ViewModelBase
     {
-        private ObservableCollection<CategoryViewModel> _categories;
+        private ObservableCollection<CategoryDisplayModel> _categories;
         private readonly ICategoryService _categoryService;
         public ICommand CategorySelectedCommand { get; }
-        private CategoryViewModel _selectedCategory;
-        public CategoryViewModel SelectedCategory
+        private CategoryDisplayModel _selectedCategory;
+        public CategoryDisplayModel SelectedCategory
         {
             get => _selectedCategory;
             set
@@ -27,7 +23,7 @@ namespace NganHangDe.ViewModels.Components
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
-        public ObservableCollection<CategoryViewModel> Categories
+        public ObservableCollection<CategoryDisplayModel> Categories
         {
             get => _categories;
             set
@@ -46,7 +42,7 @@ namespace NganHangDe.ViewModels.Components
         private async void LoadCategories()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
-            Categories = new ObservableCollection<CategoryViewModel>(categories);
+            Categories = new ObservableCollection<CategoryDisplayModel>(categories);
         }
         private void CategorySelected()
         {

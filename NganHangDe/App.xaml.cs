@@ -7,8 +7,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using NganHangDe.DataAccess;
+
 using NganHangDe.Stores;
 using NganHangDe.ViewModels;
+
 
 namespace NganHangDe
 {
@@ -42,6 +45,7 @@ namespace NganHangDe
         }
         protected override void OnStartup(StartupEventArgs e)
         {
+        
             string dataDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database");
             AppDomain.CurrentDomain.SetData("DataDirectory", dataDirectory);
 

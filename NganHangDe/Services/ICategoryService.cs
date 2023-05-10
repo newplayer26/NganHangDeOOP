@@ -1,5 +1,5 @@
-﻿using NganHangDe.Models;
-using NganHangDe.ViewModels.StartUpViewModels;
+﻿using NganHangDe.DisplayModel;
+using NganHangDe.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace NganHangDe.Services
 {
     public interface ICategoryService
     {
-        Task<List<CategoryViewModel>> GetAllCategoriesAsync();
+        Task<List<CategoryDisplayModel>> GetAllCategoriesAsync();
         Task<Category> GetFullCategoryById(int categoryId);
     }
 
