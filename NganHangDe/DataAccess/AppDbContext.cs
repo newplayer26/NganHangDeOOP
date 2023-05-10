@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NganHangDe.Models;
+using NganHangDe.ModelsDb;
+
 namespace NganHangDe.DataAccess;
 public class AppDbContext : DbContext
 {

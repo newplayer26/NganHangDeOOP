@@ -9,7 +9,7 @@ using NganHangDe.ViewModels.Components;
 
 namespace NganHangDe.ViewModels
 {
-    public class StartupViewModel:ViewModelBase
+    public class StartupViewModel : ViewModelBase
     {
         public ICommand ToTabbedViewCommand { get; }
         private readonly NavigationStore _navigationStore;
@@ -21,6 +21,7 @@ namespace NganHangDe.ViewModels
             ToTabbedViewCommand = new NavigateCommand<TabbedNavigationViewModel>(navigationStore, typeof(TabbedNavigationViewModel));
             QuizService quizService = new QuizService();
             QuizListViewModel quizListViewModel = new QuizListViewModel(quizService);
+            
         }
         
     }
