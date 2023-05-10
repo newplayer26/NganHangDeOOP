@@ -1,7 +1,7 @@
 ﻿using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.Services;
-using NganHangDe.ViewModels.StartUpViewModels;
+using NganHangDe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +14,11 @@ namespace NganHangDe.ViewModels.Components
 {
     public class CategoryQuestionsViewModel : ViewModelBase
     {
-        private ObservableCollection<QuestionViewModel> _questions;
+        private ObservableCollection<QuestionModel> _questions;
         private readonly IQuestionService _questionService;
         private readonly int _categoryId;
         public ICommand QuestionSelectedCommand { get; }
-        public ObservableCollection<QuestionViewModel> Questions
+        public ObservableCollection<QuestionModel> Questions
         {
             get => _questions;
             set
@@ -37,7 +37,7 @@ namespace NganHangDe.ViewModels.Components
         private async void LoadQuestions()
         {
             var questions = await _questionService.GetQuestionsByCategoryIdAsync(_categoryId);
-            Questions = new ObservableCollection<QuestionViewModel>(questions);
+            Questions = new ObservableCollection<QuestionModel>(questions);
         }
         private void QuestionSelected()
         {
