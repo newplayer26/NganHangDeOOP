@@ -1,8 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using NganHangDe.Models;
-using NganHangDe.ModelsDb;
-
 namespace NganHangDe.DataAccess;
 public class AppDbContext : DbContext
 {

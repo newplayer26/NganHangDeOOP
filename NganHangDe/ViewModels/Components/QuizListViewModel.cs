@@ -4,17 +4,17 @@ using NganHangDe.Commands;
 using NganHangDe.DataAccess;
 using NganHangDe.Models;
 using NganHangDe.Services;
-using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 
 namespace NganHangDe.ViewModels.Components
 {
     public class QuizListViewModel : ViewModelBase
     {
-        private ObservableCollection<QuizModel> _quizzes;
+        private ObservableCollection<QuizViewModel> _quizzes;
         private readonly IQuizService _quizService;
         public ICommand QuizSelectedCommand { get; }
-        private QuizModel _selectedQuiz;
-        public QuizModel SelectedQuiz
+        private QuizViewModel _selectedQuiz;
+        public QuizViewModel SelectedQuiz
         {
             get { return _selectedQuiz; }
             set
@@ -23,7 +23,7 @@ namespace NganHangDe.ViewModels.Components
                 OnPropertyChanged(nameof(SelectedQuiz));
             }
         }
-        public ObservableCollection<QuizModel> Quizzes
+        public ObservableCollection<QuizViewModel> Quizzes
         {
             get { return _quizzes; }
             set
@@ -43,7 +43,7 @@ namespace NganHangDe.ViewModels.Components
         private async void LoadQuizzes()
         {
             var quizList = await _quizService.GetAllQuizzesAsync();
-            Quizzes = new ObservableCollection<QuizModel>(quizList);
+            Quizzes = new ObservableCollection<QuizViewModel>(quizList);
         }
 
         private void QuizSelected()

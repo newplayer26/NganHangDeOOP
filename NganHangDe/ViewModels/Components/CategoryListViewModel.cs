@@ -1,7 +1,7 @@
 ﻿using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.Services;
-using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartUpViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +14,11 @@ namespace NganHangDe.ViewModels.Components
 {
     public class CategoryListViewModel : ViewModelBase
     {
-        private ObservableCollection<CategoryModel> _categories;
+        private ObservableCollection<CategoryViewModel> _categories;
         private readonly ICategoryService _categoryService;
         public ICommand CategorySelectedCommand { get; }
-        private CategoryModel _selectedCategory;
-        public CategoryModel SelectedCategory
+        private CategoryViewModel _selectedCategory;
+        public CategoryViewModel SelectedCategory
         {
             get => _selectedCategory;
             set
@@ -27,7 +27,7 @@ namespace NganHangDe.ViewModels.Components
                 OnPropertyChanged(nameof(SelectedCategory));
             }
         }
-        public ObservableCollection<CategoryModel> Categories
+        public ObservableCollection<CategoryViewModel> Categories
         {
             get => _categories;
             set
@@ -46,14 +46,12 @@ namespace NganHangDe.ViewModels.Components
         private async void LoadCategories()
         {
             var categories = await _categoryService.GetAllCategoriesAsync();
-            Categories = new ObservableCollection<CategoryModel>(categories);
+            Categories = new ObservableCollection<CategoryViewModel>(categories);
         }
-        public event EventHandler<CategoryModel> CategorySelectedEvent;
         private void CategorySelected()
         {
-            CategorySelectedEvent?.Invoke(this, SelectedCategory);
+            //TODO: 
         }
-
     }
 
 }
