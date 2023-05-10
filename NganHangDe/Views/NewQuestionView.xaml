@@ -45,7 +45,7 @@
             </Grid>
         </Grid>
         <!--adding a multiple choice question-->
-        <ScrollViewer Grid.Row="2">
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <Grid Grid.Row="2">
                 <Border Margin="10 0 10 10" BorderBrush="Gray" BorderThickness="0.5"/>
                 <Grid>
@@ -89,49 +89,59 @@
                     <TextBlock Text="Category" Grid.Column="1" Grid.Row="3" Height="25" FontSize="16" 
                                Margin="20 10 0 0" VerticalAlignment="Top"/>
                     <ComboBox Grid.Row="3" Grid.Column="2" Height="20"  Width="200" HorizontalAlignment="Left" Margin="20 10 0 0"/>
-                    <!--Question name (cần chèn dấu ! bắt buộc !=NULL)-->
-                    <TextBlock Text="Question name" Grid.Column="1" Grid.Row="4" Height="20" FontSize="16" 
-                               Margin="20 10 0 0" VerticalAlignment="Top"/>
+                    <!--Question name (cần chèn dấu ! bắt buộc !=NULL
+                                        <TextBlock Text="Question name"  Grid.Column="1" Grid.Row="4" Height="20" FontSize="16"
+                               Margin="20 10 0 0" VerticalAlignment="Top"/>)-->
+                    <StackPanel Grid.Column="1" Grid.Row="4" Margin="20 10 0 0" Orientation="Horizontal">
+                        <TextBlock Text="Question name " FontSize="16"/>
+                        <TextBlock Text="*" Foreground="red" FontSize="16"/>
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="4">
-                        <TextBox  MinHeight="20" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
+                        <TextBox x:Name="_questionName_TextBox" MinHeight="20" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
                          TextWrapping="Wrap" AcceptsReturn="True" TextAlignment="Justify"/>
                     </StackPanel>
 
                     <!--Question text (cần chèn dấu ! bắt buộc !=NULL)-->
-                    <TextBlock Text="Question text" Grid.Column="1" Grid.Row="5" Height="20" FontSize="16" Margin="20 10 0 0" VerticalAlignment="Top"/>
-                    <TextBox Grid.Column="2" Grid.Row="5" MinHeight="100" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="5" Margin="20 10 0 0">
+                        <TextBlock Text="Question text " FontSize="16"/>
+                        <TextBlock Text="*" FontSize="16" Foreground="Red"/>
+                    </StackPanel>
+                    <TextBox x:Name="_questionText_TextBox" Grid.Column="2" Grid.Row="5" MinHeight="100" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
                          TextWrapping="Wrap" AcceptsReturn="True"/>
 
                     <!--Default mark (cần chèn dấu ! bắt buộc !=NULL)-->
-                    <TextBlock Text="Default mark" Grid.Column="1" Grid.Row="6" Height="20" FontSize="16" Margin="20 10 0 0" VerticalAlignment="Top"/>
-                    <TextBox Grid.Column="2" Grid.Row="6" MinHeight="20" Width="60" HorizontalAlignment="Left" Margin="20 10 0 0"
+                    <StackPanel Grid.Column="1" Grid.Row="6" Margin="20 10 0 0" Orientation="Horizontal">
+                        <TextBlock Text="Default mark " FontSize="16"/>
+                        <TextBlock Text="*" Foreground="red" FontSize="16"/>
+                    </StackPanel>
+                    <TextBox x:Name="_defaultMark_TextBox" Grid.Column="2" Grid.Row="6" MinHeight="20" Width="60" HorizontalAlignment="Left" Margin="20 10 0 0"
                          TextWrapping="Wrap" AcceptsReturn="True"/>
 
                     <!--Choice 1-->
                     <StackPanel Grid.Column="1" Grid.Row="7">
                         <TextBlock Text="Choice 1" FontSize="16" HorizontalAlignment="Right" Margin="0 60 10 0"/>
                         <TextBlock Text="Grade" FontSize="16" HorizontalAlignment="Right" Margin="0 10 10 0"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2" Grid.Row="7">
-                        <TextBox Width="250" HorizontalAlignment="Left" Margin="20 10 0 0" Height="50"/>
-                        <ComboBox Width="250" HorizontalAlignment="Left" Margin="20 0 0 0"/>
-                        <ComboBox Width="80" HorizontalAlignment="Left" Margin="20 10 0 0"/>
-                    </StackPanel>
-
-                    <!--Choice 2-->
-                    <StackPanel Grid.Column="1" Grid.Row="8">
                         <TextBlock Text="Choice 2" FontSize="16" HorizontalAlignment="Right" Margin="0 60 10 0"/>
                         <TextBlock Text="Grade" FontSize="16" HorizontalAlignment="Right" Margin="0 10 10 0"/>
                     </StackPanel>
-                    <StackPanel Grid.Column="2" Grid.Row="8">
-                        <TextBox Width="250" HorizontalAlignment="Left" Margin="20 10 0 0" Height="50"/>
+                    <StackPanel Grid.Column="2" Grid.Row="7">
+                        <TextBox Width="250" HorizontalAlignment="Left" Margin="20 10 0 0" Height="50" TextWrapping="Wrap" AcceptsReturn="True"/>
+                        <ComboBox Width="250" HorizontalAlignment="Left" Margin="20 0 0 0"/>
+                        <ComboBox Width="80" HorizontalAlignment="Left" Margin="20 10 0 0"/>
+                        <TextBox Width="250" HorizontalAlignment="Left" Margin="20 10 0 0" Height="50" TextWrapping="Wrap" AcceptsReturn="True"/>
                         <ComboBox Width="250" HorizontalAlignment="Left" Margin="20 0 0 0"/>
                         <ComboBox Width="80" HorizontalAlignment="Left" Margin="20 10 0 0"/>
                     </StackPanel>
+                    <!-- new 3 choices-->
+                    <StackPanel Grid.Column="1" Grid.Row="8" x:Name="ContainerStackPanel_col1"/>
+                    <StackPanel Grid.Column="2" Grid.Row="8" x:Name="ContainerStackPanel_col2"/>
+
+                    <!--blank3choices-->
                     <StackPanel Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Margin="20 20 0 0">
                         <Button Width="260" Content="BLANK FOR 3 MORE CHOICES" FontSize="18" 
                                 Background="#FF0073A5" Foreground="White"/>
+
                         <Button Width="360" Content="SAVE CHANGES AND CONTINUE EDITING" FontSize="18" Margin="10" 
                                 Background="#FF0073A5" Foreground="White"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

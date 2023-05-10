@@ -32,7 +32,7 @@
                 <!--Binding-->
                 <TextBlock Text="Point" Margin="10 0 0 0"/>
                 <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
-                    <Image Source="D:\Download\dv.png" Height="25" />
+                    <!--flag icon-->
                     <Button Background="White" BorderBrush="White" Content="Flag question"/>
                 </StackPanel>
             </StackPanel>
@@ -52,22 +52,18 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="question"/>
-            <!--<RadioButton Grid.Row="2" Grid.Column="1" Margin="5"/>
-            <RadioButton Grid.Row="3" Grid.Column="1" Margin="5"/>
-            <RadioButton Grid.Row="4" Grid.Column="1" Margin="5"/>
-            <RadioButton Grid.Row="5" Grid.Column="1" Margin="5"/>-->
+            <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text=""/> 
             <RadioButton Grid.Row="2" Grid.Column="1" Margin="5">
-                <TextBlock Text=""/>
+                <TextBlock Text="" TextWrapping="Wrap"/>
             </RadioButton>
             <RadioButton Grid.Row="3" Grid.Column="1" Margin="5">
-                <TextBlock Text=""/>
+                <TextBlock Text="" TextWrapping="Wrap"/>
             </RadioButton>
             <RadioButton Grid.Row="4" Grid.Column="1" Margin="5">
-                <TextBlock Text=""/>
+                <TextBlock Text="" TextWrapping="Wrap"/>
             </RadioButton>
             <RadioButton Grid.Row="5" Grid.Column="1" Margin="5">
-                <TextBlock Text=""/>
+                <TextBlock Text="" TextWrapping="Wrap"/>
             </RadioButton>
         </Grid>
     </Grid>
