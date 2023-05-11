@@ -39,12 +39,13 @@ namespace NganHangDe.ViewModels
             _questionService = questionService;
             CategoryList = new CategoryListViewModel(_categoryService);
             CategoryList.CategorySelectedEvent += LoadCategoryQuestions;
-            CategoryQuestions.QuestionSelectedEvent += OpenQuestionDetails;
             CategoryQuestions = new CategoryQuestionsViewModel(_questionService, -1);
+            CategoryQuestions.QuestionSelectedEvent += OpenQuestionDetails;
         }
         private void LoadCategoryQuestions(object? sender, CategoryModel selectedCategory)
         {
             CategoryQuestions = new CategoryQuestionsViewModel(_questionService, selectedCategory.Id);
+            CategoryQuestions.QuestionSelectedEvent += OpenQuestionDetails;
         }
         private void OpenQuestionDetails(object? sender, QuestionModel selectedQuestion)
         {
