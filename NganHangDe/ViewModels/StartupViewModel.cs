@@ -5,7 +5,7 @@ using NganHangDe.Commands;
 using NganHangDe.Stores;
 using NganHangDe.DataAccess;
 using NganHangDe.Services;
-using NganHangDe.ViewModels.Components;
+//using NganHangDe.ViewModels.Components;
 
 namespace NganHangDe.ViewModels
 {
@@ -20,7 +20,7 @@ namespace NganHangDe.ViewModels
             
             ToTabbedViewCommand = new NavigateCommand<TabbedNavigationViewModel>(navigationStore, typeof(TabbedNavigationViewModel));
             QuizService quizService = new QuizService();
-            QuizListViewModel quizListViewModel = new QuizListViewModel(quizService);
+            //QuizListViewModel quizListViewModel = new QuizListViewModel(quizService);
             
         }
         

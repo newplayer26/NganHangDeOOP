@@ -21,4 +21,8 @@
     <ProjectReference Include="..\DropdownMenuControl\DropdownMenuControl.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Components\" />
+  </ItemGroup>
+
 </Project>

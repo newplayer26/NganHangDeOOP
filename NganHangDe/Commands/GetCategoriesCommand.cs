@@ -1,7 +1,5 @@
-﻿using NganHangDe.DisplayModel;
+﻿using NganHangDe.Models;
 using NganHangDe.Services;
-using NganHangDe.ViewModels;
-using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,30 +11,19 @@ namespace NganHangDe.Commands
 {
     public class GetCategoriesCommand : AsyncCommandBase
     {
-        private List<CategoryDisplayModel> _collection;
-        private Action<List<CategoryDisplayModel>> _func;
-        private CategoryService _service;
-
-        public CategoryService Service
+        private Action<List<CategoryModel>> _loadCategories;
+        private CategoryService _service =  new CategoryService();
+        public GetCategoriesCommand(Action<List<CategoryModel>> loadCategories)
         {
-            get { return _service; }
-            set { _service = value; }
-        }
-
-     
-        
-        public GetCategoriesCommand(Action<List<CategoryDisplayModel>> func)
-        {
-            //_collection = collection;
-            _func = func;
-            _service = new CategoryService();
+            _loadCategories = loadCategories;
+             
         }
         public override async Task ExecuteAsync(object parameter)
         {
             try
             {
-                List<CategoryDisplayModel> list =  await Service.GetAllCategoriesAsync();
-                _func(list);
+                List<CategoryModel> list =  await _service.GetAllCategoriesAsync();
+                _loadCategories(list);
             }
             catch (Exception)
             {

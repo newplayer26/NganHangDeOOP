@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using NganHangDe.Models;
+using NganHangDe.ModelsDb;
 using System.Reflection.Metadata;
 
 namespace NganHangDe.DataAccess;

@@ -1,14 +1,4 @@
-<<<<<<<< HEAD:NganHangDe/DisplayModel/CategoryDisplayModel.cs
-﻿
-using NganHangDe.ViewModels;
 
-namespace NganHangDe.DisplayModel
-{
-    public class CategoryDisplayModel : ViewModelBase
-    {
-        private string _name;
-        private string _level;
-========
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +13,7 @@ namespace NganHangDe.Models
         private string _name;
         private string _level;
 
->>>>>>>> 2d1f94b (Adjust files'name + GUI1.2 demo):NganHangDe/Models/CategoryModel.cs
+
         public int Id { get; set; }
 
         public string Name
@@ -36,10 +26,7 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(DisplayedName));
             }
         }
-<<<<<<<< HEAD:NganHangDe/DisplayModel/CategoryDisplayModel.cs
-========
 
->>>>>>>> 2d1f94b (Adjust files'name + GUI1.2 demo):NganHangDe/Models/CategoryModel.cs
         public string Level
         {
             get => _level;
@@ -59,13 +46,7 @@ namespace NganHangDe.Models
             }
         }
         private string _displayedName;
-        public string DisplayedName
-        {
-            get
-            {
-                return Level + Name;
-            }
-        }
+  
     }
 
 

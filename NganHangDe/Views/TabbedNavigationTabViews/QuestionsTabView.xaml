@@ -27,6 +27,7 @@
         <StackPanel Orientation="Vertical">
             <CheckBox  Content="Also show questions from subcategories" 
                        Margin="0 10 0 0"
+                       IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}"
                        />
             <CheckBox  Content="Also show old questions" 
                        Margin="0 10 0 0"
@@ -38,7 +39,15 @@
                 Margin="10 10 0 0" 
                 HorizontalAlignment="Left"
                 Command="{Binding ToNewQuestionViewCommand}"
+                CommandParameter="{Binding SelectedCategory}"
                 />
+        <ItemsControl ItemsSource="{Binding QuestionList}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Text}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 
 </UserControl>

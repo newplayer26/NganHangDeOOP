@@ -1,7 +1,7 @@
 ﻿using NganHangDe.Commands;
-using NganHangDe.DisplayModel;
 using NganHangDe.Services;
 using NganHangDe.Stores;
+using NganHangDe.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,20 +14,52 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
 {
     public class QuestionsTabViewModel : ViewModelBase
     {
-        private ObservableCollection<CategoryDisplayModel> _categoryList = new ObservableCollection<CategoryDisplayModel>();
-        public IEnumerable<CategoryDisplayModel> CategoryList => _categoryList;
+        private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
+        public IEnumerable<CategoryModel> CategoryList => _categoryList;
+        public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants? _descendantsCategoriesList:_singleCategoryList;
         public ICommand ToNewQuestionViewCommand { get; }
         public ICommand LoadCategoriesCommand { get; }
-        private CategoryDisplayModel _selectedCategory;
+        public ICommand LoadQuestionsCommand { get; }
+        public CategoryModel _selectedCategory;
+        private bool _isShowingDescendants;
+        public bool IsShowingDescendants
+        {
+            get
+            {
+                return _isShowingDescendants;
+            }
+            set
+            {
+                _isShowingDescendants = value;
+                OnPropertyChanged(nameof(IsShowingDescendants));
+            }
+        }
 
-      
-        public CategoryDisplayModel SelectedCategory
+        private ObservableCollection<QuestionModel> _singleCategoryList;
+
+        public ObservableCollection<QuestionModel> SingleCategoryList
+        {
+            get { return _singleCategoryList; }
+            set { _singleCategoryList = value; }
+        }
+        private ObservableCollection<QuestionModel> _descendantsCategoriesList;
+
+        public ObservableCollection<QuestionModel> DescendantsCategoriesList
+        {
+            get { return _descendantsCategoriesList; }
+            set { _descendantsCategoriesList = value; }
+        }
+
+        public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
             set {
-                _selectedCategory = value; 
-                OnPropertyChanged(nameof(SelectedCategory)); 
-                Console.WriteLine(_selectedCategory.Id);
+                if (_selectedCategory != value)
+                {
+                    _selectedCategory = value;
+                    OnPropertyChanged(nameof(SelectedCategory));
+                    LoadQuestionsCommand.Execute(value.Id);
+                }
             }
         }
 
@@ -36,9 +68,11 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
            
             ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(ancestorNavigationStore, typeof(NewQuestionViewModel));
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
+            LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
+            //LoadCategoriesCommand.Execute(null);
         }
      
-        public void LoadCategories(List<CategoryDisplayModel> list)
+        public void LoadCategories(List<CategoryModel> list)
         {
 
             foreach (var category in list) {
@@ -46,13 +80,19 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             }
 
         }
+
+        public void LoadQuestions(List<QuestionModel> singleCategoryList, List<QuestionModel> descendantsCategoriesList)
+        {
+            SingleCategoryList = new ObservableCollection<QuestionModel>(singleCategoryList);
+            DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
+            OnPropertyChanged(nameof(QuestionList));
+        }
+
         public static QuestionsTabViewModel LoadViewModel(NavigationStore ancestorNavigationStore)
         {
             
             QuestionsTabViewModel viewModel = new QuestionsTabViewModel( ancestorNavigationStore);
             viewModel.LoadCategoriesCommand.Execute(null);
-           
-            
             return viewModel;
         }
        

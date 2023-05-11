@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NganHangDe.DataAccess;
-using NganHangDe.DisplayModel;
 using NganHangDe.Models;
+using NganHangDe.ModelsDb;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,39 +23,39 @@ namespace NganHangDe.Services
                     .FirstOrDefaultAsync(c => c.Id == categoryId);
             }
         }
-        public async Task<List<CategoryDisplayModel>> GetAllCategoriesAsync()
+        public async Task<List<CategoryModel>> GetAllCategoriesAsync()
         {
             using (var _context = new AppDbContext ())
             {
-                var categoryDisplayModels = new List<CategoryDisplayModel>();
+                var CategoryModels = new List<CategoryModel>();
                 var categoryList = await _context.Categories.ToListAsync();
                 var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
                 foreach (var category in topCategories)
                 {
-                    AddCategoryWithIndentation(category, "", categoryDisplayModels, categoryList);
+                    AddCategoryWithIndentation(category, "", CategoryModels, categoryList);
 
                 }
-                return categoryDisplayModels;
+                return CategoryModels;
             }
         }
-        private void AddCategoryWithIndentation(Category category, string level, List<CategoryDisplayModel> categoryDisplayModels, List<Category> allCategories)
+        private void AddCategoryWithIndentation(Category category, string level, List<CategoryModel> CategoryModels, List<Category> allCategories)
         {
-            categoryDisplayModels.Add(new CategoryDisplayModel
+            CategoryModels.Add(new CategoryModel
             {
                 Id = category.Id,
                 Name = category.Name,
-                Level = level + "  "
+                Level = level 
             }) ;
 
             var childCategories = allCategories.Where(c => c.ParentCategoryId == category.Id);
 
             foreach (var childCategory in childCategories)
             {
-                AddCategoryWithIndentation(childCategory, level + 1, categoryDisplayModels, allCategories);
+                AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories);
             }
         }
 
-        Task<List<CategoryDisplayModel>> ICategoryService.GetAllCategoriesAsync()
+        Task<List<CategoryModel>> ICategoryService.GetAllCategoriesAsync()
         {
             throw new NotImplementedException();
         }
