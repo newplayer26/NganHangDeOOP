@@ -1,17 +1,15 @@
-﻿using NganHangDe.Commands;
-using NganHangDe.ViewModels;
+﻿using NganHangDe.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace NganHangDe.Models
 {
-    public class QuestionModel : ViewModelBase
+    public class AnswerModel : ViewModelBase
     {
-        private string _name;
+        private double _grade;
         private string _text;
         public int Id { get; set; }
 
@@ -24,15 +22,14 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(Text));
             }
         }
-        public string Name
+        public double Grade
         {
-            get => _name;
+            get => _grade;
             set
             {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
+                _grade = value;
+                OnPropertyChanged(nameof(Grade));
             }
         }
-
     }
 }

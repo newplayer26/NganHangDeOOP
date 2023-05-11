@@ -4,9 +4,11 @@ using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 
 namespace NganHangDe.Services
 {
@@ -53,6 +55,32 @@ namespace NganHangDe.Services
             foreach(Category childCategory in topCategory.ChildCategories)
             {
                 await AddQuestionsFromDescendants(childCategory.Id, subcategoriesQuestions);
+            }
+        }
+        public async Task CreateQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
+        {
+            using (var _context = new AppDbContext())
+            {
+                var category = await _context.Categories.FindAsync(categoryId);
+                var question = new Question
+                {
+                    Name = questionModel.Name,
+                    Text = questionModel.Text,
+                    CategoryId = categoryId,
+                    Category = category,
+                    Answers = new List<Answer>()
+                };
+                foreach (var answerModel in answerModels)
+                {
+                    question.Answers.Add(new Answer
+                    {
+                        Text = answerModel.Text,
+                        Grade = answerModel.Grade,
+                        Question = question
+                    });
+                }
+                _context.Questions.Add(question);
+                await _context.SaveChangesAsync();
             }
         }
     }
