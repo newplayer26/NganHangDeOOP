@@ -11,8 +11,8 @@ namespace NganHangDe.ViewModels
 {
     public class GUI12ViewModel : ViewModelBase
     {
-        private readonly CategoryService _categoryService = new CategoryService();
-        private readonly QuestionService _questionService = new QuestionService();
+        private readonly ICategoryService _categoryService;
+        private readonly IQuestionService _questionService;
         private CategoryListViewModel _categoryList;
         public CategoryListViewModel CategoryList
         {
@@ -33,15 +33,22 @@ namespace NganHangDe.ViewModels
                 OnPropertyChanged(nameof(CategoryQuestions));
             }
         }
-        public GUI12ViewModel()
+        public GUI12ViewModel(ICategoryService categoryService, IQuestionService questionService)
         {
+            _categoryService = categoryService;
+            _questionService = questionService;
             CategoryList = new CategoryListViewModel(_categoryService);
             CategoryList.CategorySelectedEvent += LoadCategoryQuestions;
+            CategoryQuestions.QuestionSelectedEvent += OpenQuestionDetails;
             CategoryQuestions = new CategoryQuestionsViewModel(_questionService, -1);
         }
         private void LoadCategoryQuestions(object? sender, CategoryModel selectedCategory)
         {
             CategoryQuestions = new CategoryQuestionsViewModel(_questionService, selectedCategory.Id);
+        }
+        private void OpenQuestionDetails(object? sender, QuestionModel selectedQuestion)
+        {
+            // Execute the code to open a new window with the selected question as a parameter
         }
     }
 }

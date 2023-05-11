@@ -18,6 +18,16 @@ namespace NganHangDe.ViewModels.Components
         private readonly IQuestionService _questionService;
         private readonly int _categoryId;
         public ICommand QuestionSelectedCommand { get; }
+        private QuestionModel _selectedQuestion;
+        public QuestionModel SelectedQuestion
+        {
+            get => _selectedQuestion;
+            set
+            {
+                _selectedQuestion = value;
+                OnPropertyChanged(nameof(SelectedQuestion));
+            }
+        }
         public ObservableCollection<QuestionModel> Questions
         {
             get => _questions;
@@ -39,9 +49,10 @@ namespace NganHangDe.ViewModels.Components
             var questions = await _questionService.GetQuestionsByCategoryIdAsync(_categoryId);
             Questions = new ObservableCollection<QuestionModel>(questions);
         }
+        public event EventHandler<QuestionModel> QuestionSelectedEvent;
         private void QuestionSelected()
         {
-            //TODO: 
+            QuestionSelectedEvent?.Invoke(this, SelectedQuestion);
         }
     }
 }
