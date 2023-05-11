@@ -33,7 +33,6 @@ namespace NganHangDe.Services
                 foreach (var category in topCategories)
                 {
                     AddCategoryWithIndentation(category, "", CategoryModels, categoryList);
-
                 }
                 return CategoryModels;
             }
@@ -53,6 +52,19 @@ namespace NganHangDe.Services
             foreach (var childCategory in childCategories)
             {
                 AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories);
+            }
+        }
+        public async Task CreateCategoryAsync(int? parentCategoryId, string name, string info)
+        {
+            using (var _context = new AppDbContext())
+            {
+                _context.Categories.Add(new Category
+                {
+                    Name = name,
+                    Info = info,
+                    ParentCategoryId = parentCategoryId,
+                });
+                await _context.SaveChangesAsync();
             }
         }
     }

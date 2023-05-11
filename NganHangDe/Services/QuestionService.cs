@@ -61,13 +61,11 @@ namespace NganHangDe.Services
         {
             using (var _context = new AppDbContext())
             {
-                var category = await _context.Categories.FindAsync(categoryId);
                 var question = new Question
                 {
                     Name = questionModel.Name,
                     Text = questionModel.Text,
                     CategoryId = categoryId,
-                    Category = category,
                     Answers = new List<Answer>()
                 };
                 foreach (var answerModel in answerModels)
@@ -76,7 +74,6 @@ namespace NganHangDe.Services
                     {
                         Text = answerModel.Text,
                         Grade = answerModel.Grade,
-                        Question = question
                     });
                 }
                 _context.Questions.Add(question);
