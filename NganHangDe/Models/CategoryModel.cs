@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace NganHangDe.Models
     {
         private string _name;
         private string _level;
+
 
         public int Id { get; set; }
 
@@ -43,6 +45,8 @@ namespace NganHangDe.Models
                 return Level + Name;
             }
         }
+        private string _displayedName;
+  
     }
 
 

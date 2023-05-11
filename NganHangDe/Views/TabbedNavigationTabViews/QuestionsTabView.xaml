@@ -12,16 +12,22 @@
 
         <StackPanel Orientation="Horizontal">
             <TextBlock Text="Select a category: " FontSize="18" />
-            <ComboBox Text="Default"  Margin="10 5 0 10" MinWidth="150">
-                <ComboBoxItem>
-                    IT3030
-                </ComboBoxItem>
+            <ComboBox Text="Default"  Margin="10 5 0 10" MinWidth="150" 
+                      ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}" 
+                      >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayedName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                
             </ComboBox>
         </StackPanel>
         <TextBlock Text="The default category for questions shared in context" FontSize="19"/>
         <StackPanel Orientation="Vertical">
             <CheckBox  Content="Also show questions from subcategories" 
                        Margin="0 10 0 0"
+                       IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}"
                        />
             <CheckBox  Content="Also show old questions" 
                        Margin="0 10 0 0"
@@ -33,7 +39,15 @@
                 Margin="10 10 0 0" 
                 HorizontalAlignment="Left"
                 Command="{Binding ToNewQuestionViewCommand}"
+                CommandParameter="{Binding SelectedCategory}"
                 />
+        <ItemsControl ItemsSource="{Binding QuestionList}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Text}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 
 </UserControl>

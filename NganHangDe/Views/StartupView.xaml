@@ -13,7 +13,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Border Background="aqua" MinHeight="40" Grid.Row="0"></Border>
+        <Border Background="blue" MinHeight="40" Grid.Row="0"></Border>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" MaxHeight="200"/>
