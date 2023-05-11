@@ -32,6 +32,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             {
                 _isShowingDescendants = value;
                 OnPropertyChanged(nameof(IsShowingDescendants));
+                OnPropertyChanged(nameof(QuestionList));
             }
         }
 

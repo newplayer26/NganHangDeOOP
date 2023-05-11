@@ -40,18 +40,19 @@ namespace NganHangDe.Services
         {
             List<QuestionModel> subcategoriesQuestions = new List<QuestionModel>();
             Category topCategory = await _categoryService.GetFullCategoryById(categoryId);
-            AddQuestionsFromDescendants(topCategory, subcategoriesQuestions);
+            await AddQuestionsFromDescendants(topCategory.Id, subcategoriesQuestions);
             return subcategoriesQuestions;
         }
-        private void AddQuestionsFromDescendants(Category topCategory, List<QuestionModel> subcategoriesQuestions)
+        private async Task AddQuestionsFromDescendants(int topCategoryId, List<QuestionModel> subcategoriesQuestions)
         {
-            foreach(Question question in topCategory.Questions)
+            Category topCategory = await _categoryService.GetFullCategoryById(topCategoryId);
+            foreach (Question question in topCategory.Questions)
             {
                 subcategoriesQuestions.Add(new QuestionModel { Id = question.Id, Text = question.Text });
             }
             foreach(Category childCategory in topCategory.ChildCategories)
             {
-                AddQuestionsFromDescendants(childCategory, subcategoriesQuestions);
+                await AddQuestionsFromDescendants(childCategory.Id, subcategoriesQuestions);
             }
         }
     }
