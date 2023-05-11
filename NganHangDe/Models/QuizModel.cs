@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NganHangDe.ViewModels;
 
-namespace NganHangDe.ViewModels
+namespace NganHangDe.Models
 {
-    public class CategoryViewModel : ViewModelBase
+    public class QuizModel : ViewModelBase
     {
         private string _name;
-        private int _level;
-
         public int Id { get; set; }
-
         public string Name
         {
             get => _name;
@@ -22,16 +20,5 @@ namespace NganHangDe.ViewModels
                 OnPropertyChanged(nameof(Name));
             }
         }
-
-        public int Level
-        {
-            get => _level;
-            set
-            {
-                _level = value;
-                OnPropertyChanged(nameof(Level));
-            }
-        }
     }
-
 }

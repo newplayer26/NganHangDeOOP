@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using NganHangDe.DataAccess;
+
 using NganHangDe.Stores;
 using NganHangDe.ViewModels;
+
 
 namespace NganHangDe
 {
@@ -24,6 +28,16 @@ namespace NganHangDe
     }
     public partial class App : Application
     {
+        public static string GetDatabaseFilePath()
+        {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string databaseDirectory = Path.Combine(appDirectory, "Database");
+            if (!Directory.Exists(databaseDirectory))
+            {
+                Directory.CreateDirectory(databaseDirectory);
+            }
+            return Path.Combine(databaseDirectory, "NganHangDe.mdf");
+        }
         private readonly NavigationStore _navigationStore;
         public App()
         {
@@ -31,6 +45,15 @@ namespace NganHangDe
         }
         protected override void OnStartup(StartupEventArgs e)
         {
+        
+            string dataDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database");
+            AppDomain.CurrentDomain.SetData("DataDirectory", dataDirectory);
+
+            if (!Directory.Exists(dataDirectory))
+            {
+                Directory.CreateDirectory(dataDirectory);
+            }
+
             _navigationStore.CurrentViewModel = new StartupViewModel(_navigationStore);
             MainWindow = new MainWindow()
             {
@@ -40,7 +63,5 @@ namespace NganHangDe
             base.OnStartup(e);
             ConsoleHelper.Initialize();
         }
-      
-     
     }
 }

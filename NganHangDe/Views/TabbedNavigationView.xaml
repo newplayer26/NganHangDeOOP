@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views"
-             xmlns:tabViews="clr-namespace:NganHangDe.Views.TabbedNavigationTabViews"
+            xmlns:tabViews="clr-namespace:NganHangDe.Views.TabbedNavigationTabViews"
+             xmlns:vms="clr-namespace:NganHangDe.ViewModels.TabbedNavigationTabViewModels"
              mc:Ignorable="d" 
              Background="white"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -43,53 +44,22 @@
                     </Grid.ColumnDefinitions>
 
                     
-                  
-
-
-
+                 
                 </Grid>
 
             </Border>
             <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10 0 10 10">
-                <TabControl>
-
-                    <TabItem Header="Questions">
-                        <ContentControl Content="{Binding QuestionsTabViewModel}">
-                            <ContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <tabViews:QuestionsTabView/>
-                                </DataTemplate>
-                            </ContentControl.ContentTemplate>
-                        </ContentControl>
-                    </TabItem>
-                    <TabItem Header="Categories">
-                        <ContentControl Content="{Binding CategoriesTabViewModel}">
-                            <ContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <tabViews:CategoriesTabView/>
-                                </DataTemplate>
-                            </ContentControl.ContentTemplate>
-                        </ContentControl>
-                    </TabItem>
-                    <TabItem Header="Import">
-                        <ContentControl>
-                            <ContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <tabViews:ImportTabView/>
-                                </DataTemplate>
-                            </ContentControl.ContentTemplate>
-                        </ContentControl>
-                    </TabItem>
-                    <TabItem Header="Export">
-                        <ContentControl >
-                            <ContentControl.ContentTemplate>
-                                <DataTemplate>
-                                    <tabViews:ExportTabView/>
-                                </DataTemplate>
-                            </ContentControl.ContentTemplate>
-                        </ContentControl>
-                    </TabItem>
-                </TabControl>
+                 <Grid>
+        <Grid.Resources>
+                        <DataTemplate DataType="{x:Type vms:AllTabsViewModel}">
+                            <tabViews:AllTabsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type vms:NewQuestionViewModel}">
+                            <tabViews:NewQuestionView/>
+                        </DataTemplate>
+                    </Grid.Resources>
+        <ContentControl Content="{Binding CurrentViewModel}" />
+    </Grid>
             </Border>
         </Grid>
     </Grid>

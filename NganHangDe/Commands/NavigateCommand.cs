@@ -1,5 +1,7 @@
-﻿using NganHangDe.Stores;
+﻿using NganHangDe.Models;
+using NganHangDe.Stores;
 using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,17 @@ namespace NganHangDe.Commands
             _objectType = objectType;
         }
 
-        public override void Execute(object parameter)
-
-        {
+        public override void Execute(object parameter) { 
             object[] args = new object[] { _navigationStore };
+        
+            if(_objectType.Equals(typeof(NewQuestionViewModel))) {
+                if(parameter is  CategoryModel categoryParam) {
+                    _navigationStore.CurrentViewModel = NewQuestionViewModel.LoadViewModel(_navigationStore, categoryParam);
+                }else
+                    _navigationStore.CurrentViewModel = NewQuestionViewModel.LoadViewModel(_navigationStore, null);
+
+            }
+            else    
             _navigationStore.CurrentViewModel = (T)Activator.CreateInstance(_objectType, args);   
         }
     }
