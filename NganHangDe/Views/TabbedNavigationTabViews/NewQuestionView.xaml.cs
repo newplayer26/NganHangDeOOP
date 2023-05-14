@@ -24,5 +24,6 @@ namespace NganHangDe.Views.TabbedNavigationTabViews
         {
             InitializeComponent();
         }
+
     }
 }
