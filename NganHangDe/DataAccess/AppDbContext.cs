@@ -43,7 +43,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Answer>()
             .HasOne(a => a.Question)
             .WithMany(q => q.Answers)
-        .HasForeignKey(a => a.QuestionId);
+            .HasForeignKey(a => a.QuestionId);
         modelBuilder.Entity<Category>().HasData(new Category { Id = 1, Name="TEst 1", Info="Test" });
         modelBuilder.Entity<Category>().HasData(new Category { Id = 2, Name = "TEst 2", Info = "Test" });
         modelBuilder.Entity<Category>().HasData(new Category { Id = 3, Name = "TEst 3", Info = "Test", ParentCategoryId = 1 });

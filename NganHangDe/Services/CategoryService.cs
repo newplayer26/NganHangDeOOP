@@ -28,12 +28,11 @@ namespace NganHangDe.Services
             using (var _context = new AppDbContext ())
             {
                 var CategoryModels = new List<CategoryModel>();
-                var categoryList = await _context.Categories.ToListAsync();
+                var categoryList = await _context.Categories.Include(c => c.Questions).ToListAsync();
                 var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
                 foreach (var category in topCategories)
                 {
                     AddCategoryWithIndentation(category, "", CategoryModels, categoryList);
-
                 }
                 return CategoryModels;
             }
@@ -44,7 +43,8 @@ namespace NganHangDe.Services
             {
                 Id = category.Id,
                 Name = category.Name,
-                Level = level 
+                Level = level,
+                QuestionsNumber = category.Questions.Count
             }) ;
 
             var childCategories = allCategories.Where(c => c.ParentCategoryId == category.Id);
@@ -54,11 +54,18 @@ namespace NganHangDe.Services
                 AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories);
             }
         }
-
-        Task<List<CategoryModel>> ICategoryService.GetAllCategoriesAsync()
+        public async Task CreateCategoryAsync(int? parentCategoryId, string name, string info)
         {
-            throw new NotImplementedException();
+            using (var _context = new AppDbContext())
+            {
+                _context.Categories.Add(new Category
+                {
+                    Name = name,
+                    Info = info,
+                    ParentCategoryId = parentCategoryId,
+                });
+                await _context.SaveChangesAsync();
+            }
         }
     }
-
 }

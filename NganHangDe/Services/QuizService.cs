@@ -30,7 +30,10 @@ namespace NganHangDe.Services
                     .FirstOrDefaultAsync(q => q.Id == id);
             }
         }
+        public async Task CreateQuizAsync()
+        {
 
+        }
     }
 
 }
