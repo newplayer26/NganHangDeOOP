@@ -42,8 +42,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             foreach (var category in list)
             {
                 _categoryList.Add(category);
-                
-                if(_selectedCategory != null && category.Id == _selectedCategory.Id)
+                if (_selectedCategory != null && category.Id == _selectedCategory.Id)
                 {
                     SelectedCategory = category;
                     OnPropertyChanged(nameof(SelectedCategory));
