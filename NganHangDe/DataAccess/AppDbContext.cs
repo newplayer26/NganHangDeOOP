@@ -54,6 +54,7 @@ public class AppDbContext : DbContext
             {
                 modelBuilder.Entity<Answer>().HasData(new Answer { Id = i * 4 + j, Grade= j==0? 1.0: 0, Text=$"Answer Text {i} - {j}", QuestionId=i });
             }
+            modelBuilder.Entity<Quiz>().HasData(new Quiz { Id = i, Name = $"Quiz{i}", Description=$"Quiz{i}" });
         }
     }
 

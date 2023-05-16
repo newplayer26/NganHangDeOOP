@@ -5,7 +5,7 @@ using NganHangDe.Commands;
 using NganHangDe.Stores;
 using NganHangDe.DataAccess;
 using NganHangDe.Services;
-//using NganHangDe.ViewModels.Components;
+using NganHangDe.ViewModels.StartupViewModels;
 
 namespace NganHangDe.ViewModels
 {
@@ -13,13 +13,17 @@ namespace NganHangDe.ViewModels
     {
         public ICommand ToTabbedViewCommand { get; }
         private readonly NavigationStore _navigationStore;
-
-		public StartupViewModel(NavigationStore navigationStore)
+        private readonly NavigationStore _ownNavigationStore;
+        public ViewModelBase CurrentViewModel => _ownNavigationStore.CurrentViewModel;
+        public StartupViewModel(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
             
             ToTabbedViewCommand = new NavigateCommand<TabbedNavigationViewModel>(navigationStore, typeof(TabbedNavigationViewModel));
             QuizService quizService = new QuizService();
+            _ownNavigationStore = new NavigationStore();
+            _ownNavigationStore.CurrentViewModel = new AllQuizzesViewModel(_ownNavigationStore);
+
             //QuizListViewModel quizListViewModel = new QuizListViewModel(quizService);
             
         }
