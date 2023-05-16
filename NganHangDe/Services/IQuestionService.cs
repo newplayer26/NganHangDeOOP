@@ -14,5 +14,6 @@ namespace NganHangDe.Services
         Task<List<QuestionModel>> GetQuestionsByCategoryIdAsync(int categoryId);
         Task<List<QuestionModel>> GetSubcategoriesQuestionsByCategoryIdAsync(int categoryId);
         Task CreateQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels);
+        Task EditQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels);
     }
 }

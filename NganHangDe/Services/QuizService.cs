@@ -28,7 +28,7 @@ namespace NganHangDe.Services
                 return await _context.Quizzes
                     .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Question)
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .SingleOrDefaultAsync(q => q.Id == id);
             }
         }
         public async Task CreateQuizAsync(string name, string description, TimeSpan timeLimit)

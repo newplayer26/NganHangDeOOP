@@ -35,7 +35,7 @@ namespace NganHangDe.Services
             {
                 return await _context.Questions
                     .Include(q => q.Answers)
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .SingleOrDefaultAsync(q => q.Id == id);
             }
         }
         public async Task<List<QuestionModel>> GetSubcategoriesQuestionsByCategoryIdAsync(int categoryId)
@@ -77,6 +77,29 @@ namespace NganHangDe.Services
                     });
                 }
                 _context.Questions.Add(question);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task EditQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
+        {
+            using (var _context = new AppDbContext())
+            {
+                var question = await _context.Questions
+                    .Include(q => q.Answers)
+                    .SingleOrDefaultAsync(q => q.Id == questionModel.Id);
+                question.Name = questionModel.Name;
+                question.Text = questionModel.Text;
+                question.CategoryId = categoryId;
+                _context.Answers.RemoveRange(question.Answers);
+                question.Answers.Clear();
+                foreach (var answerModel in answerModels)
+                {
+                    question.Answers.Add(new Answer
+                    {
+                        Text = answerModel.Text,
+                        Grade = answerModel.Grade
+                    });
+                }
                 await _context.SaveChangesAsync();
             }
         }
