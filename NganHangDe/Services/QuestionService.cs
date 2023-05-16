@@ -57,7 +57,7 @@ namespace NganHangDe.Services
                 await AddQuestionsFromDescendants(childCategory.Id, subcategoriesQuestions);
             }
         }
-        public async Task CreateQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
+        public async Task<Question> CreateQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
         {
             using (var _context = new AppDbContext())
             {
@@ -78,9 +78,10 @@ namespace NganHangDe.Services
                 }
                 _context.Questions.Add(question);
                 await _context.SaveChangesAsync();
+                return question;
             }
         }
-        public async Task EditQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
+        public async Task<Question> EditQuestionAsync(QuestionModel questionModel, int categoryId, List<AnswerModel> answerModels)
         {
             using (var _context = new AppDbContext())
             {
@@ -101,6 +102,7 @@ namespace NganHangDe.Services
                     });
                 }
                 await _context.SaveChangesAsync();
+                return question;
             }
         }
     }
