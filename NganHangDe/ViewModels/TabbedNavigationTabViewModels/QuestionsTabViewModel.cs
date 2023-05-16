@@ -70,7 +70,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(ancestorNavigationStore, typeof(NewQuestionViewModel));
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
-            //LoadCategoriesCommand.Execute(null);
+            LoadCategoriesCommand.Execute(null);
         }
      
         public void LoadCategories(List<CategoryModel> list)
@@ -89,13 +89,13 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             OnPropertyChanged(nameof(QuestionList));
         }
 
-        public static QuestionsTabViewModel LoadViewModel(NavigationStore ancestorNavigationStore)
-        {
+        //public static QuestionsTabViewModel LoadViewModel(NavigationStore ancestorNavigationStore)
+        //{
             
-            QuestionsTabViewModel viewModel = new QuestionsTabViewModel( ancestorNavigationStore);
-            viewModel.LoadCategoriesCommand.Execute(null);
-            return viewModel;
-        }
+        //    QuestionsTabViewModel viewModel = new QuestionsTabViewModel( ancestorNavigationStore);
+        //    viewModel.LoadCategoriesCommand.Execute(null);
+        //    return viewModel;
+        //}
        
     }  
 }

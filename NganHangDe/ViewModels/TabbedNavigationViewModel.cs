@@ -19,7 +19,7 @@ namespace NganHangDe.ViewModels
         {
             _navigationStore = navigationStore;
             _ownNavigationStore = new NavigationStore();
-            ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(_ownNavigationStore, typeof(NewQuestionViewModel));
+            //ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(_ownNavigationStore, typeof(NewQuestionViewModel));
             ToStartupViewCommand = new NavigateCommand<StartupViewModel>(navigationStore, typeof(StartupViewModel));
             _ownNavigationStore.CurrentViewModel = new AllTabsViewModel(_ownNavigationStore);
             _ownNavigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
