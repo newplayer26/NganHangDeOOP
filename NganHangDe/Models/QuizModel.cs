@@ -20,5 +20,13 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(Name));
             }
         }
+        private String _description;
+
+        public String Description
+        {
+            get { return _description; }
+            set { _description = value; }
+        }
+
     }
 }

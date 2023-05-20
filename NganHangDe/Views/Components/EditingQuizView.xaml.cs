@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NganHangDe.Views
+namespace NganHangDe.Views.Components
 {
     /// <summary>
-    /// Interaction logic for NewQuizView.xaml
+    /// Interaction logic for EditingQuizView.xaml
     /// </summary>
-    public partial class NewQuizView : UserControl
+    public partial class EditingQuizView : UserControl
     {
-        public NewQuizView()
+        public EditingQuizView()
         {
             InitializeComponent();
         }

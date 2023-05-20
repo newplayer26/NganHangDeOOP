@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="white">
     
-    <ScrollViewer>
+    
         <StackPanel>
             <ItemsControl ItemsSource="{Binding QuizList}">
                 <ItemsControl.ItemTemplate>
@@ -17,7 +17,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <!--Icon-->
                                 <Image Source="../../../Images/AllQuizzesImage.png" Height="20" Width="20" Margin="10 0 10 0"/>
-                                <Button BorderThickness="0" Background="White" Content="{Binding Name}">
+                                <Button BorderThickness="0" Background="White" Content="{Binding Name}" Command="{Binding DataContext.ToQuizPageCommand, RelativeSource={RelativeSource AncestorType={x:Type local:AllQuizzesView}}}" CommandParameter="{Binding}">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="Foreground" Value="Black"/>
@@ -37,5 +37,5 @@
             </ItemsControl>
         </StackPanel>
         
-    </ScrollViewer>
+  
 </UserControl>
