@@ -18,12 +18,13 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private List<QuizModel> _quizList;
         public IEnumerable<QuizModel> QuizList => _quizList;
         public ICommand LoadQuizzesCommand { get; set; }
-
+        public ICommand ToQuizPageCommand { get;  }
         public AllQuizzesViewModel(NavigationStore ancestorNavigationStore)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
             LoadQuizzesCommand = new LoadQuizzesCommand(LoadQuizzes);
             LoadQuizzesCommand.Execute(null);
+            ToQuizPageCommand = new NavigateCommand<QuizPageViewModel>(_ancestorNavigationStore, typeof(QuizPageViewModel));
         }
 
         public void LoadQuizzes(List<QuizModel> list)
@@ -32,8 +33,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _quizList = list;
             OnPropertyChanged(nameof(QuizList));
 
-        }
-
-    
+        } 
     }
+   
 }

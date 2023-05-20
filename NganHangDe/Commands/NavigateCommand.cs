@@ -1,6 +1,7 @@
 ﻿using NganHangDe.Models;
 using NganHangDe.Stores;
 using NganHangDe.ViewModels;
+using NganHangDe.ViewModels.StartupViewModels;
 using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
 using System;
 using System.Collections.Generic;
@@ -35,9 +36,16 @@ namespace NganHangDe.Commands
                 }else
                     _navigationStore.CurrentViewModel = NewQuestionViewModel.LoadViewModel(_navigationStore, null);
 
+            }else 
+            if (_objectType.Equals(typeof(QuizPageViewModel)))
+            {
+                if (parameter is QuizModel quizParam)
+                {
+                    _navigationStore.CurrentViewModel = new QuizPageViewModel(_navigationStore, quizParam);
+                }
             }
-            else    
-            _navigationStore.CurrentViewModel = (T)Activator.CreateInstance(_objectType, args);   
+            else
+                _navigationStore.CurrentViewModel = (T)Activator.CreateInstance(_objectType, args);
         }
     }
 }

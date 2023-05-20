@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NganHangDe.Views.NewQuizView"
+﻿<UserControl x:Class="NganHangDe.Views.StartupViews.NewQuizView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -41,11 +41,13 @@
                     <StackPanel Grid.Column="2">
                         <TextBox Width="350" 
                              Margin="0 10 0 0"
-                             HorizontalAlignment="left"/>
+                             HorizontalAlignment="left" 
+                             Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBox Height="200" 
                              Width="400"
                              Margin="0 10 0 0"
-                             HorizontalAlignment="left"/>
+                             HorizontalAlignment="left"
+                             Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"    />
                         <CheckBox Content="Display description on course page"
                               Margin="0 10 0 0"
                               HorizontalAlignment="left" />
@@ -177,11 +179,21 @@
                                   HorizontalAlignment="left"/>
                         </Grid>
                         <ComboBox Margin="0 15 0 0"
-                              Width="100"
+                              Width="243"
                               HorizontalAlignment="left"
-                              />
+                                 Height="25"
+                                  SelectedIndex="0"
+                              >
+                            <ComboBoxItem x:Name="OnlyChoice">
+                                <TextBlock>Open attempts are submitted automatically</TextBlock>
+                            </ComboBoxItem>
+                        </ComboBox>
                     </StackPanel>
                 </Grid>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10" Command="{Binding CreateQuizCommand}">Create</Button>
+                    <Button Margin="10" Command="{Binding ToAllQuizzesViewCommand}">Cancel</Button>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>
