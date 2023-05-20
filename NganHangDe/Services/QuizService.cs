@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +28,21 @@ namespace NganHangDe.Services
                 return await _context.Quizzes
                     .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Question)
-                    .FirstOrDefaultAsync(q => q.Id == id);
+                    .SingleOrDefaultAsync(q => q.Id == id);
             }
         }
-        public async Task CreateQuizAsync()
+        public async Task CreateQuizAsync(string name, string description, TimeSpan timeLimit)
         {
+            using (var _context = new AppDbContext())
+            {
+                _context.Quizzes.Add(new Quiz
+                {
+                    Name = name,
+                    Description = description,
+                    TimeLimit = timeLimit
+                });
+                await _context.SaveChangesAsync();
+            }
 
         }
     }

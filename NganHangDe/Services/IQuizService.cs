@@ -12,7 +12,7 @@ namespace NganHangDe.Services
     {
         Task<List<QuizModel>> GetAllQuizzesAsync();
         Task<Quiz> GetFullQuizById(int id);
-        Task CreateQuizAsync();
+        Task CreateQuizAsync(string name, string description, TimeSpan timeLimit);
     }
 
 }

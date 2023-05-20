@@ -20,7 +20,7 @@ namespace NganHangDe.Services
                 return await _context.Categories
                     .Include(c => c.Questions)
                     .Include(c => c.ChildCategories)
-                    .FirstOrDefaultAsync(c => c.Id == categoryId);
+                    .SingleOrDefaultAsync(c => c.Id == categoryId);
             }
         }
         public async Task<List<CategoryModel>> GetAllCategoriesAsync()
