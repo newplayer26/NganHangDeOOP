@@ -15,7 +15,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Border Background="blue" MinHeight="40" Grid.Row="0"></Border>
+        <Border Background="#0073A5" MinHeight="40" Grid.Row="0"></Border>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*" MaxHeight="200"/>

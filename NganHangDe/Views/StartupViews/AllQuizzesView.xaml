@@ -7,13 +7,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="white">
-   
+    
     <ScrollViewer>
         <StackPanel>
             <ItemsControl ItemsSource="{Binding QuizList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"></TextBlock>
+                        <Grid Margin="20 10 10 5">
+                            <StackPanel Orientation="Horizontal">
+                                <!--Icon-->
+                                <Image Source="../../../Images/AllQuizzesImage.png" Height="20" Width="20" Margin="10 0 10 0"/>
+                                <Button BorderThickness="0" Background="White" Content="{Binding Name}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
