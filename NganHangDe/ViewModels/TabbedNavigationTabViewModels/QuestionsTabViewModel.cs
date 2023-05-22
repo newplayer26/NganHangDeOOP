@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 
 namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
-{
+{   
     public class QuestionsTabViewModel : ViewModelBase
     {
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
@@ -88,14 +88,14 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
             OnPropertyChanged(nameof(QuestionList));
         }
-
+     
         //public static QuestionsTabViewModel LoadViewModel(NavigationStore ancestorNavigationStore)
         //{
-            
+
         //    QuestionsTabViewModel viewModel = new QuestionsTabViewModel( ancestorNavigationStore);
         //    viewModel.LoadCategoriesCommand.Execute(null);
         //    return viewModel;
         //}
-       
+
     }  
 }
