@@ -130,15 +130,22 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             for (int i = 1; i <= 3; i++)
                 _choices.Add(new ItemViewModel { Number = "Choice " + _counter++.ToString(), ParentViewModel = this });
         }
-        private void _afterCreateStays()
+        private void _afterCreateStays(QuestionModel returnedQuestionModel, List<AnswerModel> returnedAnswerList)
         {
             IsEditingQuestion = true;
-
+            Question = returnedQuestionModel;
+            ObservableCollection<ItemViewModel> newItems = new ObservableCollection<ItemViewModel>();
+            foreach(var answer in returnedAnswerList)
+            {
+                newItems.Add(new ItemViewModel { Number = $"Choice {returnedAnswerList.IndexOf(answer) + 1}", ParentViewModel = this, Model = answer });
+            }
+            _choices = newItems;
             LoadCategoriesCommand.Execute(null);
             OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(CanCreateQuestion));
         }
 
-        public Action AfterCreateStays { get; set; } 
+        public Action<QuestionModel, List<AnswerModel>> AfterCreateStays { get; set; } 
         private void _afterCreateRedirects()
         {
             ToAllTabsViewCommand.Execute(null); 
@@ -157,7 +164,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             set
             {
                 Model.Grade = value;
-                ParentViewModel.QuestionText = ParentViewModel.QuestionText;
+                ParentViewModel.QuestionName = ParentViewModel.QuestionName;
             }   
         }
         public string Text
@@ -170,7 +177,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             set
             {
                 Model.Text = value;
-                ParentViewModel.QuestionText = ParentViewModel.QuestionText;
+                ParentViewModel.QuestionName = ParentViewModel.QuestionName;
             }
         }
         private List<Double> _gradeList = new List<Double>(new Double[] { 1.0, 0.9, 5.0 / 6.0, 0.8, 0.75, 0.7, 2.0 / 3.0, 0.6, 0.5, 0.4, 1.0 / 2.0, 0.25, 0.2, 1.0 / 6.0, 1.0 / 7.0, 0.125, 1.0 / 9.0, 0.1, 0.05, 0 });

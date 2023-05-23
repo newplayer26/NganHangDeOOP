@@ -24,6 +24,7 @@ namespace NganHangDe.Commands
         {
             try
             {
+                
                _viewModel.ToAllQuizzesViewCommand.Execute(null);
             }
             catch (Exception)
