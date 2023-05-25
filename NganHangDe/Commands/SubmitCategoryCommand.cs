@@ -9,7 +9,7 @@ namespace NganHangDe.Commands
 {
     public class SubmitCategoryCommand : AsyncCommandBase
     {
-        private readonly CategoryService _service = new CategoryService;
+        private readonly CategoryService _service = new CategoryService();
         public SubmitCategoryCommand()
         {
             
