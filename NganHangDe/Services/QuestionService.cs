@@ -25,7 +25,7 @@ namespace NganHangDe.Services
             {
                 return await _context.Questions
                     .Where(q => q.CategoryId == categoryId)
-                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text })
+                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text, CategoryId = q.CategoryId })
                     .ToListAsync();
             }
         }
@@ -50,7 +50,7 @@ namespace NganHangDe.Services
             Category topCategory = await _categoryService.GetFullCategoryById(topCategoryId);
             foreach (Question question in topCategory.Questions)
             {
-                subcategoriesQuestions.Add(new QuestionModel { Id = question.Id, Text = question.Text });
+                subcategoriesQuestions.Add(new QuestionModel { Id = question.Id, Text = question.Text, CategoryId = question.CategoryId });
             }
             foreach(Category childCategory in topCategory.ChildCategories)
             {

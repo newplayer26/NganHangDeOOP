@@ -12,11 +12,17 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
 {
     public class CategoriesTabViewModel:ViewModelBase
     {
-        public ICommand LoadCategoriesCommand { get; set; }
+
+        public ICommand SubmitCategoryCommand { get; set; }
+        public ICommand LoadCategoriesCommand { get; }
+      
+
+
         private readonly NavigationStore _ancestorNavigationStore;
-        public CategoriesTabViewModel(NavigationStore ancestorNavigationStore)
+      public CategoriesTabViewModel(AllTabsViewModel parentViewModel)
         {
-            _ancestorNavigationStore = ancestorNavigationStore;
+            
+            _ancestorNavigationStore = parentViewModel.AncestorNavigationStore;
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadCategoriesCommand.Execute(null);
         }

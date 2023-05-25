@@ -4,47 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.TabbedNavigationTabViews" 
-             mc:Ignorable="d" Background="White" d:DesignHeight="450" d:DesignWidth="800">
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+             mc:Ignorable="d" 
+             Background="White" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
         <StackPanel Margin="10 10 0 0">
-            <TextBlock Text="Question bank" Foreground="#B1342D" FontSize="30"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Select a category: " FontSize="18" />
-                <ComboBox x:Name="comboBox"   Margin="10 5 0 10" MinWidth="150" ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}"   >
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding DisplayedName}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+        <TextBlock Text="Question bank" Foreground="#B1342D" FontSize="30"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Select a category: " FontSize="18" />
+            <ComboBox x:Name="comboBox"   Margin="10 5 0 10" MinWidth="150" ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}"   >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DisplayedName}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+        <TextBlock Text="The default category for questions shared in context" FontSize="19"/>
+        <StackPanel Orientation="Vertical">
+            <CheckBox  Content="Also show questions from subcategories" Margin="0 10 0 0" IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}" />
+            <CheckBox  Content="Also show old questions" Margin="0 10 0 0" />
+        </StackPanel>
+        <Button x:Name="button1" Background="#469ddf" Foreground="#ffffff" Content="CREATE A NEW QUESTION" MinWidth="150" Margin="10 10 0 0" HorizontalAlignment="Left" Command="{Binding ToNewQuestionViewCommand}" CommandParameter="{Binding SelectedCategory}" />
+
+        <Grid x:Name="questionGrid"  Visibility="{Binding IsGridVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.04*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="Question" FontSize="18" />
+                <CheckBox Content="Question name / ID number" Foreground="#469ddf" FontSize="10"/>
+
             </StackPanel>
             <TextBlock Text="The default category for questions shared in context" FontSize="19"/>
             <StackPanel Orientation="Vertical">
                 <CheckBox  Content="Also show questions from subcategories" Margin="0 10 0 0" IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}" />
                 <CheckBox  Content="Also show old questions" Margin="0 10 0 0" />
             </StackPanel>
-            <Button x:Name="button1" Background="#469ddf" Foreground="#ffffff" Content="CREATE A NEW QUESTION" MinWidth="150" Margin="10 10 0 0" HorizontalAlignment="Left" Command="{Binding ToNewQuestionViewCommand}" CommandParameter="{Binding SelectedCategory}" />
-            <Grid x:Name="questionGrid" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.04*"/>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="0.25*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="Question" FontSize="18" />
-                    <CheckBox Content="Question name / ID number" Foreground="#469ddf" FontSize="10"/>
-                </StackPanel>
-                <StackPanel Grid.Column="2">
-                    <TextBlock Text="Actions" FontSize="18"/>
-                </StackPanel>
-            </Grid>
+
+            
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.04*"/>
-                    <ColumnDefinition Width="1.5*"/>
-                    <ColumnDefinition Width="0.04*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.04*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="0.25*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+               
+
                     <ItemsControl ItemsSource="{Binding QuestionList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -65,8 +80,51 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-    </ScrollViewer>
+
+                
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <ItemsControl ItemsSource="{Binding QuestionList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#F0F0F0" Margin="0 10 0 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.7*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                        <ColumnDefinition Width="0.5*" />
+                                    </Grid.ColumnDefinitions>
+                                        <Button Grid.Column="0" Command="{Binding DataContext.ToNewQuestionViewCommand, RelativeSource={RelativeSource AncestorType={x:Type local:QuestionsTabView}}}" CommandParameter="{Binding}">
+                                            <Button.Template>
+                                                <ControlTemplate TargetType="Button">
+                                                    <TextBlock Text="Edit" FontSize="15" Foreground="#469ddf" VerticalAlignment="Center" />
+                                                </ControlTemplate>
+                                            </Button.Template>
+
+                                        </Button>
+                                   
+                                    <Button Grid.Column="1" Width="20" Height="20" HorizontalAlignment="Left" Background="#469ddf" BorderThickness="0"  Content="">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                           
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+            </ScrollViewer>
+    </StackPanel>
+     
+
 </UserControl>

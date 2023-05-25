@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
@@ -57,6 +58,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         public ICommand ToAllTabsViewCommand { get; }
         public ICommand LoadCategoriesCommand { get; }
         public ICommand SubmitQuestionCommand { get; }
+        public ICommand LoadSingleQuestionCommand { get; }
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -71,11 +73,11 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             }
         }
 
-        public NewQuestionViewModel(NavigationStore ancestorNavigationStore, CategoryModel selectedCategory)
+        public NewQuestionViewModel(NavigationStore ancestorNavigationStore)
         {
-            _selectedCategory = selectedCategory;
             _ancestorNavigationStore = ancestorNavigationStore;
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
+            LoadSingleQuestionCommand = new LoadSingleQuestionCommand(LoadQuestion);
             _choices = new ObservableCollection<ItemViewModel>();
             AddChoicesCommand = new RelayCommand(Add3Choices);
             _choices = new ObservableCollection<ItemViewModel>();
@@ -86,6 +88,26 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             AfterCreateRedirects = _afterCreateRedirects;
             ToAllTabsViewCommand = new NavigateCommand<AllTabsViewModel>(_ancestorNavigationStore, typeof(AllTabsViewModel));
             IsEditingQuestion = false;
+        }
+        public void LoadQuestion (QuestionModel question, List<AnswerModel> answerList)
+        {
+            Question = question;
+            _choices.Clear();
+            _selectedCategory = new CategoryModel { Id = question.CategoryId };
+            LoadCategoriesCommand.Execute(null);
+            foreach (AnswerModel answer in answerList)
+            {
+                _choices.Add(new ItemViewModel { Number = $"Choice {answerList.IndexOf(answer) + 1}", ParentViewModel = this, Model = answer});
+            }
+            i = answerList.Count + 1;
+            IsEditingQuestion = true;
+            OnPropertyChanged(nameof(IsEditingQuestion));
+            OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(Choices));
+            OnPropertyChanged(nameof(QuestionName));
+            OnPropertyChanged(nameof(QuestionText));
+            OnPropertyChanged(nameof(ValidatedAnswers));
+            OnPropertyChanged(nameof(CanCreateQuestion));
         }
 
         public List<AnswerModel> ValidatedAnswers =>    
@@ -112,14 +134,26 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             }
             OnPropertyChanged(nameof(_categoryList));
         }
-        public static NewQuestionViewModel LoadViewModel(NavigationStore ancestorNavigationStore, CategoryModel selectedCategory)
+        public static NewQuestionViewModel LoadViewModelWithCategory(NavigationStore ancestorNavigationStore, CategoryModel selectedCategory)
+        {
+            NewQuestionViewModel viewModel =  NewQuestionViewModel.LoadViewModel(ancestorNavigationStore);
+            viewModel._selectedCategory = selectedCategory;
+            return viewModel;
+        }
+        public static NewQuestionViewModel LoadViewModelWithQuestion(NavigationStore ancestorNavigationStore, QuestionModel questionModel)
+        {
+            NewQuestionViewModel viewModel = NewQuestionViewModel.LoadViewModel(ancestorNavigationStore);
+            viewModel.LoadSingleQuestionCommand.Execute(questionModel.Id);
+            return viewModel;
+        }
+        public static NewQuestionViewModel LoadViewModel(NavigationStore ancestorNavigationStore)
         {
 
-            NewQuestionViewModel viewModel = new NewQuestionViewModel(ancestorNavigationStore, selectedCategory);
+            NewQuestionViewModel viewModel = new NewQuestionViewModel(ancestorNavigationStore);
             viewModel.LoadCategoriesCommand.Execute(null);
             return viewModel;
         }
-        
+
         private int _counter = 3;
         
         public ICommand AddChoicesCommand { get; }
