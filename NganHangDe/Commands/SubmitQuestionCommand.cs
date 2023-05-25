@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NganHangDe.ModelsDb;
+using System.Collections.ObjectModel;
 
 namespace NganHangDe.Commands
 {
@@ -27,10 +29,27 @@ namespace NganHangDe.Commands
                QuestionModel question = _viewModel.Question;
                int categoryId = _viewModel.SelectedCategory.Id;
                List<AnswerModel> answers = _viewModel.ValidatedAnswers.ToList();
-               await _service.CreateQuestionAsync(question, categoryId, answers);
-                if (parameter is Action action && action.Method.ReturnType == typeof(void))
+               Question returnedModel = _viewModel.IsEditingQuestion? await _service.EditQuestionAsync(question, categoryId, answers) : await _service.CreateQuestionAsync(question, categoryId, answers);
+                if (parameter is Action redirectAction)
                 {
-                    action();
+                    redirectAction();
+                }else if(parameter is Action<QuestionModel, List<AnswerModel>> stayAction){
+                    QuestionModel model = new QuestionModel
+                    {
+                        Id = returnedModel.Id,
+                        Name = returnedModel.Name,
+                        Text = returnedModel.Text,
+                    };
+                    List<AnswerModel> answerList = new List<AnswerModel>();
+                    foreach(Answer answer in returnedModel.Answers) {
+                        answerList.Add(new AnswerModel
+                        {
+                            Text = answer.Text,
+                            Id = answer.Id,
+                            Grade = answer.Grade,
+                        });
+                    };
+                    stayAction(model, answerList);
                 }
             }
             catch (Exception)

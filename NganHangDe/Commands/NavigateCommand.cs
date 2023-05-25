@@ -44,8 +44,15 @@ namespace NganHangDe.Commands
                     _navigationStore.CurrentViewModel = new QuizPageViewModel(_navigationStore, quizParam);
                 }
             }
+            else if (_objectType.Equals(typeof(EditingQuizViewModel)))
+            {
+                _navigationStore.CurrentViewModel = new EditingQuizViewModel(_navigationStore);
+            }
             else
+            {
                 _navigationStore.CurrentViewModel = (T)Activator.CreateInstance(_objectType, args);
+            }
+                
         }
     }
 }
