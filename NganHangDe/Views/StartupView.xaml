@@ -80,7 +80,7 @@
                                     </Grid>
                                 </Border>
                             </custom:DropdownMenu>
-                        <Button Grid.Row="1" Command="">
+                        <Button Grid.Row="1" Command="{Binding ToNewQuizViewCommand}">
                             <TextBlock   Foreground="Black"  FontSize="20" >Turn Editing On</TextBlock>
                         </Button>
                     </Grid>

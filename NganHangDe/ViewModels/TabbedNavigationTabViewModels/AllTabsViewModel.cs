@@ -42,9 +42,11 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         }
         public AllTabsViewModel(NavigationStore ancestorNavigationStore)
         {
+
             AncestorNavigationStore = ancestorNavigationStore;
             QuestionsTabViewModel =   new QuestionsTabViewModel(this);
             CategoriesTabViewModel = new CategoriesTabViewModel(this);
+
         }
     }
 }
