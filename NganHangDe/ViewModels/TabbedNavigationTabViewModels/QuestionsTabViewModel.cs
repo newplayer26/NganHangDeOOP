@@ -67,7 +67,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         public QuestionsTabViewModel(AllTabsViewModel ancestorViewmodel)
         {
            
-            ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(ancestorViewmodel.A, typeof(NewQuestionViewModel));
+            ToNewQuestionViewCommand = new NavigateCommand<NewQuestionViewModel>(ancestorViewmodel.AncestorNavigationStore, typeof(NewQuestionViewModel));
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
             LoadCategoriesCommand.Execute(null);
