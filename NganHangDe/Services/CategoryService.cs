@@ -20,6 +20,7 @@ namespace NganHangDe.Services
                 return await _context.Categories
                     .Include(c => c.Questions)
                     .Include(c => c.ChildCategories)
+                    .Include(c => c.ParentCategory)
                     .SingleOrDefaultAsync(c => c.Id == categoryId);
             }
         }

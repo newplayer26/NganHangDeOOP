@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using System;
@@ -8,6 +10,7 @@ using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace NganHangDe.Services
 {
@@ -32,7 +35,26 @@ namespace NganHangDe.Services
             }
             else if (fileExtension.Equals(".docx", StringComparison.OrdinalIgnoreCase))
             {
-                return "";
+                List<QuestionModel> questionList = new List<QuestionModel>();
+                StringBuilder sb = new StringBuilder();
+                using (WordprocessingDocument doc = WordprocessingDocument.Open(filePath, false))
+                {
+                    DocumentFormat.OpenXml.Wordprocessing.Body body = doc.MainDocumentPart.Document.Body;
+                    foreach (var paragraph in body.Elements<DocumentFormat.OpenXml.Wordprocessing.Paragraph>())
+                    {
+                        sb.AppendLine(paragraph.InnerText);
+                    }
+                }
+                string docText = sb.ToString();
+                string status = GetQuestions(docText, questionList);
+                if (status == "Success")
+                {
+                    foreach (QuestionModel question in questionList)
+                    {
+                        Question currentQuestion = await _service.CreateQuestionAsync(question, categoryId, question.Answers);
+                    }
+                }
+                return status;
             }
             else
             {
