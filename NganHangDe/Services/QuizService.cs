@@ -7,11 +7,17 @@ using NganHangDe.DataAccess;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.ViewModels;
+using NganHangDe.Extensions;
 
 namespace NganHangDe.Services
 {
     public class QuizService : IQuizService
     {
+        public readonly ICategoryService _categoryService;
+        public QuizService()
+        {
+            _categoryService = new CategoryService();
+        }
         public async Task<List<QuizModel>> GetAllQuizzesAsync()
         {
             using (var _context = new AppDbContext())
@@ -44,6 +50,55 @@ namespace NganHangDe.Services
                 await _context.SaveChangesAsync();
             }
 
+        }
+        public async Task AddSingleQuestionToQuizAsync(int questionId, int quizId)
+        {
+            using (var _context = new AppDbContext())
+            {
+                Quiz quiz = await _context.Quizzes
+                    .Include(q => q.QuizQuestions)
+                    .ThenInclude(qq => qq.Question)
+                    .SingleOrDefaultAsync(q => q.Id == quizId);
+                QuizQuestion quizQuestion = new QuizQuestion
+                {
+                    QuizId = quizId,
+                    QuestionId = questionId
+                };
+                quiz.QuizQuestions.Add(quizQuestion);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task AddMultipleQuestionsToQuizAsync(List<int>questionIds, int quizId)
+        {
+            foreach (var questionId in questionIds)
+            {
+                await AddSingleQuestionToQuizAsync(questionId, quizId);
+            }
+        }
+        public async Task AddRandomQuestionsToQuizAsync(int questionNumber, int categoryId, int quizId)
+        {
+            List<int> questionIds;
+            using (var _context = new AppDbContext())
+            {
+                questionIds = await _context.Questions
+                    .Where(q => q.CategoryId == categoryId)
+                    .Select(q => q.Id)
+                    .ToListAsync();
+                questionIds.Shuffle();
+                questionIds = questionIds.Take(questionNumber).ToList();
+            }
+            await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
+        }
+        public async Task<List<Question>> GetAllQuestionsFromQuizAsync(int quizId)
+        {
+            using (var _context = new AppDbContext())
+            {
+                Quiz quiz = await _context.Quizzes
+                    .Include(q => q.QuizQuestions)
+                    .ThenInclude(qq => qq.Question)
+                    .SingleOrDefaultAsync(q => q.Id == quizId);
+                return quiz.QuizQuestions.Select(qq => qq.Question).ToList();
+            }
         }
     }
 
