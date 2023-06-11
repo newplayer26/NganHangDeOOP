@@ -96,6 +96,7 @@ namespace NganHangDe.Services
                 Quiz quiz = await _context.Quizzes
                     .Include(q => q.QuizQuestions)
                     .ThenInclude(qq => qq.Question)
+                    .ThenInclude(q => q.Answers)
                     .SingleOrDefaultAsync(q => q.Id == quizId);
                 return quiz.QuizQuestions.Select(qq => qq.Question).ToList();
             }
