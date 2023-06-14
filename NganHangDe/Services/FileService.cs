@@ -24,7 +24,7 @@ namespace NganHangDe.Services
             {
                 List<QuestionModel> questionList = new List<QuestionModel>();
                 string status = GetQuestions(File.ReadAllText(filePath), questionList);
-                if(status == "Success")
+                if(status[0] == 'S')
                 {
                     foreach(QuestionModel question in questionList)
                     {
@@ -47,7 +47,7 @@ namespace NganHangDe.Services
                 }
                 string docText = sb.ToString();
                 string status = GetQuestions(docText, questionList);
-                if (status == "Success")
+                if (status[0] == 'S')
                 {
                     foreach (QuestionModel question in questionList)
                     {
@@ -87,6 +87,7 @@ namespace NganHangDe.Services
                     string checker = Convert.ToChar('A' + cnt - 1) + ". ";
                     if (line.StartsWith(checker))
                     {
+                        if(line.Substring(3) == "") return $"Error at line {lineNumber}";
                         answerList.Add(new AnswerModel
                         {
                             Text = line.Substring(3),
@@ -104,6 +105,7 @@ namespace NganHangDe.Services
                     string checker = Convert.ToChar('A' + cnt - 1) + ". ";
                     if (line.StartsWith(checker))
                     {
+                        if (line.Substring(3) == "") return $"Error at line {lineNumber}";
                         answerList.Add(new AnswerModel
                         {
                             Text = line.Substring(3),
@@ -116,7 +118,7 @@ namespace NganHangDe.Services
                         if (line.Length == 9)
                         {
                             int answer = line[8] - 'A';
-                            if (answer >= answerList.Count)
+                            if (answer >= answerList.Count || answer < 0)
                             {
                                 return $"Error at line {lineNumber}";
                             }
@@ -142,7 +144,7 @@ namespace NganHangDe.Services
                     }
                 }
             }
-            return "Success";
+            return $"Successfully add {questionList.Count} questions";
         }
     }
 }
