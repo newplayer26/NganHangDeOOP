@@ -26,9 +26,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
         {
             _model = model;
             _ancestorNavigationStore = ancestorNavigationStore;
-            ToEditingQuizCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
+            ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
 
         }
-        public ICommand ToEditingQuizCommand { get; }
+        public ICommand ToEditingQuizViewCommand { get; }
     }
 }
