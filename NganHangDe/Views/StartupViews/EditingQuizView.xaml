@@ -20,7 +20,7 @@
         <Grid Grid.Row="0" Margin="10 10 0 0">
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="18" Foreground="Red" Text="Editing quiz: "/>
-                <TextBlock FontSize="18" Foreground="Red" Text=""/>
+                <TextBlock FontSize="18" Foreground="Red" Text="{Binding QuizName}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Margin="5">

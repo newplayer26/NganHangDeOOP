@@ -1,4 +1,6 @@
-﻿using NganHangDe.Commands;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Wordprocessing;
+using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.Services;
@@ -21,12 +23,22 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         private int _id;
         private QuizModel _quiz;
+        public string QuizName
+        {
+            get { return _quiz.Name; }
+            set
+            {
+                _quiz.Name = value;
+                OnPropertyChanged(nameof(QuizName));
+            }
+        }
         public EditingQuizViewModel(NavigationStore ancestorNavigationStore, int id)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
             _id = id;
+            _quiz = new QuizModel();
             LoadQuiz();
-            Console.WriteLine(_id.ToString());
+            //Console.WriteLine(_id.ToString());  
         }
         private async void LoadQuiz()
         {
@@ -35,14 +47,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
 
             if (quiz != null)
             {
-                _quiz = new QuizModel
-                {
-                    Id = quiz.Id,
-                    Name = quiz.Name,
-                    Description = quiz.Description
-                };
-
-              
+                _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description };
+                QuizName = _quiz.Name;
+                //Console.WriteLine(_quiz.Name);
             }
         }
     }
