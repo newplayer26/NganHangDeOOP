@@ -23,6 +23,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         private int _id;
         private QuizModel _quiz;
+        public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
         public string QuizName
         {
             get { return _quiz.Name; }
@@ -39,6 +40,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _quiz = new QuizModel();
             LoadQuiz();
             //Console.WriteLine(_id.ToString());  
+            ToAddFromQuestionBankViewCommand = new RelayCommand(ExecuteAddFromQuestionBankViewCommand);
         }
         private async void LoadQuiz()
         {
@@ -51,6 +53,11 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 QuizName = _quiz.Name;
                 //Console.WriteLine(_quiz.Name);
             }
+        }
+        private void ExecuteAddFromQuestionBankViewCommand(object parameter)
+        {
+            AddFromQuestionBankViewModel addFromQuestionBankViewModel = new AddFromQuestionBankViewModel(_ancestorNavigationStore, _id);
+            _ancestorNavigationStore.CurrentViewModel = addFromQuestionBankViewModel;
         }
     }
 }

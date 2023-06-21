@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.StartupViews"
+             xmlns:vms="clr-namespace:NganHangDe.ViewModels.StartupViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -61,9 +63,30 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <CheckBox Margin="5"/>
                         <TextBlock Text="Shuffle" Margin="5 5 10 5"/>
+                        
                     </StackPanel>
                 </Grid>
             </StackPanel>
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="1">
+            <ToggleButton x:Name="TogglePopupButton" Height="20" Width="35" HorizontalAlignment="Right" Margin="0 5 10 0"
+                          Background="White" BorderBrush="White" Foreground="#009FE5">
+                <StackPanel>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Run Text="Add"/>
+                    </TextBlock>
+
+                    <Popup Name="myPopup" IsOpen="{Binding IsChecked, ElementName=TogglePopupButton}" >
+                        <Border BorderThickness="0">
+                            <StackPanel>
+                                <Button Content="a new question" Background="White"/>
+                                <Button Content="from question bank" Background="White" Command="{Binding ToAddFromQuestionBankViewCommand}" CommandParameter="{x:Type vms:AddFromQuestionBankViewModel}"/>
+                                <Button Content="a random question" Background="White"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </StackPanel>
+            </ToggleButton>
         </Grid>
     </Grid>
 </UserControl>
