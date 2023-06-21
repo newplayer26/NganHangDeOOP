@@ -76,7 +76,7 @@ namespace NganHangDe.Services
                     if (line == "") cnt++;
                     else return $"Error at line {lineNumber}";
                 }
-                if (cnt == 0)
+                else if (cnt == 0)
                 {
                     if (line == "") continue;
                     questionText = line;

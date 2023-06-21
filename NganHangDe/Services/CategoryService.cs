@@ -68,5 +68,12 @@ namespace NganHangDe.Services
                 await _context.SaveChangesAsync();
             }
         }
+        public async Task<int> GetNumberofCategoriesAsync()
+        {
+            using (var _context = new AppDbContext())
+            {
+                return await _context.Categories.CountAsync();
+            }
+        }
     }
 }
