@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
-    public class QuizPageViewModel:ViewModelBase
+    public class QuizPageViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private QuizModel _model;
@@ -19,16 +19,32 @@ namespace NganHangDe.ViewModels.StartupViewModels
         {
             get
             {
-                return _model.Name; 
+                return _model.Name;
             }
         }
+        public int Id
+        {
+            get
+            {
+                return _model.Id;
+            }
+        }
+        public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
             _model = model;
             _ancestorNavigationStore = ancestorNavigationStore;
-            ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
+            //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
+            ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
 
         }
-        public ICommand ToEditingQuizViewCommand { get; }
+        //public ICommand ToEditingQuizViewCommand { get; }
+        private void ExecuteToEditingQuizViewCommand(object parameter)
+        {
+            int id = _model.Id;
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
+            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+        }
+
     }
 }
