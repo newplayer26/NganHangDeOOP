@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="460" d:DesignWidth="800">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
@@ -36,23 +37,29 @@
                 <TextBlock Grid.Column="1" Grid.Row="1" Text="Add Category" FontSize="18" Margin="30 0 0 0" Foreground="DarkRed"/>
                 <!--Parent category-->
                 <TextBlock Grid.Column="1" Grid.Row="2" Text="Parent Category" FontSize="16" Margin="20 20 0 0"/>
-                <ComboBox Grid.Column="2" Grid.Row="2" Width="260" HorizontalAlignment="Left" Margin="0 20 0 0"/>
+                <ComboBox Grid.Row="2" Grid.Column="2" Width="260" HorizontalAlignment="Left" Margin="0 20 0 0" ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <!--Name-->
                 <TextBlock Grid.Column="1" Grid.Row="3" Text="Name" FontSize="16" Margin="20 20 0 0"/>
-                <TextBox Grid.Column="2" Grid.Row="3" Width="330" HorizontalAlignment="Left" Margin="0 20 0 0"
+                <TextBox Text="{Binding CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="3" Width="330" HorizontalAlignment="Left" Margin="0 20 0 0"
                          TextWrapping="Wrap" AcceptsReturn="True"/>
                 <!--Category info-->
                 <TextBlock Grid.Column="1" Grid.Row="4" Text="Category info" FontSize="16" Margin="20 20 0 0"/>
-                <TextBox Grid.Column="2" Grid.Row="4" Width="330" Height="150" HorizontalAlignment="Left" Margin="0 20 0 0"
+                <TextBox Text="{Binding CategoryInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="4" Width="330" Height="150" HorizontalAlignment="Left" Margin="0 20 0 0"
                          TextWrapping="Wrap" AcceptsReturn="True"/>
                 <!--ID number-->
                 <TextBlock Grid.Column="1" Grid.Row="5" Text="ID number" FontSize="16" Margin="20 20 0 20"/>
-                <TextBox Grid.Column="2" Grid.Row="5" Width="120" HorizontalAlignment="Left" Margin="0 20 0 20"
+                <TextBox Text="{Binding IdNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="5" Width="120" HorizontalAlignment="Left" Margin="0 20 0 20"
                          TextWrapping="Wrap" AcceptsReturn="False"/>
                 <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="6" BorderThickness="0.5" BorderBrush="Gray"/>
                 <!--add category-->
                 <Button Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7" FontSize="18" Width="160" Content="ADD CATEGORY" Background="#C02424"
-                        Margin="0 20 0 0" Foreground="White" Height="35"/>
+                        Margin="0 20 0 0" Foreground="White" Height="35" Command="{Binding SubmitCategoryCommand}" CommandParameter="{Binding AfterCreate}"/>
                 <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="8" HorizontalAlignment="Center" Text="There are required field in this form marked"
                            FontSize="16" Margin="10"/>
             </Grid>
