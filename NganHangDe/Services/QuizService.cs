@@ -46,7 +46,7 @@ namespace NganHangDe.Services
                 {
                     Name = name,
                     Description = description,
-                    TimeLimit = timeLimit
+                    TimeLimit = timeLimit,
                 });
                 await _context.SaveChangesAsync();
             }

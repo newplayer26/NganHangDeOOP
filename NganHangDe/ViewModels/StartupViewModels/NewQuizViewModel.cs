@@ -3,6 +3,7 @@ using NganHangDe.Models;
 using NganHangDe.Stores;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,35 +12,78 @@ using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
-    public class NewQuizViewModel:ViewModelBase
+    public class NewQuizViewModel : ViewModelBase
     {
-        public QuizModel Model = new QuizModel();
-
-        public String Name { 
+        private string _name, _description, _time;
+        private string _selectedTimeForm;
+        private ObservableCollection<string> _timeForms = new ObservableCollection<string>(new string[] { "Minutes", "Hours" });
+        public ObservableCollection<string> TimeForms
+        {
+            get { return _timeForms; }
+            set
+            {
+                _timeForms = value;
+                OnPropertyChanged(nameof(TimeForms));
+            }
+        }
+        public string Name { 
             get {
-                return Model.Name;
+                return _name;
             } 
             set { 
-                Model.Name = value;
-                
+                _name = value;
+                OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(CanCreateQuiz));
-                Console.Write(CanCreateQuiz);
             }
-
         }
-        public String Description
+        public string Description
         {
             get
             {
-                return Model.Description;
+                return _description;
             }
             set
             {
-                Model.Description = value;
+                _description = value;
+                OnPropertyChanged(nameof(Description));
+            }
+        }
+        public string SelectedTimeForm
+        {
+            get
+            {
+                return _selectedTimeForm;
+            }
+            set
+            {
+                _selectedTimeForm = value;
+                OnPropertyChanged(nameof(SelectedTimeForm));
+            }
+        }
+        public string Time
+        {
+            get
+            {
+                return _time;
+            }
+            set
+            {
+                _time = value;
+                OnPropertyChanged(nameof(Time));
                 OnPropertyChanged(nameof(CanCreateQuiz));
             }
         }
-        public bool CanCreateQuiz => !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Description);
+        private bool _isTimeEnabled;
+        public bool IsTimeEnabled
+        {
+            get { return _isTimeEnabled; }
+            set
+            {
+                _isTimeEnabled = value;
+                OnPropertyChanged(nameof(IsTimeEnabled));
+            }
+        }
+        public bool CanCreateQuiz => !string.IsNullOrEmpty(Name) && int.TryParse(Time, out _);
         public ICommand CreateQuizCommand { get; }
 
         private readonly NavigationStore _ancestorNavigationStore;
@@ -49,6 +93,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             ToAllQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(_ancestorNavigationStore, typeof(AllQuizzesViewModel));
             CreateQuizCommand = new CreateQuizCommand(this);
+            SelectedTimeForm = TimeForms[1];
+            Name = string.Empty;
+            Description = string.Empty;
+            Time = "1";
         }
     }
 }

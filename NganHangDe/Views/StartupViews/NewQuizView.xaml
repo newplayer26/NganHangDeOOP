@@ -166,17 +166,22 @@
                                 <ColumnDefinition Width="7*"/>
                             </Grid.ColumnDefinitions>
                             <TextBox Width="40" Grid.Column="0"
-                                 HorizontalAlignment="left"
+                                 HorizontalAlignment="Left"
                                  Margin="0 20 0 0"
-                                 Background="#e9ecee"/>
-                            <ComboBox Grid.Column="1"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="left"
-                                  Width="65"/>
+                                 Background="#e9ecee" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}"
+                                 IsEnabled="{Binding IsTimeEnabled}"/>
+                            <ComboBox
+                                  Margin="42,20,0,0"
+                                  HorizontalAlignment="Left"
+                                  Width="65" Grid.ColumnSpan="2" Height="22" VerticalAlignment="Top" 
+                                  ItemsSource="{Binding TimeForms}" 
+                                  SelectedItem="{Binding SelectedTimeForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  IsEnabled="{Binding IsTimeEnabled}"/>
                             <CheckBox Content="Enable"
-                                  Margin="0 17 0 10"
+                                  Margin="0,17,0,0"
                                   Grid.Column="2"
-                                  HorizontalAlignment="left"/>
+                                  HorizontalAlignment="Left" Height="15" VerticalAlignment="Top"
+                                  IsChecked="{Binding IsTimeEnabled}"/>
                         </Grid>
                         <ComboBox Margin="0 15 0 0"
                               Width="243"
@@ -191,7 +196,7 @@
                     </StackPanel>
                 </Grid>
                 <StackPanel Orientation="Horizontal">
-                    <Button Margin="10" Command="{Binding CreateQuizCommand}">Create</Button>
+                    <Button Margin="10" Command="{Binding CreateQuizCommand}" >Create</Button>
                     <Button Margin="10" Command="{Binding ToAllQuizzesViewCommand}">Cancel</Button>
                 </StackPanel>
             </StackPanel>
