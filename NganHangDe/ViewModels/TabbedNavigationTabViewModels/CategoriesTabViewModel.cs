@@ -19,7 +19,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
 
 
         private readonly NavigationStore _ancestorNavigationStore;
-      public CategoriesTabViewModel(AllTabsViewModel parentViewModel)
+        public CategoriesTabViewModel(AllTabsViewModel parentViewModel)
         {
             
             _ancestorNavigationStore = parentViewModel.AncestorNavigationStore;
