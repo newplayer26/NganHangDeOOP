@@ -16,6 +16,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
     public class CategoriesTabViewModel:ViewModelBase
     {
 
+        private AllTabsViewModel _parentViewModel;
         public ICommand SubmitCategoryCommand { get; set; }
         public ICommand LoadCategoriesCommand { get; }
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
@@ -27,7 +28,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         public CategoriesTabViewModel(AllTabsViewModel parentViewModel)
         {
-
+            _parentViewModel = parentViewModel;
             _ancestorNavigationStore = parentViewModel.AncestorNavigationStore;
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadCategoriesCommand.Execute(null);
@@ -97,6 +98,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             CategoryInfo = string.Empty;
             IdNumber = string.Empty;
             LoadCategoriesCommand.Execute(null);
+            _parentViewModel.QuestionsTabViewModel.LoadCategoriesCommand.Execute(null);
         }
         public Action AfterCreate { get; set; }
     }

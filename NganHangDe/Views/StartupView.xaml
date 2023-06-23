@@ -107,6 +107,12 @@
                             <DataTemplate DataType="{x:Type vms:EditingQuizViewModel}">
                                 <views:EditingQuizView/>
                             </DataTemplate>
+                            <DataTemplate DataType="{x:Type vms:AddFromQuestionBankViewModel}">
+                                <views:AddFromQuestionBank/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type vms:AddARandomQuestionViewModel}">
+                                <views:AddARandomQuestionView/>
+                            </DataTemplate>
                         </Grid.Resources>
                         <ContentControl Content="{Binding CurrentViewModel}" />
                     </Grid>
