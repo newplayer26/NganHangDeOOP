@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <None Remove="Images\AllQuizzesImage.png" />
+    <None Remove="Images\GUI3.4 image.png" />
+    <None Remove="Images\GUI3.4image.png" />
     <None Remove="Images\ImageGUI3.1.png" />
   </ItemGroup>
 
@@ -38,6 +40,7 @@
     <Resource Include="Images\AllQuizzesImage.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\GUI3.4 image.png" />
     <Resource Include="Images\ImageGUI3.1.png" />
   </ItemGroup>
 

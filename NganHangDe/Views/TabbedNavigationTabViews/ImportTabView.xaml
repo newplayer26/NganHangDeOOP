@@ -7,7 +7,62 @@
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+
+    <StackPanel>
+
+        <TextBlock Margin="10 10 0 0" Text="Import questions from file" Foreground="#B1342D" FontSize="25" />
+        <Grid>
+       
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="0.5"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="0.5"/>
+
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+              
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="File format"  Foreground="#B1342D" FontSize="16" Margin="0 5 0 0" />
+                <Border Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" BorderThickness="0.5" BorderBrush="Gray"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="General"  Foreground="#B1342D" FontSize="16" Margin="0 5 0 0" />
+                <Border Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" BorderThickness="0.5" BorderBrush="Gray"/>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="Import questions from file"  Foreground="#B1342D" FontSize="16" Margin="0 5 0 0" />
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="Import"  FontSize="16" Margin="0 25 0 0" />
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Aiken format"  FontSize="16" />
+                <Button Grid.Column="2" Grid.Row="6" Background="#009fe5" Foreground="White" Content="CHOOSE A FILE" Width="130" HorizontalAlignment="Left" Height="30"/>
+                    <TextBlock Text="Maximum size for new files: 100MB" Grid.Column="3" Grid.Row="6" Margin="0 5 0 0" FontSize="14"/>
+                    <Border Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="7" Width="auto" Height="auto" BorderBrush="Gray" BorderThickness="0.5">
+                        <Grid>
+                            <Image Source="/Images/GUI3.4 image.png" Height="50" Width="50" Margin="10 0 10 0" />
+                            <Button Content="You can drag and drop files here to add them" HorizontalAlignment="Center"  BorderThickness="0" Background="Transparent" Padding="0"  Margin="0 70 0 0"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+        </Grid>
     </Grid>
+        <Button Content="IMPORT"  Foreground="White" Background="#B1342D" HorizontalAlignment="Center" Height="30" Width="75"/>
+        <TextBlock Text="There are required fields in this form marked" HorizontalAlignment="Center"  />
+    </StackPanel>
+    
 </UserControl>
