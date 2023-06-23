@@ -81,7 +81,7 @@
                             <StackPanel>
                                 <Button Content="a new question" Background="White"/>
                                 <Button Content="from question bank" Background="White" Command="{Binding ToAddFromQuestionBankViewCommand}" CommandParameter="{x:Type vms:AddFromQuestionBankViewModel}"/>
-                                <Button Content="a random question" Background="White"/>
+                                <Button Content="a random question" Background="White" Command="{Binding ToAddARandomQuestionViewComamnd}" CommandParameter="{x:Type vms:AddARandomQuestionViewModel}"/>
                             </StackPanel>
                         </Border>
                     </Popup>
