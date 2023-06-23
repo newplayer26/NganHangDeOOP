@@ -1,50 +1,29 @@
-﻿using Microsoft.Identity.Client;
-using NganHangDe.Commands;
-using NganHangDe.Models;
+﻿using NganHangDe.Commands;
 using NganHangDe.Stores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
-    public class QuizPageViewModel : ViewModelBase
+    class AddARandomQuestionViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
-        private QuizModel _model;
-        public String Name
-        {
-            get
-            {
-                return _model.Name;
-            }
-        }
-        public int Id
-        {
-            get
-            {
-                return _model.Id;
-            }
-        }
+        private int _id;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
-        public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
+        public AddARandomQuestionViewModel(NavigationStore ancestorNavigationStore, int id)
         {
-            _model = model;
             _ancestorNavigationStore = ancestorNavigationStore;
-            //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
+            _id = id;
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
-
         }
-        //public ICommand ToEditingQuizViewCommand { get; }
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
-            int id = _model.Id;
+            int id = _id;
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
-
     }
 }
