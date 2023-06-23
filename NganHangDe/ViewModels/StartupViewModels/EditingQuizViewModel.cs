@@ -12,9 +12,9 @@ using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
+
     public class EditingQuizViewModel:ViewModelBase
     {
-        public ObservableCollection<QuestionModel> Questions { get; set; }
         public EditingQuizViewModel(NavigationStore ancestorNavigationStore)
         {
             
