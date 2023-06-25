@@ -6,6 +6,7 @@ using NganHangDe.Stores;
 using NganHangDe.DataAccess;
 using NganHangDe.Services;
 using NganHangDe.ViewModels.StartupViewModels;
+using System.Linq;
 
 namespace NganHangDe.ViewModels
 {
@@ -20,7 +21,6 @@ namespace NganHangDe.ViewModels
         public StartupViewModel(NavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
-            
             ToTabbedViewCommand = new NavigateCommand<TabbedNavigationViewModel>(navigationStore, typeof(TabbedNavigationViewModel));
             QuizService quizService = new QuizService();
             _ownNavigationStore = new NavigationStore();

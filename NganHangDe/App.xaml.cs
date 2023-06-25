@@ -62,6 +62,7 @@ namespace NganHangDe
             MainWindow.Show();
             base.OnStartup(e);
             ConsoleHelper.Initialize();
+
         }
     }
 }

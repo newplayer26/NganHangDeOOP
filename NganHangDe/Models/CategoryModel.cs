@@ -14,6 +14,7 @@ namespace NganHangDe.Models
         private string _level;
         private int _questionNumber;
         private string _displayedName;
+        private string _info;
         public int Id { get; set; }
         public string Name
         {
@@ -25,7 +26,15 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(DisplayedName));
             }
         }
-
+        public string Info
+        {
+            get => _info;
+            set
+            {
+                _info = value;
+                OnPropertyChanged(nameof(Info));
+            }
+        }
         public string Level
         {
             get => _level;

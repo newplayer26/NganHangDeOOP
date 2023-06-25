@@ -75,7 +75,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
      
         public void LoadCategories(List<CategoryModel> list)
         {
-
+            _categoryList.Clear();
             foreach (var category in list) {
                 _categoryList.Add(category);
             }
