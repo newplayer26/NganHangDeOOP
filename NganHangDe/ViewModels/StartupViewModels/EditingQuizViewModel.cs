@@ -26,6 +26,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private QuizModel _quiz;
         public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
         public RelayCommand ToAddARandomQuestionViewComamnd { get; private set; }
+
         private ObservableCollection<QuestionModel> _selectedQuestions;
         public ObservableCollection<QuestionModel> SelectedQuestions
         {
@@ -36,7 +37,6 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(SelectedQuestions));
             }
         }
-
         public string QuizName
         {
             get { return _quiz.Name; }
@@ -51,27 +51,11 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             _id = id;
             _quiz = new QuizModel();
-            SelectedQuestions = new ObservableCollection<QuestionModel>();           
-            //Console.WriteLine(_id.ToString());  
+
             ToAddFromQuestionBankViewCommand = new RelayCommand(ExecuteAddFromQuestionBankViewCommand);
             ToAddARandomQuestionViewComamnd = new RelayCommand(ExecuteAddARandomQuestionViewCommand);
-            
             LoadQuiz();
-            //Console.WriteLine(SelectedQuestionsStore.SelectedQuestions.Count);
-        }
-        public void LoadSelectedQuestions(List<QuestionModel> selectedQuestions, int id)
-        {
-            Console.WriteLine(_id);
-            
-           
-            if (_id == id)
-            {
-                SelectedQuestions.Clear();
-                foreach (var question in selectedQuestions)
-                {
-                    SelectedQuestions.Add(question);
-                }
-            }
+
         }
         private async void LoadQuiz()
         {
@@ -82,8 +66,12 @@ namespace NganHangDe.ViewModels.StartupViewModels
             {
                 _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description };
                 QuizName = _quiz.Name;
-                //Console.WriteLine(_quiz.Name);
-                SelectedQuestions = new ObservableCollection<QuestionModel>(SelectedQuestionsStore.SelectedQuestions);
+
+                List<QuestionModel> selectedQuestions = quiz.QuizQuestions
+                    .Select(qq => new QuestionModel { Id = qq.Question.Id, Text = qq.Question.Text })
+                    .ToList();
+
+                SelectedQuestions = new ObservableCollection<QuestionModel>(selectedQuestions);
             }
         }
         private void ExecuteAddFromQuestionBankViewCommand(object parameter)

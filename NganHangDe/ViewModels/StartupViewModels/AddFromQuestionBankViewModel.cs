@@ -1,4 +1,5 @@
-﻿using NganHangDe.Commands;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.Services;
@@ -19,31 +20,20 @@ namespace NganHangDe.ViewModels.StartupViewModels
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private int _id;
+        private QuizService _quizService;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand SelectQuestionCommand { get; private set; }
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
         private ObservableCollection<QuestionModel> _selectedQuestions = new ObservableCollection<QuestionModel>();
-        public class SelectedQuestionsStore
-        {
-            public int QuizId { get; private set; }
-            public static List<QuestionModel> SelectedQuestions { get; set; } = new List<QuestionModel>();
-            public SelectedQuestionsStore(int quizId)
-            {
-                QuizId = quizId;
-                SelectedQuestions = new List<QuestionModel>();
-            }
-
-            public void AddSelectedQuestion(QuestionModel question)
-            {
-                SelectedQuestions.Add(question);
-            }
-        }
+        public ObservableCollection<QuestionModel> SelectedQuestions => _selectedQuestions;
         public IEnumerable<CategoryModel> CategoryList => _categoryList;
         public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants ? _descendantsCategoriesList : _singleCategoryList;
 
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
+
+
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -57,15 +47,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 }
             }
         }
-        public ObservableCollection<QuestionModel> SelectedQuestions
-        {
-            get { return new ObservableCollection<QuestionModel>(SelectedQuestionsStore.SelectedQuestions); }
-            set
-            {
-                SelectedQuestionsStore.SelectedQuestions = value.ToList();
-                OnPropertyChanged(nameof(SelectedQuestions));
-            }
-        }
+      
         private bool _isShowingDescendants;
         public bool IsShowingDescendants
         {
@@ -98,69 +80,48 @@ namespace NganHangDe.ViewModels.StartupViewModels
         {
             _ancestorNavigationStore = ancestorNavigationStore;
             _id = id;
-            //ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
+            _quizService = new QuizService();
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
+            
         }
 
         public void LoadCategories(List<CategoryModel> list)
         {
-
             foreach (var category in list)
             {
                 _categoryList.Add(category);
             }
-
-        }
+        }     
         public void LoadQuestions(List<QuestionModel> singleCategoryList, List<QuestionModel> descendantsCategoriesList)
         {
-            SelectedQuestions.Clear();
+
             SingleCategoryList = new ObservableCollection<QuestionModel>(singleCategoryList);
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
-            //Console.WriteLine("LoadQuestions");
-            if (IsShowingDescendants)
-            {
-                foreach (var question in descendantsCategoriesList)
-                {
-                    SelectedQuestionsStore.SelectedQuestions.Add(question);
-                }
-            }
-            else
-            {
-                foreach (var question in singleCategoryList)
-                {
-                    SelectedQuestionsStore.SelectedQuestions.Add(question);
-                    //Console.WriteLine("add "+question.Text);
-                }
-            }
-
+            _selectedQuestions = new ObservableCollection<QuestionModel>();
             OnPropertyChanged(nameof(QuestionList));
         }
-
-        private void ExecuteSelectQuestionCommand(object parameter)
+        private async void ExecuteSelectQuestionCommand(object parameter)
         {
-            var question = parameter as QuestionModel;
-            if (question != null)
-            {
-                if (question.IsSelected)
-                {
-                    SelectedQuestionsStore.SelectedQuestions.Add(question);
-                    Console.WriteLine("add question");
-                }
-                else
-                {
-                    SelectedQuestionsStore.SelectedQuestions.Remove(question);
-                    Console.WriteLine("remove question");
-                }
-            }
 
-            int id = _id;
-            Console.WriteLine($"{id} is selected");
+            List<QuestionModel> selectedQuestions = QuestionList.Where(q => q.IsSelected).ToList();
+
+            _selectedQuestions.Clear();
+            foreach (var question in selectedQuestions)
+            {
+                _selectedQuestions.Add(question);
+                Console.WriteLine(question.Id);
+            }
+            foreach (var question in selectedQuestions)
+            {
+                await _quizService.AddSingleQuestionToQuizAsync(question.Id, _id);
+            }
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _id);
-            editingQuizViewModel.LoadSelectedQuestions(SelectedQuestionsStore.SelectedQuestions.ToList(), id);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+            
+         
         }
     }
 }

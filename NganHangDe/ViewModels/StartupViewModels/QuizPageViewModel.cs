@@ -42,6 +42,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int id = _model.Id;
+            Console.WriteLine(id);
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }

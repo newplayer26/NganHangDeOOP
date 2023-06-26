@@ -62,7 +62,7 @@
                                                 <ColumnDefinition Width="0.14*" />
                                             </Grid.ColumnDefinitions>
                                             <Image  Grid.Column="1" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
-                                            <CheckBox IsChecked="{Binding IsSelected}" Content="" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right"  Grid.Column="0"  />
+                                            <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right"  Grid.Column="0"  />
                                             <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="2"  />
                                             <Button Content="Edit"  Grid.Column="3"  HorizontalAlignment="Left" Foreground="#469ddf" BorderThickness="0" Background="Transparent" Padding="0"  />
                                         </Grid>
