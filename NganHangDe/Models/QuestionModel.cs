@@ -44,5 +44,15 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(Answers));
             }
         }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
     }
 }

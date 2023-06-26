@@ -1,4 +1,5 @@
-﻿using NganHangDe.Commands;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.Services;
@@ -14,19 +15,25 @@ using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
-    
+
     public class AddFromQuestionBankViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private int _id;
+        private QuizService _quizService;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
+        public RelayCommand SelectQuestionCommand { get; private set; }
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
+        private ObservableCollection<QuestionModel> _selectedQuestions = new ObservableCollection<QuestionModel>();
+        public ObservableCollection<QuestionModel> SelectedQuestions => _selectedQuestions;
         public IEnumerable<CategoryModel> CategoryList => _categoryList;
         public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants ? _descendantsCategoriesList : _singleCategoryList;
-        
+
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
+
+
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -40,6 +47,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 }
             }
         }
+      
         private bool _isShowingDescendants;
         public bool IsShowingDescendants
         {
@@ -71,33 +79,49 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public AddFromQuestionBankViewModel(NavigationStore ancestorNavigationStore, int id)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
-            _id = id;            
-            ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
+            _id = id;
+            _quizService = new QuizService();
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
             LoadCategoriesCommand.Execute(null);
+            SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
+            
         }
 
         public void LoadCategories(List<CategoryModel> list)
         {
-
             foreach (var category in list)
             {
                 _categoryList.Add(category);
             }
-
-        }
+        }     
         public void LoadQuestions(List<QuestionModel> singleCategoryList, List<QuestionModel> descendantsCategoriesList)
         {
+
             SingleCategoryList = new ObservableCollection<QuestionModel>(singleCategoryList);
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
+            _selectedQuestions = new ObservableCollection<QuestionModel>();
             OnPropertyChanged(nameof(QuestionList));
         }
-        private void ExecuteToEditingQuizViewCommand(object parameter)
+        private async void ExecuteSelectQuestionCommand(object parameter)
         {
-            int id = _id;
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
+
+            List<QuestionModel> selectedQuestions = QuestionList.Where(q => q.IsSelected).ToList();
+
+            _selectedQuestions.Clear();
+            foreach (var question in selectedQuestions)
+            {
+                _selectedQuestions.Add(question);
+                Console.WriteLine(question.Id);
+            }
+            foreach (var question in selectedQuestions)
+            {
+                await _quizService.AddSingleQuestionToQuizAsync(question.Id, _id);
+            }
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _id);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+            
+         
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using static NganHangDe.ViewModels.StartupViewModels.AddFromQuestionBankViewModel;
 
 namespace NganHangDe.ViewModels.StartupViewModels
 {
@@ -25,6 +26,17 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private QuizModel _quiz;
         public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
         public RelayCommand ToAddARandomQuestionViewComamnd { get; private set; }
+
+        private ObservableCollection<QuestionModel> _selectedQuestions;
+        public ObservableCollection<QuestionModel> SelectedQuestions
+        {
+            get { return _selectedQuestions; }
+            set
+            {
+                _selectedQuestions = value;
+                OnPropertyChanged(nameof(SelectedQuestions));
+            }
+        }
         public string QuizName
         {
             get { return _quiz.Name; }
@@ -39,10 +51,11 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             _id = id;
             _quiz = new QuizModel();
-            LoadQuiz();
-            //Console.WriteLine(_id.ToString());  
+
             ToAddFromQuestionBankViewCommand = new RelayCommand(ExecuteAddFromQuestionBankViewCommand);
             ToAddARandomQuestionViewComamnd = new RelayCommand(ExecuteAddARandomQuestionViewCommand);
+            LoadQuiz();
+
         }
         private async void LoadQuiz()
         {
@@ -53,12 +66,18 @@ namespace NganHangDe.ViewModels.StartupViewModels
             {
                 _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description };
                 QuizName = _quiz.Name;
-                //Console.WriteLine(_quiz.Name);
+
+                List<QuestionModel> selectedQuestions = quiz.QuizQuestions
+                    .Select(qq => new QuestionModel { Id = qq.Question.Id, Text = qq.Question.Text })
+                    .ToList();
+
+                SelectedQuestions = new ObservableCollection<QuestionModel>(selectedQuestions);
             }
         }
         private void ExecuteAddFromQuestionBankViewCommand(object parameter)
         {
             AddFromQuestionBankViewModel addFromQuestionBankViewModel = new AddFromQuestionBankViewModel(_ancestorNavigationStore, _id);
+
             _ancestorNavigationStore.CurrentViewModel = addFromQuestionBankViewModel;
         }
         private void ExecuteAddARandomQuestionViewCommand(object parameter)
