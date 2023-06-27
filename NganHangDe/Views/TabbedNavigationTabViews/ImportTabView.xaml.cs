@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,26 @@ namespace NganHangDe.Views.TabbedNavigationTabViews
         public ImportTabView()
         {
             InitializeComponent();
+
+        }
+        private void Grid_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Grid_DragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            var viewModel = DataContext as ImportTabViewModel;
+            if (viewModel != null && viewModel.DropCommand.CanExecute(e))
+            {
+                viewModel.DropCommand.Execute(e);
+            }
+            e.Handled = true;
         }
     }
 }
