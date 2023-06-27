@@ -33,7 +33,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
 
-
+        
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }

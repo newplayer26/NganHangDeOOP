@@ -99,12 +99,16 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
+                                        
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="0.14*" />
+                                        <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding QuestionIndices}" Grid.Column="0"/>
                                     <Image  Grid.Column="1" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
                                     <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="2"  />
-                                    <Button Content="Edit"  Grid.Column="3"  HorizontalAlignment="Right" Foreground="#469ddf" BorderThickness="0" Background="Transparent" Padding="0" Margin="0 0 15 0" />
+                                    <Button Content="Delete" Grid.Column="3"  HorizontalAlignment="Right" Foreground="#469ddf" BorderThickness="0" Background="Transparent" Padding="0" Margin="0 0 15 0">
+                                        <!--<Image Source="../../../Images/TrashBinIcon.png" Height="13" Width="13"/>-->
+                                    </Button>
                                 </Grid>
                             </Border>
                         </DataTemplate>

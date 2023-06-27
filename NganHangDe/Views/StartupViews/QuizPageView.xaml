@@ -57,5 +57,8 @@
             <TextBlock Grid.Column="0" Text="Attempt" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
             <TextBlock Grid.Column="1" Text="State" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
         </Grid>
+        <Grid Grid.Row="4" Grid.Column="1" Margin="50">
+            <Button Content="PREVIEW QUIZ NOW" Width="150" Foreground="White" Background="#009FE5"/>
+        </Grid>
     </Grid>
 </UserControl>
