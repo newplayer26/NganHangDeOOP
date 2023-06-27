@@ -90,7 +90,7 @@ namespace NganHangDe.Services
             }
             await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
         }
-        public async Task<List<Question>> GetAllQuestionsFromQuizAsync(int quizId)
+        public async Task<List<QuestionModel>> GetAllQuestionsFromQuizAsync(int quizId)
         {
             using (var _context = new AppDbContext())
             {
@@ -99,7 +99,19 @@ namespace NganHangDe.Services
                     .ThenInclude(qq => qq.Question)
                     .ThenInclude(q => q.Answers)
                     .SingleOrDefaultAsync(q => q.Id == quizId);
-                return quiz.QuizQuestions.Select(qq => qq.Question).ToList();
+                return quiz.QuizQuestions.Select(qq => new QuestionModel
+                {
+                    Id = qq.Question.Id,
+                    Name = qq.Question.Name,
+                    Text = qq.Question.Text,
+                    CategoryId = qq.Question.CategoryId,
+                    Answers = qq.Question.Answers.Select(a => new AnswerModel
+                    {
+                        Id = a.Id,
+                        Text = a.Text,
+                        Grade = a.Grade,
+                    }).ToList(),
+                }).ToList();
             }
         }
     }

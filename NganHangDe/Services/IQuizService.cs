@@ -15,7 +15,8 @@ namespace NganHangDe.Services
         Task CreateQuizAsync(string name, string description, TimeSpan timeLimit);
         Task AddMultipleQuestionsToQuizAsync(List<int> questionIds, int quizId);
         Task AddRandomQuestionsToQuizAsync(int questionNumber, int categoryId, int quizId);
-        Task<List<Question>> GetAllQuestionsFromQuizAsync(int quizId);
+        Task<List<QuestionModel>> GetAllQuestionsFromQuizAsync(int quizId);
+        Task AddSingleQuestionToQuizAsync(int questionId, int quizId);
     }
 
 }

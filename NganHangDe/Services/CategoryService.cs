@@ -75,5 +75,6 @@ namespace NganHangDe.Services
                 return await _context.Categories.CountAsync();
             }
         }
+        
     }
 }
