@@ -29,6 +29,17 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 return _model.Id;
             }
         }
+        private bool _isPopupVisible;
+        public bool IsPopupVisible
+        {
+            get { return _isPopupVisible; }
+            set
+            {
+                _isPopupVisible = value;
+                OnPropertyChanged(nameof(IsPopupVisible));
+            }
+        }
+        public RelayCommand ShowPopupCommand { get; private set; }
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
@@ -36,7 +47,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
-
+            ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
         }
         //public ICommand ToEditingQuizViewCommand { get; }
         private void ExecuteToEditingQuizViewCommand(object parameter)
@@ -46,6 +57,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
-
+        private void ExecuteShowPopupCommand(object parameter)
+        {
+            IsPopupVisible = true;
+        }
     }
 }

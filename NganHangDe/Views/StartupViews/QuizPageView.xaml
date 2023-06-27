@@ -4,11 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.StartupViews"
+             xmlns:comp="clr-namespace:NganHangDe.Views.Components"
              xmlns:vms="clr-namespace:NganHangDe.ViewModels.StartupViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White"
              >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -57,8 +61,18 @@
             <TextBlock Grid.Column="0" Text="Attempt" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
             <TextBlock Grid.Column="1" Text="State" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
         </Grid>
-        <Grid Grid.Row="4" Grid.Column="1" Margin="50">
-            <Button Content="PREVIEW QUIZ NOW" Width="150" Foreground="White" Background="#009FE5"/>
+        <Grid Grid.Row="4" Grid.Column="1" Margin="50" HorizontalAlignment="Right">
+            <Button Content="PREVIEW QUIZ NOW" Width="160" Foreground="White" Background="#009FE5" Command="{Binding ShowPopupCommand}"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+            <Grid>
+                <Popup  Placement="Center" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True">
+                    <Border Width="800" Height="220" Background="White" BorderBrush="Gray" BorderThickness="0.5">
+                        <comp:StartAttemptConfirmView/>
+                    </Border>
+                </Popup>
+            </Grid>
         </Grid>
     </Grid>
+    
 </UserControl>
