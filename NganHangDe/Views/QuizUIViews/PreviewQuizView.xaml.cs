@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NganHangDe.Views.StartupViews
+namespace NganHangDe.Views.QuizUIViews
 {
     /// <summary>
     /// Interaction logic for PreviewQuizView.xaml

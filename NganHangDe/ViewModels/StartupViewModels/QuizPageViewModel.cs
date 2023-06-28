@@ -2,6 +2,7 @@
 using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.Stores;
+using NganHangDe.ViewModels.QuizUIViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             }
         }
         public RelayCommand ShowPopupCommand { get; private set; }
+        public RelayCommand HidePopupCommand { get; private set; }  
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand ToPreviewQuizViewCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
@@ -49,6 +51,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
+            HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
             ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
         }
         //public ICommand ToEditingQuizViewCommand { get; }
@@ -63,11 +66,14 @@ namespace NganHangDe.ViewModels.StartupViewModels
         {
             IsPopupVisible = true;
         }
+        private void ExecuteHidePopupCommand(object parameter)
+        {
+            IsPopupVisible = false;
+        }
         private void ExecuteToPreviewQuizViewCommand(object parameter)
         {
-            int quizId= _model.Id;
-            Console.WriteLine(quizId);
-            PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizId);
+            int quizid = _model.Id;
+            PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizid);
             _ancestorNavigationStore.CurrentViewModel = previewQuizViewModel;
         }
     }

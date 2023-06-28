@@ -93,7 +93,7 @@
                                 <Border BorderBrush="Gray" BorderThickness="0.5">
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="START ATTEMPT" FontSize="18" Margin="10" Background="#C02424" Foreground="White" Command="{Binding ToPreviewQuizViewCommand}"/>
-                                        <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White"/>
+                                        <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
                                     </StackPanel>
                                 </Border>
 
