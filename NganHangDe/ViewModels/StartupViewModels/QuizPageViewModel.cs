@@ -41,6 +41,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         public RelayCommand ShowPopupCommand { get; private set; }
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
+        public RelayCommand ToPreviewQuizViewCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
             _model = model;
@@ -48,18 +49,26 @@ namespace NganHangDe.ViewModels.StartupViewModels
             //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
+            ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
         }
         //public ICommand ToEditingQuizViewCommand { get; }
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
-            int id = _model.Id;
-            Console.WriteLine(id);
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
+            int quizId = _model.Id;
+            Console.WriteLine(quizId);
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
         private void ExecuteShowPopupCommand(object parameter)
         {
             IsPopupVisible = true;
+        }
+        private void ExecuteToPreviewQuizViewCommand(object parameter)
+        {
+            int quizId= _model.Id;
+            Console.WriteLine(quizId);
+            PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizId);
+            _ancestorNavigationStore.CurrentViewModel = previewQuizViewModel;
         }
     }
 }

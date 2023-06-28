@@ -22,7 +22,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
     public class EditingQuizViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
-        private int _id;
+        private int _quizId;
         private QuizModel _quiz;
         public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
         public RelayCommand ToAddARandomQuestionViewComamnd { get; private set; }
@@ -46,10 +46,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(QuizName));
             }
         }
-        public EditingQuizViewModel(NavigationStore ancestorNavigationStore, int id)
+        public EditingQuizViewModel(NavigationStore ancestorNavigationStore, int quizId)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
-            _id = id;
+            _quizId = quizId;
             _quiz = new QuizModel();
 
             ToAddFromQuestionBankViewCommand = new RelayCommand(ExecuteAddFromQuestionBankViewCommand);
@@ -60,7 +60,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private async void LoadQuiz()
         {
             QuizService quizService = new QuizService();
-            Quiz quiz = await quizService.GetFullQuizById(_id);
+            Quiz quiz = await quizService.GetFullQuizById(_quizId);
 
             if (quiz != null)
             {
@@ -76,13 +76,13 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private void ExecuteAddFromQuestionBankViewCommand(object parameter)
         {
-            AddFromQuestionBankViewModel addFromQuestionBankViewModel = new AddFromQuestionBankViewModel(_ancestorNavigationStore, _id);
+            AddFromQuestionBankViewModel addFromQuestionBankViewModel = new AddFromQuestionBankViewModel(_ancestorNavigationStore, _quizId);
 
             _ancestorNavigationStore.CurrentViewModel = addFromQuestionBankViewModel;
         }
         private void ExecuteAddARandomQuestionViewCommand(object parameter)
         {
-            AddARandomQuestionViewModel addARandomQuestionViewModel = new AddARandomQuestionViewModel(_ancestorNavigationStore, _id);
+            AddARandomQuestionViewModel addARandomQuestionViewModel = new AddARandomQuestionViewModel(_ancestorNavigationStore, _quizId);
             _ancestorNavigationStore.CurrentViewModel = addARandomQuestionViewModel;
         }
     }

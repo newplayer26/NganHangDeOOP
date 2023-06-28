@@ -19,7 +19,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
     public class AddFromQuestionBankViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
-        private int _id;
+        private int _quizId;
         private QuizService _quizService;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand SelectQuestionCommand { get; private set; }
@@ -76,10 +76,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
             get { return _singleCategoryList; }
             set { _singleCategoryList = value; }
         }
-        public AddFromQuestionBankViewModel(NavigationStore ancestorNavigationStore, int id)
+        public AddFromQuestionBankViewModel(NavigationStore ancestorNavigationStore, int quizId)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
-            _id = id;
+            _quizId = quizId;
             _quizService = new QuizService();
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
             LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
@@ -116,9 +116,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             }
             foreach (var question in selectedQuestions)
             {
-                await _quizService.AddSingleQuestionToQuizAsync(question.Id, _id);
+                await _quizService.AddSingleQuestionToQuizAsync(question.Id, _quizId);
             }
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _id);
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
             
          

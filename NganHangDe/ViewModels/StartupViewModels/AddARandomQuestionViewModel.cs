@@ -11,18 +11,18 @@ namespace NganHangDe.ViewModels.StartupViewModels
     class AddARandomQuestionViewModel : ViewModelBase
     {
         private readonly NavigationStore _ancestorNavigationStore;
-        private int _id;
+        private int _quizId;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
-        public AddARandomQuestionViewModel(NavigationStore ancestorNavigationStore, int id)
+        public AddARandomQuestionViewModel(NavigationStore ancestorNavigationStore, int quizId)
         {
             _ancestorNavigationStore = ancestorNavigationStore;
-            _id = id;
+            _quizId = quizId;
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
         }
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
-            int id = _id;
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, id);
+            int quizId = _quizId;
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
     }
