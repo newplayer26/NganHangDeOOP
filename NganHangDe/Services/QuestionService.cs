@@ -52,16 +52,17 @@ namespace NganHangDe.Services
             Category topCategory = await _categoryService.GetFullCategoryById(topCategoryId);
             foreach (Question question in topCategory.Questions)
             {
-                subcategoriesQuestions.Add(new QuestionModel 
-                { 
+                subcategoriesQuestions.Add(new QuestionModel
+                {
                     Id = question.Id, Text = question.Text, CategoryId = question.CategoryId,
                     Answers = question.Answers.Select(a => new AnswerModel
                     {
                         Id = a.Id,
                         Text = a.Text,
                         Grade = a.Grade,
-                    }).ToList()
-                });
+                    }).ToList(),
+                    QuizQuestions = question.QuizQuestions.ToList()
+                }) ;
             }
             foreach(Category childCategory in topCategory.ChildCategories)
             {

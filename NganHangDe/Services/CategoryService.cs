@@ -19,6 +19,9 @@ namespace NganHangDe.Services
             {
                 return await _context.Categories
                     .Include(c => c.Questions)
+                    .ThenInclude(q => q.Answers)
+                    .Include(c => c.Questions)
+                    .ThenInclude(q => q.QuizQuestions)
                     .Include(c => c.ChildCategories)
                     .Include(c => c.ParentCategory)
                     .SingleOrDefaultAsync(c => c.Id == categoryId);

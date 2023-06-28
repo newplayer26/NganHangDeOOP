@@ -68,5 +68,15 @@ namespace NganHangDe.Models
                 return true;
             }
         }
+        private List<QuizQuestion> _quizQuestions;
+        public List<QuizQuestion> QuizQuestions
+        {
+            get { return _quizQuestions; }
+            set
+            {
+                _quizQuestions = value;
+                OnPropertyChanged(nameof(QuizQuestions));
+            }
+        }
     }
 }
