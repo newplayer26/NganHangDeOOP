@@ -14,7 +14,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Border Background="aqua" MinHeight="40" Grid.Row="0">
+        <Border Background="#009FE5" MinHeight="40" Grid.Row="0">
             <StackPanel Orientation="Horizontal" Margin="10 0 0 0 ">
                 <Button x:Name="PART_Toggle"  MaxHeight="30" Command="{Binding ToStartupViewCommand}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Left">
                     <Grid Background="Transparent">

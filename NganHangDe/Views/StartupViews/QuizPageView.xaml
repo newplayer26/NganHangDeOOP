@@ -9,6 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800"
              Background="White"
              >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -57,5 +60,49 @@
             <TextBlock Grid.Column="0" Text="Attempt" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
             <TextBlock Grid.Column="1" Text="State" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
         </Grid>
+        <Grid Grid.Row="4" Grid.Column="1" Margin="50" HorizontalAlignment="Right">
+            <Button Content="PREVIEW QUIZ NOW" Width="160" Foreground="White" Background="#009FE5" Command="{Binding ShowPopupCommand}"/>
+        </Grid>
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+            <Grid>
+                <Popup  Placement="Center" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True">
+                    <Border Width="800" Height="220" Background="White" BorderBrush="Gray" BorderThickness="0.5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Border BorderBrush="Gray" BorderThickness="0.5">
+                                    <TextBlock Text="Start Attempt" FontSize="24" Margin="10"/>
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
+                                <StackPanel>
+                                    <TextBlock Text="Time limit" FontSize="20"/>
+                                    <TextBlock TextWrapping="Wrap" FontSize="17" Text="Your attempt will have a time limit of {TimeLimit} hour. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now? "/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                                <Border BorderBrush="Gray" BorderThickness="0.5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="START ATTEMPT" FontSize="18" Margin="10" Background="#C02424" Foreground="White" Command="{Binding ToPreviewQuizViewCommand}"/>
+                                        <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
+                                    </StackPanel>
+                                </Border>
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Popup>
+            </Grid>
+        </Grid>
     </Grid>
+    
 </UserControl>
