@@ -14,6 +14,7 @@ namespace NganHangDe.Services
         Task<Category> GetFullCategoryById(int categoryId);
         Task CreateCategoryAsync(int? parentCategoryId, string name, string info );
         Task<int> GetNumberofCategoriesAsync();
+
     }
 
 }

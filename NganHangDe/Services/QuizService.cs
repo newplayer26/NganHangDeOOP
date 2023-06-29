@@ -76,21 +76,23 @@ namespace NganHangDe.Services
                 await AddSingleQuestionToQuizAsync(questionId, quizId);
             }
         }
-        public async Task AddRandomQuestionsToQuizAsync(int questionNumber, int categoryId, int quizId)
+        public async Task AddRandomQuestionsToQuizAsync(int amountAdded, int categoryId, int quizId)
         {
             List<int> questionIds;
             using (var _context = new AppDbContext())
             {
                 questionIds = await _context.Questions
+                    .Include(q => q.QuizQuestions)
                     .Where(q => q.CategoryId == categoryId)
+                    .Where(q => !q.QuizQuestions.Any(qq => qq.QuizId == quizId))
                     .Select(q => q.Id)
                     .ToListAsync();
                 questionIds.Shuffle();
-                questionIds = questionIds.Take(questionNumber).ToList();
+                questionIds = questionIds.Take(amountAdded).ToList();
             }
             await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
         }
-        public async Task<List<Question>> GetAllQuestionsFromQuizAsync(int quizId)
+        public async Task<List<QuestionModel>> GetAllQuestionsFromQuizAsync(int quizId)
         {
             using (var _context = new AppDbContext())
             {
@@ -99,7 +101,19 @@ namespace NganHangDe.Services
                     .ThenInclude(qq => qq.Question)
                     .ThenInclude(q => q.Answers)
                     .SingleOrDefaultAsync(q => q.Id == quizId);
-                return quiz.QuizQuestions.Select(qq => qq.Question).ToList();
+                return quiz.QuizQuestions.Select(qq => new QuestionModel
+                {
+                    Id = qq.Question.Id,
+                    Name = qq.Question.Name,
+                    Text = qq.Question.Text,
+                    CategoryId = qq.Question.CategoryId,
+                    Answers = qq.Question.Answers.Select(a => new AnswerModel
+                    {
+                        Id = a.Id,
+                        Text = a.Text,
+                        Grade = a.Grade,
+                    }).ToList(),
+                }).ToList();
             }
         }
     }

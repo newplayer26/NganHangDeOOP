@@ -54,5 +54,29 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
+        private bool _isMultipleAnswers;
+        public bool IsMultipleAnswers
+        {
+            get
+            {
+                int count = 0;
+                foreach (var answer in _answers)
+                {
+                    if (answer.Grade != 0) count++;
+                }
+                if (count == 1) return false;
+                return true;
+            }
+        }
+        private List<QuizQuestion> _quizQuestions;
+        public List<QuizQuestion> QuizQuestions
+        {
+            get { return _quizQuestions; }
+            set
+            {
+                _quizQuestions = value;
+                OnPropertyChanged(nameof(QuizQuestions));
+            }
+        }
     }
 }

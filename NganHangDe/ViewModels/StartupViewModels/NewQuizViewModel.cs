@@ -80,10 +80,15 @@ namespace NganHangDe.ViewModels.StartupViewModels
             set
             {
                 _isTimeEnabled = value;
+                if (!_isTimeEnabled)
+                {
+                    Time = "1";
+                    SelectedTimeForm = TimeForms[1];
+                }
                 OnPropertyChanged(nameof(IsTimeEnabled));
             }
         }
-        public bool CanCreateQuiz => !string.IsNullOrEmpty(Name) && int.TryParse(Time, out _);
+        public bool CanCreateQuiz => !string.IsNullOrEmpty(Name) && int.TryParse(Time, out _) && int.Parse(Time) > 0;
         public ICommand CreateQuizCommand { get; }
 
         private readonly NavigationStore _ancestorNavigationStore;

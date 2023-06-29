@@ -17,7 +17,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
     {
         private ObservableCollection<ItemViewModel> _choices;
 
-        public string Title => IsEditingQuestion? Question.Name: "Adding a Multiple choice question";
+        public string Title => IsEditingQuestion? "Editing "+ " " + Question.Name: "Adding a Multiple choice question";
         public bool IsEditingQuestion;
         public ObservableCollection<ItemViewModel> Choices
         {
