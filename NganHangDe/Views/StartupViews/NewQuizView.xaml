@@ -8,7 +8,8 @@
              Background="White"
              d:DesignHeight="750" d:DesignWidth="800">
     <Grid>
-        <Border Padding="10">
+        
+        <Border Padding="10" Grid.RowSpan="2">
             <StackPanel>
 
                 <TextBlock Text=" Adding a new Quiz" FontSize="30" Foreground="#B1342d"/>
@@ -54,6 +55,7 @@
                     </StackPanel>
 
                 </Grid>
+                <Border Margin="0 10 0 0" Grid.Column="1" Grid.ColumnSpan="3"  BorderThickness="0.1" BorderBrush="Gray"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.15*"/>
@@ -93,98 +95,101 @@
 
                     </StackPanel>
                     <StackPanel Grid.Column="2">
-                        <Grid>
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.65*"/>
-                                <ColumnDefinition Width="1.3*"/>
-                                <ColumnDefinition Width="1.*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox HorizontalAlignment="left"
-                                  Width="35" 
-                                  Grid.Column="0"
-                                  Margin="0 20 0 0 "/>
+                            <ComboBox HorizontalAlignment="Left"
+                                  Width="50" 
+                                   Grid.Column="0"
+                                   Margin="0 20 5 0"/>
                             <ComboBox Grid.Column="1"
-                                  Width="75"
-                                  Margin="0 20 0 0 "
-                                  HorizontalAlignment="left"/>
+                                Width="75"
+                                Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
                             <ComboBox Grid.Column="2"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="left"/>
+                                 Width="60"
+                                 Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
                             <ComboBox Grid.Column="3"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column=" 4"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="Left"/>
+                                 Width="50"
+                                Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
+                            <ComboBox Grid.Column="4"
+                                Width="50"
+                                 Margin="5 20 5 0"
+                                 HorizontalAlignment="Left"/>
                             <CheckBox Content="Enable" 
-                                  Margin="0 20 0 0"
-                                  Grid.Column="5"/>
+                                Margin="5 20 0 0"
+                                 Grid.Column="5"/>
                         </Grid>
-                        <Grid>
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.65*"/>
-                                <ColumnDefinition Width="1.3*"/>
-                                <ColumnDefinition Width="1.*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox HorizontalAlignment="left"
-                                  Width="35" 
-                                  Grid.Column="0"
-                                  Margin="0 20 0 0 "/>
+                            <ComboBox HorizontalAlignment="Left"
+                                  Width="50" 
+                                   Grid.Column="0"
+                                   Margin="0 20 5 0"/>
                             <ComboBox Grid.Column="1"
-                                  Width="75"
-                                  Margin="0 20 0 0 "
-                                  HorizontalAlignment="left"/>
+                                Width="75"
+                                Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
                             <ComboBox Grid.Column="2"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="left"/>
+                                 Width="60"
+                                 Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
                             <ComboBox Grid.Column="3"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column=" 4"
-                                  Width="50"
-                                  Margin="0 20 0 0"
-                                  HorizontalAlignment="Left"/>
+                                 Width="50"
+                                Margin="5 20 5 0"
+                                 HorizontalAlignment="left"/>
+                            <ComboBox Grid.Column="4"
+                                Width="50"
+                                 Margin="5 20 5 0"
+                                 HorizontalAlignment="Left"/>
                             <CheckBox Content="Enable" 
-                                  Margin="0 20 0 0"
-                                  Grid.Column="5"/>
+                                Margin="5 20 0 0"
+                                 Grid.Column="5"/>
                         </Grid>
+
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.75*"/>
-                                <ColumnDefinition Width="1.2*"/>
-                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox Width="40" Grid.Column="0"
+
+                            <TextBox Width="50" Grid.Column="0"
                                  HorizontalAlignment="Left"
-                                 Margin="0 20 0 0"
+                                 Margin="0 20 5 0"
                                  Background="#e9ecee" Text="{Binding Time, UpdateSourceTrigger=PropertyChanged}"
                                  IsEnabled="{Binding IsTimeEnabled}"/>
                             <ComboBox
-                                  Margin="42,20,0,0"
-                                  HorizontalAlignment="Left"
-                                  Width="65" Grid.ColumnSpan="2" Height="22" VerticalAlignment="Top" 
+                                 Grid.Column="1"
+                                  Margin="5 20 5 0"
+                                  HorizontalAlignment="left"
+                                  Width="70"
                                   ItemsSource="{Binding TimeForms}" 
                                   SelectedItem="{Binding SelectedTimeForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   IsEnabled="{Binding IsTimeEnabled}"/>
                             <CheckBox Content="Enable"
-                                  Margin="0,17,0,0"
+                                 Margin="5 20 0 0"
                                   Grid.Column="2"
                                   HorizontalAlignment="Left" Height="15" VerticalAlignment="Top"
                                   IsChecked="{Binding IsTimeEnabled}"/>
                         </Grid>
                         <ComboBox Margin="0 15 0 0"
-                              Width="243"
+                              Width="auto"
                               HorizontalAlignment="left"
                                  Height="25"
                                   SelectedIndex="0"
