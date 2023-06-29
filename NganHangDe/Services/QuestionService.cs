@@ -35,6 +35,7 @@ namespace NganHangDe.Services
             {
                 return await _context.Questions
                     .Include(q => q.Answers)
+                    .Include(q => q.Category)
                     .SingleOrDefaultAsync(q => q.Id == id);
             }
         }

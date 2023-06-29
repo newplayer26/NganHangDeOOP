@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NganHangDe.Views.StartupViews
 {
     /// <summary>
-    /// Interaction logic for EditingQuizView.xaml
+    /// Interaction logic for AddARandomQuestionView.xaml
     /// </summary>
-    public partial class EditingQuizView : UserControl
+    public partial class AddARandomQuestionView : UserControl
     {
-        public EditingQuizView()
+        public AddARandomQuestionView()
         {
             InitializeComponent();
         }

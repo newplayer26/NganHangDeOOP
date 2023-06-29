@@ -20,6 +20,7 @@ namespace NganHangDe.Services
                 return await _context.Categories
                     .Include(c => c.Questions)
                     .Include(c => c.ChildCategories)
+                    .Include(c => c.ParentCategory)
                     .SingleOrDefaultAsync(c => c.Id == categoryId);
             }
         }
@@ -65,6 +66,13 @@ namespace NganHangDe.Services
                     ParentCategoryId = parentCategoryId,
                 });
                 await _context.SaveChangesAsync();
+            }
+        }
+        public async Task<int> GetNumberofCategoriesAsync()
+        {
+            using (var _context = new AppDbContext())
+            {
+                return await _context.Categories.CountAsync();
             }
         }
     }

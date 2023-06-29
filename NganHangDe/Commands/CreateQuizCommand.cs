@@ -24,8 +24,11 @@ namespace NganHangDe.Commands
         {
             try
             {
-                
-               _viewModel.ToAllQuizzesViewCommand.Execute(null);
+                TimeSpan TimeLimit;
+                if(_viewModel.SelectedTimeForm == "Minutes") TimeLimit = TimeSpan.FromMinutes(int.Parse(_viewModel.Time));
+                else TimeLimit = TimeSpan.FromHours(int.Parse(_viewModel.Time));
+                await _service.CreateQuizAsync(_viewModel.Name, _viewModel.Description, TimeLimit);
+                _viewModel.ToAllQuizzesViewCommand.Execute(null);
             }
             catch (Exception)
             {

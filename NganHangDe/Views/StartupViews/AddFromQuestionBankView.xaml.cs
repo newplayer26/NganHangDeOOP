@@ -16,13 +16,18 @@ using System.Windows.Shapes;
 namespace NganHangDe.Views.StartupViews
 {
     /// <summary>
-    /// Interaction logic for EditingQuizView.xaml
+    /// Interaction logic for AddFromQuestionBank.xaml
     /// </summary>
-    public partial class EditingQuizView : UserControl
+    public partial class AddFromQuestionBank : UserControl
     {
-        public EditingQuizView()
+        public AddFromQuestionBank()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

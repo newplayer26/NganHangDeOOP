@@ -1,4 +1,5 @@
 ﻿using NganHangDe.Commands;
+using NganHangDe.ModelsDb;
 using NganHangDe.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace NganHangDe.Models
     {
         private string _name;
         private string _text;
+        private List<AnswerModel> _answers;
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public string Text
@@ -33,6 +35,24 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(Name));
             }
         }
-
+        public List<AnswerModel> Answers
+        {
+            get => _answers;
+            set
+            {
+                _answers = value;
+                OnPropertyChanged(nameof(Answers));
+            }
+        }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
     }
 }
