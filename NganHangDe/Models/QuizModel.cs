@@ -27,6 +27,19 @@ namespace NganHangDe.Models
             get { return _description; }
             set { _description = value; }
         }
+        private TimeSpan _timeLimit;
+        public TimeSpan TimeLimit
+        {
+            get
+            {
+                return _timeLimit;
+            }
+            set
+            {
+                _timeLimit = value;
+                OnPropertyChanged(nameof(TimeLimit));
+            }
+        }
 
     }
 }

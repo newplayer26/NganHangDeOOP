@@ -76,20 +76,10 @@ namespace NganHangDe.Services
                 await AddSingleQuestionToQuizAsync(questionId, quizId);
             }
         }
-        public async Task AddRandomQuestionsToQuizAsync(int amountAdded, int categoryId, int quizId)
+        public async Task AddRandomQuestionsToQuizAsync(int amountAdded, List<int> questionIds, int quizId)
         {
-            List<int> questionIds;
-            using (var _context = new AppDbContext())
-            {
-                questionIds = await _context.Questions
-                    .Include(q => q.QuizQuestions)
-                    .Where(q => q.CategoryId == categoryId)
-                    .Where(q => !q.QuizQuestions.Any(qq => qq.QuizId == quizId))
-                    .Select(q => q.Id)
-                    .ToListAsync();
-                questionIds.Shuffle();
-                questionIds = questionIds.Take(amountAdded).ToList();
-            }
+            questionIds.Shuffle();
+            questionIds = questionIds.Take(amountAdded).ToList();
             await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
         }
         public async Task<List<QuestionModel>> GetAllQuestionsFromQuizAsync(int quizId)

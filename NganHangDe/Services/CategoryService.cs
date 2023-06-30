@@ -79,5 +79,17 @@ namespace NganHangDe.Services
             }
         }
         
+        public async Task<int> GetRandomCategoryIdAsync()
+        {
+            using (var _context = new AppDbContext())
+            {
+                Random random = new Random();
+                var categoryIds = await _context.Categories
+                    .Select(c => c.Id)
+                    .ToListAsync();
+
+                return categoryIds[random.Next(categoryIds.Count)];
+            }
+        }
     }
 }

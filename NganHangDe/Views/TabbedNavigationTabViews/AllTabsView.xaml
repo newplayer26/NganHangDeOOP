@@ -30,7 +30,7 @@
                 </ContentControl>
             </TabItem>
             <TabItem Header="Import">
-                <ContentControl>
+                <ContentControl Content="{Binding ImportTabViewModel}">
                     <ContentControl.ContentTemplate>
                         <DataTemplate>
                             <tabViews:ImportTabView/>

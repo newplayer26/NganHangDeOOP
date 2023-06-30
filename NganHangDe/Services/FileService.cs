@@ -11,19 +11,22 @@ using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using Category = NganHangDe.ModelsDb.Category;
 
 namespace NganHangDe.Services
 {
     public class FileService : IFileService
     {
+        private ICategoryService _categoryService = new CategoryService();
         public async Task<string> AddQuestionsByFile(string filePath, int categoryId)
         {
+            Category category = await _categoryService.GetFullCategoryById(categoryId);
             string fileExtension = Path.GetExtension(filePath);
             IQuestionService _service = new QuestionService();
             if (fileExtension.Equals(".txt", StringComparison.OrdinalIgnoreCase))
             {
                 List<QuestionModel> questionList = new List<QuestionModel>();
-                string status = GetQuestions(File.ReadAllText(filePath), questionList);
+                string status = GetQuestions(File.ReadAllText(filePath), questionList, category.Name);
                 if(status[0] == 'S')
                 {
                     foreach(QuestionModel question in questionList)
@@ -46,7 +49,7 @@ namespace NganHangDe.Services
                     }
                 }
                 string docText = sb.ToString();
-                string status = GetQuestions(docText, questionList);
+                string status = GetQuestions(docText, questionList, category.Name);
                 if (status[0] == 'S')
                 {
                     foreach (QuestionModel question in questionList)
@@ -61,15 +64,17 @@ namespace NganHangDe.Services
                 return "Wrong format";
             }
         }
-        string GetQuestions(string fileContent, List<QuestionModel> questionList) 
+        string GetQuestions(string fileContent, List<QuestionModel> questionList, string categoryName) 
         {
-            string[] lines = fileContent.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
+            //Console.Write(fileContent);
+            string[] lines = fileContent.Split(new[] { Environment.NewLine, "\r", "\n" }, StringSplitOptions.None);
             int cnt = 0;
             int lineNumber = 0;
             string questionText = "";
             List<AnswerModel> answerList = new List<AnswerModel>();
             foreach (string line in lines)
             {
+                Console.WriteLine(line);
                 lineNumber++;
                 if (cnt == -1)
                 {
@@ -87,7 +92,8 @@ namespace NganHangDe.Services
                     string checker = Convert.ToChar('A' + cnt - 1) + ". ";
                     if (line.StartsWith(checker))
                     {
-                        if(line.Substring(3) == "") return $"Error at line {lineNumber}";
+                        //Console.WriteLine(line);
+                        if (line.Substring(3) == "") return $"Error at line {lineNumber}";
                         answerList.Add(new AnswerModel
                         {
                             Text = line.Substring(3),
@@ -97,6 +103,7 @@ namespace NganHangDe.Services
                     }
                     else
                     {
+                        //Console.WriteLine(line);
                         return $"Error at line {lineNumber}";
                     }
                 }
@@ -144,7 +151,8 @@ namespace NganHangDe.Services
                     }
                 }
             }
-            return $"Successfully add {questionList.Count} questions";
+            if (questionText == "") return $"Successfully add {questionList.Count} questions to category {categoryName} ";
+            else return $"Error at line {lineNumber}";
         }
     }
 }

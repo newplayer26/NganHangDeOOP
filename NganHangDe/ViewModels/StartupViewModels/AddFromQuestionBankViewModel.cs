@@ -32,7 +32,6 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
-
         
         public CategoryModel SelectedCategory
         {
@@ -82,7 +81,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _quizId = quizId;
             _quizService = new QuizService();
             LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
-            LoadQuestionsCommand = new GetQuestionCommand(LoadQuestions);
+            LoadQuestionsCommand = new GetUnassignedQuestionsCommand(LoadQuestions, quizId);
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
             
