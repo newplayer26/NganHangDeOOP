@@ -40,13 +40,26 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                 OnPropertyChanged(nameof(CategoriesTabViewModel));
             }
         }
+        private ImportTabViewModel _importTabViewModel;
+        public ImportTabViewModel ImportTabViewModel
+        {
+            get
+            {
+                return _importTabViewModel;
+            }
+            set
+            {
+                _importTabViewModel = value;
+                OnPropertyChanged(nameof(ImportTabViewModel));
+            }
+        }
         public AllTabsViewModel(NavigationStore ancestorNavigationStore)
         {
 
             AncestorNavigationStore = ancestorNavigationStore;
             QuestionsTabViewModel =   new QuestionsTabViewModel(this);
             CategoriesTabViewModel = new CategoriesTabViewModel(this);
-
+            ImportTabViewModel = new ImportTabViewModel(this);
         }
     }
 }

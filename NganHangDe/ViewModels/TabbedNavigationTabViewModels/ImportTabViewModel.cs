@@ -1,7 +1,10 @@
 ﻿using Microsoft.Win32;
 using NganHangDe.Commands;
+using NganHangDe.Models;
+using NganHangDe.Stores;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,12 +16,19 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
 {
     public class ImportTabViewModel : ViewModelBase
     {
-        private string selectedFilePath;
-        private string fileName;
-        
-     
- 
-
+        private AllTabsViewModel _parentViewModel;
+        private readonly NavigationStore _ancestorNavigationStore;
+        private string selectedFilePath = string.Empty;
+        public string SelectedFilePath
+        {
+            get { return selectedFilePath; }
+            set
+            {
+                selectedFilePath = value;
+                OnPropertyChanged(nameof(SelectedFilePath));
+            }
+        }
+        private string fileName = string.Empty;
         public string FileName
         {
             get { return fileName; }
@@ -26,57 +36,42 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             {
                 fileName = value;
                 OnPropertyChanged(nameof(FileName));
+                OnPropertyChanged(nameof(CanImport));
             }
         }
         public ICommand FileButtonCommand { get;  }
-        public ICommand ImportButtonCommand { get;  }
+        public ICommand ImportCommand { get;  }
         
-        public ICommand DropCommand { get; } 
-        public ImportTabViewModel()
+        public ICommand DropCommand { get; }
+        public bool CanImport => !string.IsNullOrEmpty(FileName);
+        public ImportTabViewModel(AllTabsViewModel parentViewModel)
         {
+            _parentViewModel = parentViewModel;
+            _ancestorNavigationStore = parentViewModel.AncestorNavigationStore;
             FileButtonCommand = new RelayCommand(FileButton_Click);
-            ImportButtonCommand = new RelayCommand(ImportButton_Click);
-            
             DropCommand = new RelayCommand(Drop);
+            AfterImport = afterImport;
+            ImportCommand = new ImportCommand(AfterImport, this);
 
+        }
+        public Action<string> AfterImport { get; set; }
+        private void afterImport(string message)
+        {
+            MessageBox.Show(message);
+            FileName = string.Empty;
+            SelectedFilePath = string.Empty;
+            _parentViewModel.QuestionsTabViewModel.LoadCategoriesCommand.Execute(null);
         }
         private void FileButton_Click(object parameter)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Text Files (*.txt)|*.txt|Word Documents (*.docx)|*.docx";
-
+            //openFileDialog.Filter = "Text Files (*.txt)|*.txt|Word Documents (*.docx)|*.docx";
             if (openFileDialog.ShowDialog() == true)
             {
-                selectedFilePath = openFileDialog.FileName;
-                FileName = Path.GetFileName(selectedFilePath);
+                SelectedFilePath = openFileDialog.FileName;
+                FileName = Path.GetFileName(SelectedFilePath);
             }
         }
-        private void CheckFileFormatAndShowMessageBox()
-        {
-            if (string.IsNullOrEmpty(selectedFilePath))
-            {
-                MessageBox.Show("Please select a file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            string fileExtension = Path.GetExtension(selectedFilePath);
-            if (fileExtension.ToLower() != ".txt" && fileExtension.ToLower() != ".docx")
-            {
-                MessageBox.Show("Wrong format. Only .txt and .docx files are allowed.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            FileInfo fileInfo = new FileInfo(selectedFilePath);
-            long fileSizeInBytes = fileInfo.Length;
-            const long maxFileSizeInBytes = 100 * 1024 * 1024; // Maximum size = 100MB
-
-            if (fileSizeInBytes > maxFileSizeInBytes)
-            {
-                MessageBox.Show("File size exceeds the maximum limit of 100MB.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            MessageBox.Show("OK.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-        
         private void Drop(object parameter)
         {
             if (parameter is DragEventArgs e)
@@ -87,20 +82,14 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                     if (files != null && files.Length > 0)
                     {
                         string filePath = files[0]; 
-                        selectedFilePath = filePath; 
-                        FileName = System.IO.Path.GetFileName(selectedFilePath); 
+                        SelectedFilePath = filePath; 
+                        FileName = System.IO.Path.GetFileName(SelectedFilePath); 
                         
                         
                     }
                 }
             }
         }
-        private void ImportButton_Click(object parameter)
-        {
-            CheckFileFormatAndShowMessageBox();
-        }
-
-
 
     }
 }

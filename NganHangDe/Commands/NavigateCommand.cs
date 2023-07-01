@@ -38,7 +38,7 @@ namespace NganHangDe.Commands
                     _navigationStore.CurrentViewModel = NewQuestionViewModel.LoadViewModelWithQuestion(_navigationStore, questionParam);
                 }
                 else
-                    _navigationStore.CurrentViewModel =  NewQuestionViewModel.LoadViewModelWithCategory(_navigationStore, null);
+                    _navigationStore.CurrentViewModel = NewQuestionViewModel.LoadViewModelWithCategory(_navigationStore, null);
 
             }else 
             if (_objectType.Equals(typeof(QuizPageViewModel)))
