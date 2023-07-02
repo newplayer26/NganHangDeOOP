@@ -54,6 +54,16 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
+        private int _questionNumber;
+        public int QuestionNumber
+        {
+            get { return _questionNumber; }
+            set
+            {
+                _questionNumber = value;
+                OnPropertyChanged(nameof(QuestionNumber));
+            }
+        }
         private bool _isMultipleAnswers;
         public bool IsMultipleAnswers
         {
@@ -78,5 +88,6 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(QuizQuestions));
             }
         }
+
     }
 }

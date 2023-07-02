@@ -24,7 +24,11 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="18" Foreground="Red" Text="Editing quiz: "/>
                 <TextBlock FontSize="18" Foreground="Red" Text="{Binding QuizName}"/>
+                
             </StackPanel>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Button Content="Back" FontSize="18" Background="White" Width="100" HorizontalAlignment="Right" Command="{Binding ToQuizPageViewCommand}" Margin="10"/>
         </Grid>
         <Grid Grid.Row="1" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="10 5 0 5">
@@ -62,9 +66,14 @@
             <StackPanel>
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <CheckBox Margin="5"/>
-                        <TextBlock Text="Shuffle" Margin="5 5 10 5"/>
-                        
+                        <CheckBox Margin="10" IsChecked="{Binding IsShuffleChecked}">
+                            <CheckBox.Command>
+                                <Binding Path="ToggleShuffleCommand"/>
+                            </CheckBox.Command>
+                            <CheckBox.Content>
+                                Shuffle
+                            </CheckBox.Content>
+                        </CheckBox>
                     </StackPanel>
                 </Grid>
             </StackPanel>

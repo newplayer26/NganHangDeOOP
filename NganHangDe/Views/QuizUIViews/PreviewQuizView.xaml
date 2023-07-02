@@ -4,60 +4,133 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.QuizUIViews"
+             xmlns:quizUIvm="clr-namespace:NganHangDe.ViewModels.QuizUIViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <DataTemplate x:Key="SingleAnswerTemplate">
+            <!-- Single answer template -->
+            <!-- Define the layout for a question with a single answer -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Border BorderBrush="Gray" BorderThickness="0.5"/>
+                    <StackPanel Margin="0 10 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Question " Margin="5 5 0 0" Foreground="#C02424" FontSize="15" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding QuestionNumber}" Foreground="#C02424" FontWeight="Bold" FontSize="15" Margin="5 5 0 0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding IsAnswered}" Margin="10 10 0 0"/>
+
+                        <TextBlock Text="Marked out of" Margin="10 10 0 0"/>
+
+                        <TextBlock Text="{Binding Grade}" Margin="10 0 0 0"/>
+                        <!--<ItemsControl ItemsSource="{Binding Answers}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Grade}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>-->
+                        <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                            <!--flag icon-->
+                            <Button Background="White" BorderBrush="White" Content="Flag question"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1" Background="#E7F3F5" Margin="5">
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                        <ItemsControl ItemsSource="{Binding Answers}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton Margin="5" IsChecked="{Binding IsChecked}">
+                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+                                    </RadioButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MultipleAnswerTemplate">
+            <!-- Multiple answer template -->
+            <!-- Define the layout for a question with multiple answers -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Border BorderBrush="Gray" BorderThickness="0.5"/>
+                    <StackPanel Margin="0 10 0 10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Question " Margin="5 5 0 0" Foreground="#C02424" FontSize="15" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding QuestionNumber}" Foreground="#C02424" FontWeight="Bold" FontSize="15" Margin="5 5 0 0"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding IsAnswered}" Margin="10 10 0 0"/>
+
+                        <TextBlock Text="Marked out of" Margin="10 10 0 0"/>
+
+                        <TextBlock Text="{Binding Grade}" Margin="10 0 0 0"/>
+                        <!--<ItemsControl ItemsSource="{Binding Answers}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Grade}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>-->
+                        <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
+                            <!--flag icon-->
+                            <Button Background="White" BorderBrush="White" Content="Flag question"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1" Background="#E7F3F5" Margin="5">
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                        <ItemsControl ItemsSource="{Binding Answers}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Margin="5" IsChecked="{Binding IsChecked}">
+                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
+                                    </CheckBox>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <quizUIvm:QuestionTemplateSelector x:Key="QuestionTemplateSelector"
+                                    SingleAnswerTemplate="{StaticResource SingleAnswerTemplate}"
+                                    MultipleAnswerTemplate="{StaticResource MultipleAnswerTemplate}" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0">
-            <StackPanel>
-                <ItemsControl ItemsSource="{Binding LoadedQuestionList}">
+
+            <ItemsControl ItemsSource="{Binding LoadedQuestionList}" ItemTemplateSelector="{StaticResource QuestionTemplateSelector}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <Border BorderBrush="Gray" BorderThickness="0.5"/>
-                                    <StackPanel Margin="0 10 0 10">
-                                        <TextBlock Text="{Binding QuestionNumber}" Foreground="#C02424" FontWeight="Bold" FontSize="15" Margin="10 5 0 0"/>
-
-                                        <TextBlock Text="{Binding IsAnswered}" Margin="10 10 0 0"/>
-
-                                        <TextBlock Text="Marked out of" Margin="10 10 0 0"/>
-
-                                        <TextBlock Text="{Binding Point}" Margin="10 0 0 0"/>
-                                        <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
-                                            <!--flag icon-->
-                                            <Button Background="White" BorderBrush="White" Content="Flag question"/>
-                                        </StackPanel>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Grid.Column="1" Background="#E7F3F5" Margin="5">
-                                    <StackPanel>
-                                        <TextBlock Margin="5" Text="{Binding Text}"/>
-                                        <ItemsControl ItemsSource="{Binding Answers}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <RadioButton Margin="5" IsChecked="{Binding IsChecked}">
-                                                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
-                                                    </RadioButton>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
+                            <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource QuestionTemplateSelector}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
+
         </ScrollViewer>
-        <Grid Grid.Column="1" Width="150">
+        <Grid Grid.Column="1" Width="200">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -70,15 +143,22 @@
                 </Grid>
                 <Grid Grid.Row="1">
                     <Border BorderBrush="Gray" BorderThickness="0.5">
-                        <WrapPanel>
-                            <ItemsControl ItemsSource="{Binding Questions}">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding LoadedQuestionList}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Content="{Binding QuestionNumber}" Margin="5" Command=""/>
+                                        <Button Content="{Binding QuestionNumber}" Margin="5" Command="{Binding DataContext.NavigateToQuestionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding QuestionNumber}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </WrapPanel>
+                            <Button Width="120" HorizontalAlignment="Left" Content="Finish attempt ..." Foreground="#009FE5" Background="White" Command="" FontStyle="Italic" BorderBrush="White" Margin="5"/>
+                        </StackPanel>
                     </Border>
                 </Grid>
             </Grid>

@@ -117,6 +117,7 @@
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type quizUIviewmodel:PreviewQuizViewModel}">
                                 <quizUIview:PreviewQuizView/>
+                                
                             </DataTemplate>
                         </Grid.Resources>
                         <ContentControl Content="{Binding CurrentViewModel}" />
