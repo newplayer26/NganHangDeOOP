@@ -119,7 +119,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="0">
+        
 
             <ItemsControl ItemsSource="{Binding LoadedQuestionList}" ItemTemplateSelector="{StaticResource QuestionTemplateSelector}">
                     <ItemsControl.ItemTemplate>
@@ -129,7 +129,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-        </ScrollViewer>
+        
         <Grid Grid.Column="1" Width="200">
             <Grid>
                 <Grid.RowDefinitions>
