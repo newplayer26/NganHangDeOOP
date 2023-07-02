@@ -78,6 +78,7 @@ namespace NganHangDe.Services
         }
         public async Task AddRandomQuestionsToQuizAsync(int amountAdded, List<int> questionIds, int quizId)
         {
+            if (amountAdded == 0) return;
             questionIds.Shuffle();
             questionIds = questionIds.Take(amountAdded).ToList();
             await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
@@ -113,11 +114,10 @@ namespace NganHangDe.Services
                 Quiz quiz = await _context.Quizzes
                     .Include(q => q.QuizQuestions)
                     .SingleOrDefaultAsync(q => q.Id == quizId);
-
                 QuizQuestion quizQuestion = quiz.QuizQuestions
                     .SingleOrDefault(qq => qq.QuestionId == questionId);
-                    quiz.QuizQuestions.Remove(quizQuestion);
-                    await _context.SaveChangesAsync();
+                quiz.QuizQuestions.Remove(quizQuestion);
+                await _context.SaveChangesAsync();
             }
 
         }
