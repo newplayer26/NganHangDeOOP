@@ -19,7 +19,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         private int _quizId;
         private QuizService _quizService;
-        private int _questionCount = 1;
+        private int _questionNumber = 1;
         //private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         //public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
@@ -68,8 +68,10 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                         {
                             Id = question.Id,
                             Text = question.Text,
+                            
                         };
                         var loadQuestionCommand = new LoadSingleQuestionCommand(LoadQuestionCallback);
+                        
                         await loadQuestionCommand.ExecuteAsync(questionModel.Id);
                         Console.WriteLine(questionModel.QuestionNumber);
                     }
@@ -86,10 +88,12 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {
+            
             question.Answers = answers;
+            Console.WriteLine(question.IsMultipleAnswers);
             _loadedQuestionList.Add(question);
-
-            Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
+            question.QuestionNumber = _questionNumber++;
+            //Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
         }
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
         {
@@ -107,6 +111,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         {
             IsShuffleChecked = isShuffleChecked;
         }
+
     }
 }
 

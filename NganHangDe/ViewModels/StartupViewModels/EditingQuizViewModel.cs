@@ -24,6 +24,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private int _quizId;
+        private int _questionNumber;
         private QuizModel _quiz;
         public event Action<ObservableCollection<QuestionModel>> QuestionListShuffled;
         public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
@@ -77,7 +78,6 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             _quizId = quizId;
             _quiz = new QuizModel();
-            
             ToAddFromQuestionBankViewCommand = new RelayCommand(ExecuteAddFromQuestionBankViewCommand);
             ToAddARandomQuestionViewComamnd = new RelayCommand(ExecuteAddARandomQuestionViewCommand);
             ToQuizPageViewCommand = new RelayCommand(ExecuteToQuizPageViewCommand);
@@ -119,19 +119,25 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {
+            
             question.Answers = answers;
+            Console.WriteLine(question.IsMultipleAnswers);
             _questionList.Add(question);
             //Console.WriteLine(question.Text);
         }
         private void ShuffleAnswers()
         {
+            _questionNumber = 1;
             foreach (var question in _questionList)
             {
                 if (question.Answers != null)
                 {
+                    question.QuestionNumber =_questionNumber;
+                    _questionNumber++;
                     List<AnswerModel> shuffledAnswers = question.Answers.ToList();
                     shuffledAnswers.Shuffle();
                     question.Answers = new List<AnswerModel>(shuffledAnswers);
+                    
                     //foreach(var answer in shuffledAnswers)
                     //{
                     //    Console.WriteLine(answer.Text);
