@@ -178,7 +178,7 @@
                                  Grid.Column="1"
                                   Margin="5 20 5 0"
                                   HorizontalAlignment="left"
-                                  Width="70"
+                                  Width="90"
                                   ItemsSource="{Binding TimeForms}" 
                                   SelectedItem="{Binding SelectedTimeForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   IsEnabled="{Binding IsTimeEnabled}"/>
