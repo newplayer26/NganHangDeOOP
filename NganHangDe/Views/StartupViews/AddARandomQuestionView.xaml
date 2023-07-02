@@ -41,7 +41,7 @@
             </TabControl>
             <TabControl>
                 <TabItem Header="New category">
-
+                  <!--May cai tab nay t moi chi ve tuong trung thoi-->
                 </TabItem>
             </TabControl>
         </StackPanel>
