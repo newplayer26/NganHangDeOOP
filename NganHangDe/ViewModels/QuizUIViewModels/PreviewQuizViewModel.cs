@@ -23,8 +23,20 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         //private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         //public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
+        
         public ObservableCollection<QuestionModel> LoadedQuestionList => _loadedQuestionList;
+        private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
+        public ObservableCollection<AnswerModel> SelectedCorrectAnswers
+        {
+            get { return _selectedCorrectAnswers; }
+            set
+            {
+                _selectedCorrectAnswers = value;
+                OnPropertyChanged(nameof(SelectedCorrectAnswers));
+            }
+        }
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
+
         public ObservableCollection<QuestionModel> ShuffledQuestionList
         {
             get { return _shuffledQuestionList; }
@@ -44,8 +56,30 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 OnPropertyChanged(nameof(IsShuffleChecked));
             }
         }
+        private int _selectedAnswerScore;
+        public int SelectedAnswerScore
+        {
+            get { return _selectedAnswerScore; }
+            set
+            {
+                _selectedAnswerScore = value;
+                OnPropertyChanged(nameof(SelectedAnswerScore));
+            }
+        }
+        private bool _showAnswers;
+        public bool ShowAnswers
+        {
+            get { return _showAnswers; }
+            set
+            {
+                _showAnswers = value;
+                OnPropertyChanged(nameof(ShowAnswers));
+            }
+        }
+        public RelayCommand FinishAttemptCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
+            FinishAttemptCommand = new RelayCommand(FinishAttempt);
             _isShuffleChecked = isShuffleChecked;
             _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
@@ -68,12 +102,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                         {
                             Id = question.Id,
                             Text = question.Text,
+                            Answers = question.Answers,
                             
                         };
                         var loadQuestionCommand = new LoadSingleQuestionCommand(LoadQuestionCallback);
                         
                         await loadQuestionCommand.ExecuteAsync(questionModel.Id);
-                        Console.WriteLine(questionModel.QuestionNumber);
+                        
                     }
                 }
                 catch (Exception ex)
@@ -90,7 +125,16 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         {
             
             question.Answers = answers;
-            Console.WriteLine(question.IsMultipleAnswers);
+            //foreach (var answer in answers)
+            //{
+            //    var answerModel = new AnswerModel
+            //    {
+            //        Id = answer.Id,
+            //        Grade = answer.Grade,
+            //        AnswerGroup = question.Id
+            //    };
+            //}
+            //Console.WriteLine(question.IsMultipleAnswers);
             _loadedQuestionList.Add(question);
             question.QuestionNumber = _questionNumber++;
             //Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
@@ -111,7 +155,36 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         {
             IsShuffleChecked = isShuffleChecked;
         }
+        public void FinishAttempt(object parameter)
+        {
+            // Tính toán các câu trả lời đúng
+            double totalGrade = 0;
 
+            foreach (var question in LoadedQuestionList)
+            {
+                var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
+                question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
+
+                double questionGrade = CalculateQuestionGrade(question);
+                totalGrade += questionGrade;
+            }
+            Console.WriteLine(totalGrade);
+            ShowAnswers = true;
+        }
+        private double CalculateQuestionGrade(QuestionModel question)
+        {
+            double totalGrade = 0;
+
+            foreach (var answer in question.Answers)
+            {
+                if (answer.IsSelected)
+                {
+                    totalGrade += answer.Grade;
+                }
+            }
+
+            return totalGrade;
+        }
     }
 }
 

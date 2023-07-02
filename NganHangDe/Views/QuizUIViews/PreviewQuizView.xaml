@@ -48,7 +48,7 @@
                         <ItemsControl ItemsSource="{Binding Answers}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <RadioButton Margin="5" IsChecked="{Binding IsChecked}">
+                                    <RadioButton Margin="5" IsChecked="{Binding IsSelected}" GroupName="{Binding AnswerGroup}">
                                         <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
                                     </RadioButton>
                                 </DataTemplate>
@@ -99,7 +99,7 @@
                         <ItemsControl ItemsSource="{Binding Answers}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Margin="5" IsChecked="{Binding IsChecked}">
+                                    <CheckBox Margin="5" IsChecked="{Binding IsSelected}">
                                         <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
                                     </CheckBox>
                                 </DataTemplate>
@@ -157,7 +157,8 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <Button Width="120" HorizontalAlignment="Left" Content="Finish attempt ..." Foreground="#009FE5" Background="White" Command="" FontStyle="Italic" BorderBrush="White" Margin="5"/>
+                            <Button Width="120" HorizontalAlignment="Left" Content="Finish attempt ..." Foreground="#009FE5" 
+                                    Background="White" Command="{Binding FinishAttemptCommand}" FontStyle="Italic" BorderBrush="White" Margin="5" />
                         </StackPanel>
                     </Border>
                 </Grid>

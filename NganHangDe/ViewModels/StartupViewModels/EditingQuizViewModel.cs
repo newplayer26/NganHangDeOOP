@@ -34,7 +34,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _selectedQuestions;
-        
+        public int QuestionCount => _questionList.Count;
         public ObservableCollection<QuestionModel> SelectedQuestions
 
         {
@@ -56,9 +56,6 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private bool _isShuffleChecked;
 
-
-
-        // Trong setter của IsShuffleChecked
         public bool IsShuffleChecked
         {
             get { return _isShuffleChecked; }
@@ -69,8 +66,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 if (_isShuffleChecked)
                 {
                     ShuffleAnswers();
-                }
-                
+                }                
             }
         }
         public EditingQuizViewModel(NavigationStore ancestorNavigationStore, int quizId)
@@ -83,16 +79,15 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ToQuizPageViewCommand = new RelayCommand(ExecuteToQuizPageViewCommand);
             ToggleShuffleCommand = new RelayCommand(ExecuteToggleShuffleCommand);
             LoadQuiz();
-
+            
         }
         private async void LoadQuiz()
         {
             QuizService quizService = new QuizService();
             Quiz quiz = await quizService.GetFullQuizById(_quizId);
-
             if (quiz != null)
             {
-                _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description };
+                _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description, };
                 QuizName = _quiz.Name;
                 
                 List<QuestionModel> selectedQuestions = quiz.QuizQuestions
@@ -105,6 +100,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 }
                 SelectedQuestions = new ObservableCollection<QuestionModel>(selectedQuestions);
             }
+            Console.WriteLine(_questionList.Count);
+            OnPropertyChanged(nameof(QuestionCount));
         }
         private void ExecuteAddFromQuestionBankViewCommand(object parameter)
         {
@@ -119,10 +116,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {
-            
             question.Answers = answers;
             Console.WriteLine(question.IsMultipleAnswers);
             _questionList.Add(question);
+           
             //Console.WriteLine(question.Text);
         }
         private void ShuffleAnswers()
