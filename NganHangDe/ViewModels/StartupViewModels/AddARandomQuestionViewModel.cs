@@ -40,9 +40,12 @@ namespace NganHangDe.ViewModels.StartupViewModels
             get
             {
                 List<int> numberOfQuestions = new List<int>();
-                for (int i = 1; i <= QuestionList.Count(); i++)
+                if (QuestionList != null)
                 {
-                    numberOfQuestions.Add(i);
+                    for (int i = 0; i <= QuestionList.Count(); i++)
+                    {
+                        numberOfQuestions.Add(i);
+                    }
                 }
                 return numberOfQuestions;
             }
@@ -78,6 +81,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 _isShowingDescendants = value;
                 OnPropertyChanged(nameof(IsShowingDescendants));
                 OnPropertyChanged(nameof(QuestionList));
+                OnPropertyChanged(nameof(NumberOfQuestions));
+                SelectedNumber = 0;
             }
         }
         private ObservableCollection<QuestionModel> _singleCategoryList;

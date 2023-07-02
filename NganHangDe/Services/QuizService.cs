@@ -69,7 +69,7 @@ namespace NganHangDe.Services
                 await _context.SaveChangesAsync();
             }
         }
-        public async Task AddMultipleQuestionsToQuizAsync(List<int>questionIds, int quizId)
+        public async Task AddMultipleQuestionsToQuizAsync(List<int> questionIds, int quizId)
         {
             foreach (var questionId in questionIds)
             {
@@ -78,6 +78,7 @@ namespace NganHangDe.Services
         }
         public async Task AddRandomQuestionsToQuizAsync(int amountAdded, List<int> questionIds, int quizId)
         {
+            if (amountAdded == 0) return;
             questionIds.Shuffle();
             questionIds = questionIds.Take(amountAdded).ToList();
             await AddMultipleQuestionsToQuizAsync(questionIds, quizId);
@@ -105,6 +106,20 @@ namespace NganHangDe.Services
                     }).ToList(),
                 }).ToList();
             }
+        }
+        public async Task DeleteSingleQuestionFromQuizAsync(int questionId, int quizId)
+        {
+            using (var _context = new AppDbContext())
+            {
+                Quiz quiz = await _context.Quizzes
+                    .Include(q => q.QuizQuestions)
+                    .SingleOrDefaultAsync(q => q.Id == quizId);
+                QuizQuestion quizQuestion = quiz.QuizQuestions
+                    .SingleOrDefault(qq => qq.QuestionId == questionId);
+                quiz.QuizQuestions.Remove(quizQuestion);
+                await _context.SaveChangesAsync();
+            }
+
         }
     }
 
