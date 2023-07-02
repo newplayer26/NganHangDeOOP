@@ -19,51 +19,93 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         private int _quizId;
         private QuizService _quizService;
-        private QuestionService _questionService;
-        private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
-        public ObservableCollection<QuestionModel> QuestionList => _questionList;
+        private int _questionCount = 1;
+        //private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
+        //public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
         public ObservableCollection<QuestionModel> LoadedQuestionList => _loadedQuestionList;
-        public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId)
+        private ObservableCollection<QuestionModel> _shuffledQuestionList;
+        public ObservableCollection<QuestionModel> ShuffledQuestionList
         {
+            get { return _shuffledQuestionList; }
+            set
+            {
+                _shuffledQuestionList = value;
+                OnPropertyChanged(nameof(ShuffledQuestionList));             
+            }
+        }
+        private bool _isShuffleChecked;
+        public bool IsShuffleChecked
+        {
+            get { return _isShuffleChecked; }
+            set
+            {
+                _isShuffleChecked = value;
+                OnPropertyChanged(nameof(IsShuffleChecked));
+            }
+        }
+        public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
+        {
+            _isShuffleChecked = isShuffleChecked;
+            _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
             _quizId = quizId;
             _quizService = new QuizService();
-            _questionService = new QuestionService();
             _ = LoadQuestionsAsync();
+            
         }
         private async Task LoadQuestionsAsync()
         {
-            try
+            if (_isShuffleChecked == false)
             {
-                var questions = await _quizService.GetAllQuestionsFromQuizAsync(_quizId);
-
-                _questionList.Clear();
-                foreach (var question in questions)
+                try
                 {
-                    var questionModel = new QuestionModel
+                    var questions = await _quizService.GetAllQuestionsFromQuizAsync(_quizId);
+                    foreach (var question in questions)
                     {
-                        Id = question.Id,
-                        Text = question.Text,
-                    };
 
-                    var loadQuestionCommand = new LoadSingleQuestionCommand(LoadQuestionCallback);
-                    await loadQuestionCommand.ExecuteAsync(questionModel.Id);
-
-                    _questionList.Add(questionModel);
+                        var questionModel = new QuestionModel
+                        {
+                            Id = question.Id,
+                            Text = question.Text,
+                        };
+                        var loadQuestionCommand = new LoadSingleQuestionCommand(LoadQuestionCallback);
+                        await loadQuestionCommand.ExecuteAsync(questionModel.Id);
+                        Console.WriteLine(questionModel.QuestionNumber);
+                    }
                 }
-
-                Console.WriteLine(_questionList.Count);
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR: " + ex.Message);
+                }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine("ERROR: " + ex.Message);
+                SetShuffledQuestionList(_shuffledQuestionList);
             }
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {
             question.Answers = answers;
             _loadedQuestionList.Add(question);
+
+            Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
+        }
+        public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
+        {
+
+            ShuffledQuestionList = shuffledQuestionList;
+            foreach (var question in shuffledQuestionList)
+            {
+                if (!_loadedQuestionList.Any(q => q.Id == question.Id))
+                {
+                    _loadedQuestionList.Add(question);
+                }
+            }
+        }
+        public void SetIsShuffleChecked(bool isShuffleChecked)
+        {
+            IsShuffleChecked = isShuffleChecked;
         }
     }
 }

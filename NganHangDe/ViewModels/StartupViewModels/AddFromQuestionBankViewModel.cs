@@ -84,19 +84,18 @@ namespace NganHangDe.ViewModels.StartupViewModels
             LoadQuestionsCommand = new GetUnassignedQuestionsCommand(LoadQuestions, quizId);
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
-            
         }
-
         public void LoadCategories(List<CategoryModel> list)
         {
+            _categoryList.Clear();
             foreach (var category in list)
             {
                 _categoryList.Add(category);
             }
-        }     
+            OnPropertyChanged(nameof(CategoryList));
+        }
         public void LoadQuestions(List<QuestionModel> singleCategoryList, List<QuestionModel> descendantsCategoriesList)
         {
-
             SingleCategoryList = new ObservableCollection<QuestionModel>(singleCategoryList);
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
             _selectedQuestions = new ObservableCollection<QuestionModel>();
@@ -118,9 +117,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 await _quizService.AddSingleQuestionToQuizAsync(question.Id, _quizId);
             }
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
-            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
-            
-         
+            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;                  
         }
     }
 }

@@ -5,6 +5,7 @@ using NganHangDe.Stores;
 using NganHangDe.ViewModels.QuizUIViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,31 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(IsPopupVisible));
             }
         }
+
+        private bool _isShuffleChecked;
+
+        public bool IsShuffleChecked
+        {
+            get { return _isShuffleChecked; }
+            set
+            {
+                _isShuffleChecked = value;
+                OnPropertyChanged(nameof(IsShuffleChecked));
+                // Cập nhật logic tương ứng khi giá trị IsShuffleChecked thay đổi
+
+            }
+        }
+
+        private ObservableCollection<QuestionModel> _shuffledQuestionList;
+        public ObservableCollection<QuestionModel> ShuffledQuestionList
+        {
+            get { return _shuffledQuestionList; }
+            set
+            {
+                _shuffledQuestionList = value;
+                OnPropertyChanged(nameof(ShuffledQuestionList));
+            }
+        }
         public RelayCommand ShowPopupCommand { get; private set; }
         public RelayCommand HidePopupCommand { get; private set; }  
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
@@ -52,9 +78,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
             HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
-            ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
+            ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);        
         }
-        //public ICommand ToEditingQuizViewCommand { get; }
+        
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int quizId = _model.Id;
@@ -73,8 +99,21 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteToPreviewQuizViewCommand(object parameter)
         {
             int quizid = _model.Id;
-            PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizid);
+            bool isShuffleChecked = _isShuffleChecked;
+            ObservableCollection<QuestionModel> shuffledQuestionList = _shuffledQuestionList;
+            Console.WriteLine("ShuffleQuizPage = " + IsShuffleChecked);
+            PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizid, isShuffleChecked, shuffledQuestionList);
             _ancestorNavigationStore.CurrentViewModel = previewQuizViewModel;
+            
+            Console.WriteLine(_isShuffleChecked);
+        }
+        public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
+        {
+            ShuffledQuestionList = shuffledQuestionList;
+        }
+        public void SetIsShuffledChecked(bool isShuffledChecked)
+        {
+            IsShuffleChecked = isShuffledChecked;
         }
     }
 }

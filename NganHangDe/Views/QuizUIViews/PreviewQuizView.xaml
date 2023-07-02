@@ -12,7 +12,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ScrollViewer Grid.Column="0">
-            <StackPanel>
+
                 <ItemsControl ItemsSource="{Binding LoadedQuestionList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -24,13 +24,23 @@
                                 <Grid Grid.Column="0">
                                     <Border BorderBrush="Gray" BorderThickness="0.5"/>
                                     <StackPanel Margin="0 10 0 10">
-                                        <TextBlock Text="{Binding QuestionNumber}" Foreground="#C02424" FontWeight="Bold" FontSize="15" Margin="10 5 0 0"/>
+                                        <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Question " Margin="5 5 0 0" Foreground="#C02424" FontSize="15" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding QuestionNumber}" Foreground="#C02424" FontWeight="Bold" FontSize="15" Margin="5 5 0 0"/>
+                                        </StackPanel>
 
                                         <TextBlock Text="{Binding IsAnswered}" Margin="10 10 0 0"/>
 
                                         <TextBlock Text="Marked out of" Margin="10 10 0 0"/>
 
-                                        <TextBlock Text="{Binding Point}" Margin="10 0 0 0"/>
+                                        <TextBlock Text="{Binding Grade}" Margin="10 0 0 0"/>
+                                        <!--<ItemsControl ItemsSource="{Binding Answers}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Grade}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>-->
                                         <StackPanel Orientation="Horizontal" Margin="10 10 10 10">
                                             <!--flag icon-->
                                             <Button Background="White" BorderBrush="White" Content="Flag question"/>
@@ -55,9 +65,9 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-            </StackPanel>
+
         </ScrollViewer>
-        <Grid Grid.Column="1" Width="150">
+        <Grid Grid.Column="1" Width="200">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -71,10 +81,16 @@
                 <Grid Grid.Row="1">
                     <Border BorderBrush="Gray" BorderThickness="0.5">
                         <WrapPanel>
-                            <ItemsControl ItemsSource="{Binding Questions}">
+                            <ItemsControl ItemsSource="{Binding LoadedQuestionList}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Content="{Binding QuestionNumber}" Margin="5" Command=""/>
+                                        <Button Content="{Binding QuestionNumber}" Margin="5" Command="{Binding DataContext.NavigateToQuestionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding QuestionNumber}"/>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
