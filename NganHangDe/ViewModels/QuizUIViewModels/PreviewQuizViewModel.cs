@@ -4,6 +4,7 @@ using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.Services;
 using NganHangDe.Stores;
+using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,21 +21,22 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private int _quizId;
         private QuizService _quizService;
         private int _questionNumber = 1;
+
         //private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         //public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
         
         public ObservableCollection<QuestionModel> LoadedQuestionList => _loadedQuestionList;
-        private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
-        public ObservableCollection<AnswerModel> SelectedCorrectAnswers
-        {
-            get { return _selectedCorrectAnswers; }
-            set
-            {
-                _selectedCorrectAnswers = value;
-                OnPropertyChanged(nameof(SelectedCorrectAnswers));
-            }
-        }
+        //private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
+        //public ObservableCollection<AnswerModel> SelectedCorrectAnswers
+        //{
+        //    get { return _selectedCorrectAnswers; }
+        //    set
+        //    {
+        //        _selectedCorrectAnswers = value;
+        //        OnPropertyChanged(nameof(SelectedCorrectAnswers));
+        //    }
+        //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
 
         public ObservableCollection<QuestionModel> ShuffledQuestionList
@@ -138,14 +140,26 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 OnPropertyChanged(nameof(Percentage));
             }
         }
+        private ObservableCollection<AnswerModel> _correctAnswers;
+
+        public ObservableCollection<AnswerModel> CorrectAnswers
+        {
+            get { return _correctAnswers; }
+            set
+            {
+                _correctAnswers = value;
+                OnPropertyChanged(nameof(CorrectAnswers));
+            }
+        }
         public RelayCommand FinishAttemptCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
-            FinishAttemptCommand = new RelayCommand(FinishAttempt);
+            
             _isShuffleChecked = isShuffleChecked;
             _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
             _quizId = quizId;
+            FinishAttemptCommand = new RelayCommand(FinishAttempt);
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
             
@@ -200,6 +214,8 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             //Console.WriteLine(question.IsMultipleAnswers);
             _loadedQuestionList.Add(question);
             question.QuestionNumber = _questionNumber++;
+            var correctAnswers = new ObservableCollection<AnswerModel>(answers.Where(answer => answer.Grade > 0));
+            question.CorrectAnswers = correctAnswers;
             //Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
         }
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
@@ -228,7 +244,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             {
                 var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
                 question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
-                
                 double questionSelectedGrade = CalculateQuestionGrade(question);
                 double questionGrade = CalculateAnswerGrade(question);
                 totalGrade += questionSelectedGrade;

@@ -75,6 +75,16 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(SelectedCorrectAnswers));
             }
         }
+        private ObservableCollection<AnswerModel> _correctAnswers;
+        public ObservableCollection<AnswerModel> CorrectAnswers
+        {
+            get { return _correctAnswers; }
+            set
+            {
+                _correctAnswers = value;
+                OnPropertyChanged(nameof(CorrectAnswers));
+            }
+        }
         private bool _isMultipleAnswers;
         public bool IsMultipleAnswers
         {
