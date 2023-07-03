@@ -66,14 +66,76 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 OnPropertyChanged(nameof(SelectedAnswerScore));
             }
         }
-        private bool _showAnswers;
-        public bool ShowAnswers
+        private double _totalGrade;
+        public double TotalGrade
         {
-            get { return _showAnswers; }
+            get { return _totalGrade; }
             set
             {
-                _showAnswers = value;
-                OnPropertyChanged(nameof(ShowAnswers));
+                _totalGrade = value;
+                OnPropertyChanged(nameof(TotalGrade));
+            }
+        }
+        private bool _isFinishAttemptClicked;
+        public bool IsFinishAttemptClicked
+        {
+            get { return _isFinishAttemptClicked; }
+            set
+            {
+                _isFinishAttemptClicked = value;
+                OnPropertyChanged(nameof(IsFinishAttemptClicked));
+            }
+        }
+        private DateTime startTime;
+        public DateTime StartTime
+        {
+            get { return startTime; }
+            set
+            {
+                startTime = value;
+                OnPropertyChanged(nameof(StartTime));
+            }
+        }
+
+        private DateTime finishTime;
+        public DateTime FinishTime
+        {
+            get { return finishTime; }
+            set
+            {
+                finishTime = value;
+                OnPropertyChanged(nameof(FinishTime));
+            }
+        }
+        public TimeSpan TimeTaken => FinishTime - StartTime;
+        private double _totalAnswerGrade;
+        public double TotalAnswerGrade
+        {
+            get { return _totalAnswerGrade; }
+            set
+            {
+                _totalAnswerGrade = value;
+                OnPropertyChanged(nameof(TotalAnswerGrade));
+            }
+        }
+        private double _scoreOutOfTen;
+        public double ScoreOutOfTen
+        {
+            get { return _scoreOutOfTen; }
+            set
+            {
+                _scoreOutOfTen = value;
+                OnPropertyChanged(nameof(ScoreOutOfTen));
+            }
+        }
+        private double _percentage;
+        public double Percentage
+        {
+            get { return _percentage; }
+            set
+            {
+                _percentage = value;
+                OnPropertyChanged(nameof(Percentage));
             }
         }
         public RelayCommand FinishAttemptCommand { get; set; }
@@ -90,6 +152,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         private async Task LoadQuestionsAsync()
         {
+            StartTime = DateTime.Now;
             if (_isShuffleChecked == false)
             {
                 try
@@ -157,24 +220,31 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         public void FinishAttempt(object parameter)
         {
+            FinishTime = DateTime.Now;
             // Tính toán các câu trả lời đúng
             double totalGrade = 0;
-
+            double totalAnswerGrade = 0; //tổng điểm của quiz 
             foreach (var question in LoadedQuestionList)
             {
                 var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
                 question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
-
-                double questionGrade = CalculateQuestionGrade(question);
-                totalGrade += questionGrade;
+                
+                double questionSelectedGrade = CalculateQuestionGrade(question);
+                double questionGrade = CalculateAnswerGrade(question);
+                totalGrade += questionSelectedGrade;
+                totalAnswerGrade += questionGrade;
             }
             Console.WriteLine(totalGrade);
-            ShowAnswers = true;
+            TotalGrade = totalGrade;
+            TotalAnswerGrade = totalAnswerGrade;
+            ScoreOutOfTen = Math.Round((totalGrade / totalAnswerGrade)*10,2);
+            Percentage = Math.Round((totalGrade/totalAnswerGrade)*100,2);
+            IsFinishAttemptClicked = true;
         }
         private double CalculateQuestionGrade(QuestionModel question)
         {
             double totalGrade = 0;
-
+            
             foreach (var answer in question.Answers)
             {
                 if (answer.IsSelected)
@@ -182,8 +252,16 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                     totalGrade += answer.Grade;
                 }
             }
-
             return totalGrade;
+        }
+        private double CalculateAnswerGrade(QuestionModel question)
+        {
+            double totalAnswersGrade = 0;
+            foreach(var answer in question.Answers)
+            {
+                totalAnswersGrade += answer.Grade;
+            }
+            return totalAnswersGrade;
         }
     }
 }

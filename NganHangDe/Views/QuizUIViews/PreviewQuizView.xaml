@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.QuizUIViews"
              xmlns:quizUIvm="clr-namespace:NganHangDe.ViewModels.QuizUIViewModels"
+             xmlns:res="clr-namespace:NganHangDe.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -110,26 +111,90 @@
             </Grid>
         </DataTemplate>
 
-        <quizUIvm:QuestionTemplateSelector x:Key="QuestionTemplateSelector"
+        <res:QuestionTemplateSelector x:Key="QuestionTemplateSelector"
                                     SingleAnswerTemplate="{StaticResource SingleAnswerTemplate}"
                                     MultipleAnswerTemplate="{StaticResource MultipleAnswerTemplate}" />
+        <res:TimeSpanConverter x:Key="TimeSpanConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        
-
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <StackPanel Margin="20 10 10 10">
+                        <TextBlock Text="Started on" Foreground="#C02424" HorizontalAlignment="Right"/>
+                        <TextBlock Text="State" Foreground="#C02424" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Completed on" Foreground="#C02424" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Time taken" Foreground="#C02424" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Marks" Foreground="#C02424" HorizontalAlignment="Right"/>
+                        <TextBlock Text="Grade" Foreground="#C02424" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+                <Grid Grid.Column="1" Margin="0 10 0 10">
+                    <StackPanel>
+                        <TextBlock Text="{Binding StartTime}"/>
+                        <TextBlock Text="Finished"/>
+                        <TextBlock Text="{Binding FinishTime}"/>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource TimeSpanConverter}">
+                                    <Binding Path="StartTime"/>
+                                    <Binding Path="FinishTime"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding TotalGrade}"/>
+                            <TextBlock Text="/"/>
+                            <TextBlock Text="{Binding TotalAnswerGrade}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ScoreOutOfTen}" FontWeight="Bold"/>
+                            <TextBlock Text=" out of 10 ("/>
+                            <TextBlock Text="{Binding Percentage}" FontWeight="Bold"/>
+                            <TextBlock Text="%)"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+            </Grid>
             <ItemsControl ItemsSource="{Binding LoadedQuestionList}" ItemTemplateSelector="{StaticResource QuestionTemplateSelector}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
                             <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource QuestionTemplateSelector}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+        </StackPanel>
 
-        
+
         <Grid Grid.Column="1" Width="200">
             <Grid>
                 <Grid.RowDefinitions>

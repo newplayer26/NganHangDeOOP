@@ -30,6 +30,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public RelayCommand ToAddFromQuestionBankViewCommand { get; private set; }
         public RelayCommand ToAddARandomQuestionViewComamnd { get; private set; }
         public RelayCommand ToggleShuffleCommand { get; private set; }
+        public RelayCommand DeleteQuestionCommand { get; private set; }
         public RelayCommand ToQuizPageViewCommand { get; private set; }
         private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         public ObservableCollection<QuestionModel> QuestionList => _questionList;
@@ -153,8 +154,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             QuizPageViewModel quizPageViewModel = new QuizPageViewModel(_ancestorNavigationStore, _quiz);
             _ancestorNavigationStore.CurrentViewModel = quizPageViewModel;
             quizPageViewModel.SetShuffledQuestionList(_questionList);
-            quizPageViewModel.SetIsShuffledChecked(_isShuffleChecked);
-            
+            quizPageViewModel.SetIsShuffledChecked(_isShuffleChecked);           
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Identity.Client;
 using NganHangDe.Commands;
 using NganHangDe.Models;
+using NganHangDe.ModelsDb;
+using NganHangDe.Services;
 using NganHangDe.Stores;
 using NganHangDe.ViewModels.QuizUIViewModels;
 using System;
@@ -17,6 +19,18 @@ namespace NganHangDe.ViewModels.StartupViewModels
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private QuizModel _model;
+        private QuizModel _quiz;
+
+        private string _formattedTimeLimit;
+        public string FormattedTimeLimit
+        {
+            get { return _formattedTimeLimit; }
+            set
+            {
+                _formattedTimeLimit = value;
+                OnPropertyChanged(nameof(FormattedTimeLimit));
+            }
+        }
         public String Name
         {
             get
@@ -78,7 +92,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
             HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
-            ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);        
+            ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
+            LoadQuiz();
         }
         
         private void ExecuteToEditingQuizViewCommand(object parameter)
@@ -114,6 +129,17 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public void SetIsShuffledChecked(bool isShuffledChecked)
         {
             IsShuffleChecked = isShuffledChecked;
+        }
+        private async void LoadQuiz()
+        {
+            QuizService quizService = new QuizService();
+            Quiz quiz = await quizService.GetFullQuizById(_model.Id);
+            if (quiz != null)
+            {
+                _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description, TimeLimit=quiz.TimeLimit };
+                FormattedTimeLimit = _quiz.TimeLimit.ToString("hh\\:mm\\:ss");
+            }
+            OnPropertyChanged(nameof(FormattedTimeLimit));
         }
     }
 }
