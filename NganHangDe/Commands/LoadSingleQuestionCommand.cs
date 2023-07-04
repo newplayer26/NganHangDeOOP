@@ -29,7 +29,7 @@ namespace NganHangDe.Commands
                     QuestionModel qModel = new QuestionModel { Id = returnedQuestion.Id , Name= returnedQuestion.Name, Text = returnedQuestion.Text, CategoryId = returnedQuestion.CategoryId };
                     List<AnswerModel> aList = new List<AnswerModel>();
                     foreach(Answer answer in returnedQuestion.Answers){
-                        AnswerModel aModel = new AnswerModel { Id = answer.Id, Text = answer.Text, Grade = answer.Grade };
+                        AnswerModel aModel = new AnswerModel { Id = answer.Id, Text = answer.Text, Grade = answer.Grade, AnswerGroup = returnedQuestion.Id };
                         aList.Add(aModel);
                     }
                     _loadQuestion(qModel, aList);

@@ -85,8 +85,12 @@
                             </Grid>
                             <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
                                 <StackPanel>
-                                    <TextBlock Text="Time limit" FontSize="20"/>
-                                    <TextBlock TextWrapping="Wrap" FontSize="17" Text="Your attempt will have a time limit of {TimeLimit} hour. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now? "/>
+                                    <TextBlock Text="Time limit" FontSize="20" Foreground="#C02424"/>
+                                    <TextBlock TextWrapping="Wrap" FontSize="17">
+                                        <Run Text="Your attempt will have a time limit of "/>
+                                        <Run Text="{Binding FormattedTimeLimit}"/>
+                                        <Run Text=" hour. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now?"/>
+                                    </TextBlock>
                                 </StackPanel>
                             </Grid>
                             <Grid Grid.Row="2" Grid.ColumnSpan="2">

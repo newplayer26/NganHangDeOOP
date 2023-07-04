@@ -10,9 +10,9 @@ using NganHangDe.ModelsDb;
 using NganHangDe.Services;
 using NganHangDe.Stores;
 
-namespace NganHangDe.ViewModels.QuizUIViewModels
+namespace NganHangDe.Resources
 {
-    class QuestionTemplateSelector : DataTemplateSelector
+    public class QuestionTemplateSelector : DataTemplateSelector
     {
         public DataTemplate SingleAnswerTemplate { get; set; }
         public DataTemplate MultipleAnswerTemplate { get; set; }

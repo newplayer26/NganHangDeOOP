@@ -40,6 +40,15 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(TimeLimit));
             }
         }
-
+        private int _questionCount;
+        public int QuestionCount
+        {
+            get { return _questionCount; }
+            set
+            {
+                _questionCount = value;
+                OnPropertyChanged(nameof(QuestionCount));
+            }
+        }
     }
 }
