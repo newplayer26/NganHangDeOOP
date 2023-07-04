@@ -89,7 +89,7 @@
                                     <TextBlock TextWrapping="Wrap" FontSize="17">
                                         <Run Text="Your attempt will have a time limit of "/>
                                         <Run Text="{Binding FormattedTimeLimit}"/>
-                                        <Run Text=" hour. When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now?"/>
+                                        <Run Text=" . When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now?"/>
                                     </TextBlock>
                                 </StackPanel>
                             </Grid>
@@ -98,6 +98,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Button Content="START ATTEMPT" FontSize="18" Margin="10" Background="#C02424" Foreground="White" Command="{Binding ToPreviewQuizViewCommand}"/>
                                         <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
+                                        <Button Content="EXPORT" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding ExportToPDFCommand}"/>
                                     </StackPanel>
                                 </Border>
 
