@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
@@ -32,7 +33,6 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
-        
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -103,21 +103,26 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
         {
-
-            List<QuestionModel> selectedQuestions = QuestionList.Where(q => q.IsSelected).ToList();
-
-            _selectedQuestions.Clear();
-            foreach (var question in selectedQuestions)
+            try 
             {
-                _selectedQuestions.Add(question);
-                Console.WriteLine(question.Id);
+                List<QuestionModel> selectedQuestions = QuestionList.Where(q => q.IsSelected).ToList();
+                _selectedQuestions.Clear();
+                foreach (var question in selectedQuestions)
+                {
+                    _selectedQuestions.Add(question);
+                    Console.WriteLine(question.Id);
+                }
+                foreach (var question in selectedQuestions)
+                {
+                    await _quizService.AddSingleQuestionToQuizAsync(question.Id, _quizId);
+                }
+                EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
+                _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
             }
-            foreach (var question in selectedQuestions)
+            catch (Exception ex)
             {
-                await _quizService.AddSingleQuestionToQuizAsync(question.Id, _quizId);
-            }
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
-            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;                  
+                MessageBox.Show("Please select a category.");
+            }          
         }
     }
 }
