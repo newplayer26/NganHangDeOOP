@@ -205,6 +205,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 _timer.Stop();
                 IsFinishAttemptClicked = true;
                 OnPropertyChanged(nameof(IsFinishAttemptClicked));
+                FinishAttemptCommand.Execute(this); 
             }
         }
 
