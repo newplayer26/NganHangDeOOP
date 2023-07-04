@@ -31,6 +31,8 @@ namespace NganHangDe.Services
                 {
                     foreach(QuestionModel question in questionList)
                     {
+                        Console.WriteLine(question.Text);
+                        Console.WriteLine(question.Answers[0].Text);
                         Question currentQuestion = await _service.CreateQuestionAsync(question, categoryId, question.Answers);
                     }
                 }
@@ -131,7 +133,7 @@ namespace NganHangDe.Services
                             }
                             else
                             {
-                                answerList[answer].Grade = 100;
+                                answerList[answer].Grade = 1;
                                 cnt = -1;
                                 questionList.Add(new QuestionModel
                                 {
@@ -139,7 +141,7 @@ namespace NganHangDe.Services
                                     Text = questionText,
                                     Answers = answerList
                                 });
-                                answerList.Clear();
+                                answerList = new List<AnswerModel>();
                                 questionText = "";
                             }
                         }

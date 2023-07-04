@@ -59,7 +59,7 @@
                   IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}"/>
         <StackPanel Margin="0 50 0 0" Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
             <TextBlock Text="Number of random" />
-            <ComboBox Width="40" Height="20" Margin="10 0 0 0" 
+            <ComboBox Width="60" Height="20" Margin="10 0 0 0" 
                       ItemsSource="{Binding NumberOfQuestions}" SelectedItem="{Binding SelectedNumber}"/>
         </StackPanel>
         <TextBlock Text="questions" Grid.Column="1" Grid.Row="6"/>
