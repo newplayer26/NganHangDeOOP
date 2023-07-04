@@ -56,7 +56,16 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 }
             }
         }
-
+        private bool _isPopupVisible;
+        public bool IsPopupVisible
+        {
+            get { return _isPopupVisible; }
+            set
+            {
+                _isPopupVisible = value;
+                OnPropertyChanged(nameof(IsPopupVisible));
+            }
+        }
 
         public ObservableCollection<QuestionModel> ShuffledQuestionList
         {
@@ -171,6 +180,8 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
         }
         public RelayCommand FinishAttemptCommand { get; set; }
+        public RelayCommand ShowPopupCommand { get; private set; }
+        public RelayCommand HidePopupCommand { get; private set; }
         public ICommand ToQuizzesViewCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
@@ -179,6 +190,8 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
             _quizId = quizId;
+            ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
+            HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);
             FinishAttemptCommand = new RelayCommand(FinishAttempt);
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
@@ -205,6 +218,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 _timer.Stop();
                 IsFinishAttemptClicked = true;
                 OnPropertyChanged(nameof(IsFinishAttemptClicked));
+                FinishAttemptCommand.Execute(this); 
             }
         }
 
@@ -281,8 +295,17 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         {
             IsShuffleChecked = isShuffleChecked;
         }
+        private void ExecuteShowPopupCommand(object parameter)
+        {
+            IsPopupVisible = true;
+        }
+        private void ExecuteHidePopupCommand(object parameter)
+        {
+            IsPopupVisible = false;
+        }
         public void FinishAttempt(object parameter)
         {
+            IsPopupVisible = false;
             FinishTime = DateTime.Now;
             // Tính toán các câu trả lời đúng
             double totalGrade = 0;
