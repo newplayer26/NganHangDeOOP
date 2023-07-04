@@ -31,5 +31,25 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(Grade));
             }
         }
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+        private int _answerGroup;
+        public int AnswerGroup
+        {
+            get { return _answerGroup; }
+            set
+            {
+                _answerGroup = value;
+                OnPropertyChanged(nameof(AnswerGroup));
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ using NganHangDe.ModelsDb;
 using NganHangDe.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -62,6 +63,26 @@ namespace NganHangDe.Models
             {
                 _questionNumber = value;
                 OnPropertyChanged(nameof(QuestionNumber));
+            }
+        }
+        private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
+        public ObservableCollection<AnswerModel> SelectedCorrectAnswers
+        {
+            get { return _selectedCorrectAnswers; }
+            set
+            {
+                _selectedCorrectAnswers = value;
+                OnPropertyChanged(nameof(SelectedCorrectAnswers));
+            }
+        }
+        private ObservableCollection<AnswerModel> _correctAnswers;
+        public ObservableCollection<AnswerModel> CorrectAnswers
+        {
+            get { return _correctAnswers; }
+            set
+            {
+                _correctAnswers = value;
+                OnPropertyChanged(nameof(CorrectAnswers));
             }
         }
         private bool _isMultipleAnswers;
