@@ -20,7 +20,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private readonly NavigationStore _ancestorNavigationStore;
         private QuizModel _model;
         private QuizModel _quiz;
-
+        public QuizModel Quiz => _quiz;
+        private IFileService _fileService = new FileService();
+        private IQuizService _quizService = new QuizService();
         private string _formattedTimeLimit;
         public string FormattedTimeLimit
         {
@@ -56,7 +58,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             }
         }
 
-        private bool _isShuffleChecked;
+        private bool _isShuffleChecked = false;
 
         public bool IsShuffleChecked
         {
@@ -84,6 +86,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public RelayCommand HidePopupCommand { get; private set; }  
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand ToPreviewQuizViewCommand { get; private set; }
+        public ICommand ExportToPDFCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
             _model = model;
@@ -93,9 +96,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
             HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
             ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
+            ExportToPDFCommand = new ExportCommand(this);
             LoadQuiz();
         }
-        
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int quizId = _model.Id;
@@ -125,6 +128,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
         {
             ShuffledQuestionList = shuffledQuestionList;
+            foreach (QuestionModel question in ShuffledQuestionList)
+            {
+                Console.WriteLine(question.Id);
+            }
         }
         public void SetIsShuffledChecked(bool isShuffledChecked)
         {

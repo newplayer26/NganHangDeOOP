@@ -1,6 +1,8 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using iText.Kernel.Pdf;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Win32;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using System;
@@ -12,12 +14,60 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using Category = NganHangDe.ModelsDb.Category;
-
+using iTextKernelPdf = iText.Kernel.Pdf;
+using iTextLayout = iText.Layout;
+using iTextLayoutElement = iText.Layout.Element;
 namespace NganHangDe.Services
 {
     public class FileService : IFileService
     {
         private ICategoryService _categoryService = new CategoryService();
+        public byte[] GeneratePdf(List<QuestionModel> questions)
+        {
+            using (var outputStream = new MemoryStream())
+            {
+                var pdfWriter = new iTextKernelPdf.PdfWriter(outputStream);
+                var pdfDocument = new iTextKernelPdf.PdfDocument(pdfWriter);
+                var document = new iTextLayout.Document(pdfDocument);
+                int count = 0;
+                foreach (var question in questions)
+                {
+                    count++;
+                    var questionParagraph = new iTextLayoutElement.Paragraph($"Question {count}: {question.Text}");
+                    document.Add(questionParagraph);
+                    char label = 'A';
+                    var answerList = new iTextLayoutElement.Div();
+                    foreach (var answer in question.Answers)
+                    {
+                        var listItem = new iTextLayoutElement.Paragraph($"{label}. {answer.Text} ");
+                        answerList.Add(listItem);
+                        label++;
+                    }
+
+                    document.Add(answerList);
+                }
+
+                document.Close();
+                return outputStream.ToArray(); // Return the byte array instead of the MemoryStream
+            }
+        }
+        public void SavePdfFile(byte[] pdfData)
+        {
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PDF Files (*.pdf)|*.pdf",
+                DefaultExt = "pdf",
+                FileName = "Questions.pdf",
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                using (var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    fileStream.Write(pdfData, 0, pdfData.Length); // Write the byte array to the file
+                }
+            }
+        }
         public async Task<string> AddQuestionsByFile(string filePath, int categoryId)
         {
             Category category = await _categoryService.GetFullCategoryById(categoryId);
