@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NganHangDe.ViewModels.StartupViewModels
@@ -127,9 +128,17 @@ namespace NganHangDe.ViewModels.StartupViewModels
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
         {
-            await _quizService.AddRandomQuestionsToQuizAsync(SelectedNumber, QuestionList.Select(q => q.Id).ToList(), _quizId);
-            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
-            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+            try
+            {
+                await _quizService.AddRandomQuestionsToQuizAsync(SelectedNumber, QuestionList.Select(q => q.Id).ToList(), _quizId);
+                EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, _quizId);
+                _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Please select a category.");
+            }
+           
         }
     }
 }

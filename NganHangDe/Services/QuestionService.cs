@@ -25,7 +25,14 @@ namespace NganHangDe.Services
             {
                 return await _context.Questions
                     .Where(q => q.CategoryId == categoryId)
-                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text, CategoryId = q.CategoryId })
+                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text, CategoryId = q.CategoryId,
+                        Answers = q.Answers.Select(a => new AnswerModel
+                        {
+                            Id = a.Id,
+                            Text = a.Text,
+                            Grade = a.Grade,
+                        }).ToList()
+                    })
                     .ToListAsync();
             }
         }

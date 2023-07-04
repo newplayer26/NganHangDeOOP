@@ -214,7 +214,21 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                 ParentViewModel.QuestionName = ParentViewModel.QuestionName;
             }
         }
-        private List<Double> _gradeList = new List<Double>(new Double[] { 1.0, 0.9, 5.0 / 6.0, 0.8, 0.75, 0.7, 2.0 / 3.0, 0.6, 0.5, 0.4, 1.0 / 2.0, 0.25, 0.2, 1.0 / 6.0, 1.0 / 7.0, 0.125, 1.0 / 9.0, 0.1, 0.05, 0 });
+        private List<Double> _gradeList = new List<Double>();
+        public ItemViewModel()
+        {
+            _gradeList = new List<Double>(new Double[] { 1.0, 0.9, 5.0 / 6.0, 0.8, 0.75, 0.7, 2.0 / 3.0, 0.6, 0.5, 0.4, 1.0 / 2.0, 0.25, 0.2, 1.0 / 6.0, 1.0 / 7.0, 0.125, 1.0 / 9.0, 0.1, 0.05 });
+            List<double> current = new List<Double>(_gradeList);
+            _gradeList.Reverse();
+            current.Add(0);
+            foreach (var el in _gradeList)
+            {
+                current.Add(-el);
+            }
+            
+            _gradeList = new List<Double>(current);
+
+        }
         public IEnumerable<Double> GradeList => _gradeList;
     }
 }

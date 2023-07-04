@@ -1,4 +1,5 @@
 ﻿using NganHangDe.Models;
+using NganHangDe.ModelsDb;
 using NganHangDe.Services;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ namespace NganHangDe.Commands
                 {
                     List<QuizModel> list = await _service.GetAllQuizzesAsync();
                     _loadQuizzesFunc(list);
-                   
+                    //Quiz quiz = await _service.GetFullQuizById(18);
+                    //Console.WriteLine(quiz.TimeLimit.ToString());
                 }
                 catch (Exception)
                 {

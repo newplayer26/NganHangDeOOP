@@ -12,8 +12,8 @@ using NganHangDe.DataAccess;
 namespace NganHangDe.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230510033501_addingSeed")]
-    partial class addingSeed
+    [Migration("20230704023752_NewMigration")]
+    partial class NewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace NganHangDe.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NganHangDe.Models.Answer", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Answer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace NganHangDe.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Category", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,17 +77,9 @@ namespace NganHangDe.Migrations
                     b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Info = "Test",
-                            Name = "TEst"
-                        });
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Question", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Question", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +107,7 @@ namespace NganHangDe.Migrations
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Quiz", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Quiz", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +133,7 @@ namespace NganHangDe.Migrations
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.QuizQuestion", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.QuizQuestion", b =>
                 {
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
@@ -156,9 +148,9 @@ namespace NganHangDe.Migrations
                     b.ToTable("QuizQuestion");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Answer", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Answer", b =>
                 {
-                    b.HasOne("NganHangDe.Models.Question", "Question")
+                    b.HasOne("NganHangDe.ModelsDb.Question", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -167,18 +159,18 @@ namespace NganHangDe.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Category", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Category", b =>
                 {
-                    b.HasOne("NganHangDe.Models.Category", "ParentCategory")
+                    b.HasOne("NganHangDe.ModelsDb.Category", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Question", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Question", b =>
                 {
-                    b.HasOne("NganHangDe.Models.Category", "Category")
+                    b.HasOne("NganHangDe.ModelsDb.Category", "Category")
                         .WithMany("Questions")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -187,15 +179,15 @@ namespace NganHangDe.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.QuizQuestion", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.QuizQuestion", b =>
                 {
-                    b.HasOne("NganHangDe.Models.Question", "Question")
+                    b.HasOne("NganHangDe.ModelsDb.Question", "Question")
                         .WithMany("QuizQuestions")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NganHangDe.Models.Quiz", "Quiz")
+                    b.HasOne("NganHangDe.ModelsDb.Quiz", "Quiz")
                         .WithMany("QuizQuestions")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -206,21 +198,21 @@ namespace NganHangDe.Migrations
                     b.Navigation("Quiz");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Category", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Category", b =>
                 {
                     b.Navigation("ChildCategories");
 
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Question", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Question", b =>
                 {
                     b.Navigation("Answers");
 
                     b.Navigation("QuizQuestions");
                 });
 
-            modelBuilder.Entity("NganHangDe.Models.Quiz", b =>
+            modelBuilder.Entity("NganHangDe.ModelsDb.Quiz", b =>
                 {
                     b.Navigation("QuizQuestions");
                 });

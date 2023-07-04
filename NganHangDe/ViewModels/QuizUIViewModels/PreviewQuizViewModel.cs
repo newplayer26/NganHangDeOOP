@@ -4,14 +4,18 @@ using NganHangDe.Models;
 using NganHangDe.ModelsDb;
 using NganHangDe.Services;
 using NganHangDe.Stores;
+using NganHangDe.ViewModels.StartupViewModels;
 using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace NganHangDe.ViewModels.QuizUIViewModels
 {
@@ -38,6 +42,21 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         //    }
         //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
+        public TimeSpan QuizSpan { get; set; }
+        private string _displayTime;
+        public string DisplayTime
+        {
+            get { return _displayTime; }
+            set
+            {
+                if (_displayTime != value)
+                {
+                    _displayTime = value;
+                    OnPropertyChanged(nameof(DisplayTime));
+                }
+            }
+        }
+
 
         public ObservableCollection<QuestionModel> ShuffledQuestionList
         {
@@ -152,6 +171,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
         }
         public RelayCommand FinishAttemptCommand { get; set; }
+        public ICommand ToQuizzesViewCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
             
@@ -162,8 +182,32 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             FinishAttemptCommand = new RelayCommand(FinishAttempt);
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
-            
+            ToQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(ancestorNavigationStore, typeof(AllQuizzesViewModel));
+           
         }
+        private DispatcherTimer _timer;
+
+        private void StartTimer()
+        {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1); // Set the interval duration (1 second in this example)
+            _timer.Tick += Timer_Tick; // Attach the event handler
+            _timer.Start();
+        }
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            
+            QuizSpan = QuizSpan.Subtract(TimeSpan.FromSeconds(1));
+            DisplayTime = QuizSpan.ToString();
+            if (QuizSpan <= TimeSpan.Zero)
+            {
+                
+                _timer.Stop();
+                IsFinishAttemptClicked = true;
+                OnPropertyChanged(nameof(IsFinishAttemptClicked));
+            }
+        }
+
         private async Task LoadQuestionsAsync()
         {
             StartTime = DateTime.Now;
@@ -171,6 +215,9 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             {
                 try
                 {
+                    var quiz = await _quizService.GetFullQuizById(_quizId);
+                    QuizSpan = quiz.TimeLimit;
+                    StartTimer();
                     var questions = await _quizService.GetAllQuestionsFromQuizAsync(_quizId);
                     foreach (var question in questions)
                     {
@@ -249,7 +296,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 totalGrade += questionSelectedGrade;
                 totalAnswerGrade += questionGrade;
             }
-            Console.WriteLine(totalGrade);
+            //Console.WriteLine(totalGrade);
             TotalGrade = totalGrade;
             TotalAnswerGrade = totalAnswerGrade;
             ScoreOutOfTen = Math.Round((totalGrade / totalAnswerGrade)*10,2);

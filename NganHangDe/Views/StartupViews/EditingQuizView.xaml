@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.StartupViews"
              xmlns:vms="clr-namespace:NganHangDe.ViewModels.StartupViewModels"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +24,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="18" Foreground="Red" Text="Editing quiz: "/>
                 <TextBlock FontSize="18" Foreground="Red" Text="{Binding QuizName}"/>
-                
+
             </StackPanel>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
@@ -44,18 +44,32 @@
                 <TextBlock Text="Maximum grade" Margin="10 5 0 5"/>
                 <TextBox Width="60" Height="20" Margin="10 5 10 5"/>
                 <Button Content="SAVE"  Background="#009FE5" Foreground="White" />
+
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2" Margin="10 0 0 0">
             <StackPanel Orientation="Horizontal">
                 <Button Content="REPAGINATE" Background="#009FE5" Foreground="White"/>
-                <Button Content="SELECT MULTIPLEITEMS" Background="#009FE5" Foreground="White" Margin="10 0 0 0"/>
+                <Button Content="SELECT MULTIPLE ITEMS" Command="{Binding SelectMultipleItemsCommand}" Background="#009FE5" Foreground="White" Margin="10 0 0 0"/>
+                <Grid Margin="10 0 0 0">
+                    <Button Content="DELETE" Command="{Binding DeleteSelectQuestionsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="Red"  Height="28" Width="65"/>
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSelectMultipleItemsClicked}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="1" Margin="0 10 10 0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="Total mark: "/>
-                <TextBlock Text=""/>
+                <TextBlock Text="{Binding QuestionCount}"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="3">
@@ -101,7 +115,7 @@
         </Grid>
         <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
             <StackPanel>
-                <ItemsControl ItemsSource="{Binding SelectedQuestions}">
+                <ItemsControl ItemsSource="{Binding QuestionList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Background="#F0F0F0" Margin="0 10 0 0">
@@ -109,16 +123,27 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="auto" />
-                                        
+
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{Binding QuestionIndices}" Grid.Column="0"/>
+                                    <Grid Grid.Row="0" Width="auto">
+                                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}"/>
+                                        <Grid.Style>
+                                            <Style TargetType="Grid">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding DataContext.IsSelectMultipleItemsClicked, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="true">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Style>
+                                    </Grid>
+                                    
                                     <Image  Grid.Column="1" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
                                     <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="2"  />
-                                    <Button Content="Delete" Grid.Column="3"  HorizontalAlignment="Right" Foreground="#469ddf" BorderThickness="0" Background="Transparent" Padding="0" Margin="0 0 15 0">
-                                        <!--<Image Source="../../../Images/TrashBinIcon.png" Height="13" Width="13"/>-->
-                                    </Button>
+                                    
                                 </Grid>
                             </Border>
                         </DataTemplate>

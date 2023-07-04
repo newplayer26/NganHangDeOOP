@@ -24,6 +24,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
     {
         private readonly NavigationStore _ancestorNavigationStore;
         private int _quizId;
+        public int QuizId => _quizId;
         private int _questionNumber;
         private QuizModel _quiz;
         public event Action<ObservableCollection<QuestionModel>> QuestionListShuffled;
@@ -32,10 +33,22 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public RelayCommand ToggleShuffleCommand { get; private set; }
         public RelayCommand DeleteQuestionCommand { get; private set; }
         public RelayCommand ToQuizPageViewCommand { get; private set; }
+        public RelayCommand SelectMultipleItemsCommand { get; private set; }
+        public ICommand DeleteSelectQuestionsCommand { get; set;  }
         private ObservableCollection<QuestionModel> _questionList = new ObservableCollection<QuestionModel>();
         public ObservableCollection<QuestionModel> QuestionList => _questionList;
         private ObservableCollection<QuestionModel> _selectedQuestions;
         public int QuestionCount => _questionList.Count;
+        private bool _isSelectMultipleItemsClicked;
+        public bool IsSelectMultipleItemsClicked
+        {
+            get { return _isSelectMultipleItemsClicked; }
+            set
+            {
+                _isSelectMultipleItemsClicked = value;
+                OnPropertyChanged(nameof(IsSelectMultipleItemsClicked));
+            }
+        }
         public ObservableCollection<QuestionModel> SelectedQuestions
 
         {
@@ -79,13 +92,16 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ToAddARandomQuestionViewComamnd = new RelayCommand(ExecuteAddARandomQuestionViewCommand);
             ToQuizPageViewCommand = new RelayCommand(ExecuteToQuizPageViewCommand);
             ToggleShuffleCommand = new RelayCommand(ExecuteToggleShuffleCommand);
+            SelectMultipleItemsCommand = new RelayCommand(ExecuteSelectMultipleItemsCommand);
+            DeleteSelectQuestionsCommand = new RemoveQuestionsFromQuizCommand(this);
             LoadQuiz();
             
         }
-        private async void LoadQuiz()
+        public async Task LoadQuiz()
         {
             QuizService quizService = new QuizService();
             Quiz quiz = await quizService.GetFullQuizById(_quizId);
+            QuestionList.Clear();
             if (quiz != null)
             {
                 _quiz = new QuizModel { Id = quiz.Id, Name = quiz.Name, Description = quiz.Description, };
@@ -155,6 +171,20 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore.CurrentViewModel = quizPageViewModel;
             quizPageViewModel.SetShuffledQuestionList(_questionList);
             quizPageViewModel.SetIsShuffledChecked(_isShuffleChecked);           
+        }
+        private void ExecuteSelectMultipleItemsCommand(object parameter)
+        {
+            if (IsSelectMultipleItemsClicked)
+            {
+                _isSelectMultipleItemsClicked = false;
+                OnPropertyChanged(nameof(IsSelectMultipleItemsClicked));
+            }
+            else
+            {
+                _isSelectMultipleItemsClicked = true;
+                OnPropertyChanged(nameof(IsSelectMultipleItemsClicked));
+            }
+               
         }
     }
 }

@@ -61,6 +61,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             FileName = string.Empty;
             SelectedFilePath = string.Empty;
             _parentViewModel.QuestionsTabViewModel.LoadCategoriesCommand.Execute(null);
+            _parentViewModel.CategoriesTabViewModel.LoadCategoriesCommand.Execute(null);
         }
         private void FileButton_Click(object parameter)
         {
@@ -84,8 +85,6 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                         string filePath = files[0]; 
                         SelectedFilePath = filePath; 
                         FileName = System.IO.Path.GetFileName(SelectedFilePath); 
-                        
-                        
                     }
                 }
             }
