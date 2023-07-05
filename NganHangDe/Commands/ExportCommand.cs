@@ -23,7 +23,6 @@ namespace NganHangDe.Commands
         public ExportCommand(QuizPageViewModel viewmodel)
         {
             _viewmodel = viewmodel;
-            _viewmodel.PropertyChanged += OnViewModelPropertyChanged;
         }
         public override async Task ExecuteAsync(object parameter)
         {
@@ -32,19 +31,9 @@ namespace NganHangDe.Commands
             {
                 questionmodels = await _quizService.GetAllQuestionsFromQuizAsync(_viewmodel.Quiz.Id);
             }
+            else questionmodels = _viewmodel.ShuffledQuestionList.ToList();
             var pdfData = _fileService.GeneratePdf(questionmodels);
             _fileService.SavePdfFile(pdfData);
-        }
-        public override bool CanExecute(object parameter)
-        {
-            return base.CanExecute(parameter);
-        }
-        public void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ImportTabViewModel.CanImport))
-            {
-                OnCanExecutedChanged();
-            }
         }
     }
 }
