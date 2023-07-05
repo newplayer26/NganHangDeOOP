@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:NganHangDe.Views.StartupViews"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <ScrollViewer>
+        
+ 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -30,7 +33,7 @@
             <TextBlock Text="Add a random question to page 1" Foreground="red"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="2">
-            <Button Content="x" HorizontalAlignment="Center" Foreground="Black" Background="White" 
+            <Button Content="Back" HorizontalAlignment="Center" Foreground="Black" Background="White" 
                     Command="{Binding ToEditingQuizViewCommand}" Height="auto" VerticalAlignment="Top" BorderBrush="White"/>
         </Grid>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
@@ -59,7 +62,7 @@
                   IsChecked="{Binding IsShowingDescendants, Mode=TwoWay}"/>
         <StackPanel Margin="0 50 0 0" Grid.Column="1" Grid.Row="5" Orientation="Horizontal">
             <TextBlock Text="Number of random" />
-            <ComboBox Width="60" Height="20" Margin="10 0 0 0" 
+            <ComboBox Width="60" Height="Auto" Margin="10 0 0 0" 
                       ItemsSource="{Binding NumberOfQuestions}" SelectedItem="{Binding SelectedNumber}"/>
         </StackPanel>
         <TextBlock Text="questions" Grid.Column="1" Grid.Row="6"/>
@@ -107,4 +110,5 @@
                     Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
         </DockPanel>
     </Grid>
+    </ScrollViewer>
 </UserControl>

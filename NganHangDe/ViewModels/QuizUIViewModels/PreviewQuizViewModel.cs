@@ -14,6 +14,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -42,6 +44,30 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         //    }
         //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
+        private ScrollViewer _questionScrollViewer ;
+        public ScrollViewer QuestionScrollViewer
+        {
+            get { return _questionScrollViewer; }
+            set
+            {
+                _questionScrollViewer= value;
+                OnPropertyChanged(nameof(QuestionScrollViewer));
+                OnPropertyChanged(nameof(ScrollToItemCommand));  
+            }
+        }
+        private ItemsControl _questionItemsControl;
+        public ItemsControl QuestionItemsControl
+        {
+            get { return _questionItemsControl; }
+            set
+            {
+                _questionItemsControl = value;
+                OnPropertyChanged(nameof(QuestionScrollViewer));
+                OnPropertyChanged(nameof(ScrollToItemCommand));
+            }
+        }
+        public RelayCommand ScrollToItemCommand { get; set; }
+        //public ICommand ScrollToItemCommand { get; set; }
         public TimeSpan QuizSpan { get; set; }
         private string _displayTime;
         public string DisplayTime
@@ -196,7 +222,9 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
             ToQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(ancestorNavigationStore, typeof(AllQuizzesViewModel));
-           
+            Console.WriteLine(QuestionItemsControl);
+            //ScrollToItemCommand = new ScrollToItemCommand(LoadedQuestionList, QuestionItemsControl, QuestionScrollViewer);
+            ScrollToItemCommand = new RelayCommand(ExecuteScrollToItemCommand);
         }
         private DispatcherTimer _timer;
 
@@ -248,6 +276,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                         await loadQuestionCommand.ExecuteAsync(questionModel.Id);
                         
                     }
+       
                 }
                 catch (Exception ex)
                 {
@@ -289,6 +318,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 {
                     _loadedQuestionList.Add(question);
                 }
+                
             }
         }
         public void SetIsShuffleChecked(bool isShuffleChecked)
@@ -313,6 +343,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             foreach (var question in LoadedQuestionList)
             {
                 var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
+
                 question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
                 double questionSelectedGrade = CalculateQuestionGrade(question);
                 double questionGrade = CalculateAnswerGrade(question);
@@ -347,6 +378,10 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 totalAnswersGrade += answer.Grade;
             }
             return totalAnswersGrade;
+        }
+        private void ExecuteScrollToItemCommand(object parameter)
+        {
+            Console.WriteLine(QuestionItemsControl);
         }
     }
 }

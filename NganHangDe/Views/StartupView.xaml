@@ -94,7 +94,7 @@
                 
             </Border>
             <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0.5" Margin="10 0 10 10">
-                <ScrollViewer>
+                
                     <Grid>
                         <Grid.Resources>
                             <DataTemplate DataType="{x:Type vms:AllQuizzesViewModel}">
@@ -122,7 +122,7 @@
                         </Grid.Resources>
                         <ContentControl Content="{Binding CurrentViewModel}" />
                     </Grid>
-                </ScrollViewer>
+                
                 
             </Border>
         </Grid>

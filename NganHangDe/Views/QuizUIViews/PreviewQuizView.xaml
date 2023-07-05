@@ -12,6 +12,7 @@
         <DataTemplate x:Key="SingleAnswerTemplate">
             <!-- Single answer template -->
             <!-- Define the layout for a question with a single answer -->
+
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -117,167 +118,157 @@
         <res:TimeSpanConverter x:Key="TimeSpanConverter"/>
     </UserControl.Resources>
     <Grid>
-        
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
-            <Popup Placement="Absolute" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True" HorizontalOffset="400" VerticalOffset="400">
-                <Border Width="800" Height="auto" Background="White" BorderBrush="Gray" BorderThickness="0.5">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                            <Border BorderBrush="Gray" BorderThickness="0.5">
-                                <TextBlock TextWrapping="Wrap" Text="Are you sure want to finish the quiz? Once you click YES there will no way back!" FontSize="18" Margin="10"/>
-                            </Border>
-                        </Grid>
-                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
-                            <Border BorderBrush="Gray" BorderThickness="0.5">
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="YES"  Command="{Binding FinishAttemptCommand}" FontSize="18" Margin="10" Background="#C02424" Foreground="White"/>
-                                    <Button Content="NO" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
-                                </StackPanel>
-                            </Border>
-
-                        </Grid>
-                    </Grid>
-                </Border>
-            </Popup>
-        </Grid>
-        <StackPanel>
-            <Grid HorizontalAlignment="Right" Margin="10">
-                <TextBlock>
-                <Run Text="Time left: "/>
-                <Run Text="{Binding DisplayTime, Mode=OneWay}"/>
-                </TextBlock>
-                
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Visibility" Value="Visible"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
-            </Grid>
-            <Grid Background="#FCEFDC">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" >
-                    <StackPanel Margin="20 10 10 10">
-                        <TextBlock Text="Started on" FontWeight="Bold" Foreground="#C02424"  HorizontalAlignment="Right"/>
-                        <TextBlock Text="State" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right"/>
-                        <TextBlock Text="Completed on" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right"/>
-                        <TextBlock Text="Time taken" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right"/>
-                        <TextBlock Text="Marks" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right"/>
-                        <TextBlock Text="Grade" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right"/>
-                    </StackPanel>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                </Grid>
-                <Grid Grid.Column="1" Margin="0 10 0 10" Background="#FCEFDC">
-                    <StackPanel>
-                        <TextBlock Text="{Binding StartTime}"/>
-                        <TextBlock Text="Finished"/>
-                        <TextBlock Text="{Binding FinishTime}"/>
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource TimeSpanConverter}">
-                                    <Binding Path="StartTime"/>
-                                    <Binding Path="FinishTime"/>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding TotalGrade}"/>
-                            <TextBlock Text="/"/>
-                            <TextBlock Text="{Binding TotalAnswerGrade}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding ScoreOutOfTen}" FontWeight="Bold"/>
-                            <TextBlock Text=" out of 10 ("/>
-                            <TextBlock Text="{Binding Percentage}" FontWeight="Bold"/>
-                            <TextBlock Text="%)"/>
-                        </StackPanel>
-                    </StackPanel>
-                    <Grid.Style>
-                        <Style TargetType="Grid">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Grid.Style>
-                </Grid>
-            </Grid>
-            <ItemsControl ItemsSource="{Binding LoadedQuestionList}" ItemTemplateSelector="{StaticResource QuestionTemplateSelector}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0">
-                                <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource QuestionTemplateSelector}" />
-                            </Grid>
-                            <Grid Grid.Row="1" Height="auto" Margin="0 10 0 10" Background="#FCEFDC">
-                                <TextBlock Margin="127 5 0 5" Text="The correct answers is:"/>
-                                <ItemsControl ItemsSource="{Binding CorrectAnswers}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Margin="272 5 0 5" Text="{Binding Text}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding DataContext.IsFinishAttemptClicked, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Grid.Style>
-                            </Grid>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            
-        </StackPanel>
-
-
-        <Grid Grid.Column="1" Width="200">
+        <Grid Grid.Column="0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="0">
+                    
+                    <Grid HorizontalAlignment="Right" Margin="10">
+                        
+                        <TextBlock>
+                            <Run Text="Time left: " />
+                            <Run Text="{Binding DisplayTime, Mode=OneWay}" />
+                        </TextBlock>
+                        
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers >
+                                    <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers >
+                            </Style>
+                        </Grid.Style>
+                    </Grid>
+                </Grid>
+                        <!-- end of row 0 -->
+                <Grid Grid.Row="1">
+                    <Grid Background="#FCEFDC">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <StackPanel Margin="20 10 10 10">
+                                <TextBlock Text="Started on" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                                <TextBlock Text="State" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                                <TextBlock Text="Completed on" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                                <TextBlock Text="Time taken" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                                <TextBlock Text="Marks" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                                <TextBlock Text="Grade" FontWeight="Bold" Foreground="#C02424" HorizontalAlignment="Right" />
+                            </StackPanel>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False" >
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                        <Grid Grid.Column="1" Margin="0 10 0 10" Background="#FCEFDC">
+                            <StackPanel>
+                                <TextBlock Text="{Binding StartTime}" />
+                                <TextBlock Text="Finished" />
+                                <TextBlock Text="{Binding FinishTime}" />
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource TimeSpanConverter}">
+                                            <Binding Path="StartTime" />
+                                            <Binding Path="FinishTime" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding TotalGrade}" />
+                                    <TextBlock Text="/" />
+                                    <TextBlock Text="{Binding TotalAnswerGrade}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding ScoreOutOfTen}" FontWeight="Bold"/>
+                                    <TextBlock Text=" out of 10 ("/>
+                                    <TextBlock Text="{Binding Percentage}" FontWeight="Bold"/>
+                                    <TextBlock Text="%)"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <!-- end of row 1 -->
+                <ScrollViewer x:Name="QuestionScrollViewer" Grid.Row="2">
+                    <StackPanel Margin="-5,10,5,-10">
+
+
+                        <ItemsControl x:Name="QuestionItemsControl" ItemsSource="{Binding LoadedQuestionList}" ItemTemplateSelector="{StaticResource QuestionTemplateSelector}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource QuestionTemplateSelector}" />
+                                        </Grid>
+                                        <Grid Grid.Row="1" Height="auto" Margin="0 10 0 10" Background="#FCEFDC">
+                                            <TextBlock Margin="127 5 0 5" Text="The correct answers is:" />
+                                            <ItemsControl ItemsSource="{Binding CorrectAnswers}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="272 5 0 5" Text="{Binding Text}" />
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <Grid.Style>
+                                                <Style TargetType="Grid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers >
+                                                        <DataTrigger Binding="{Binding DataContext.IsFinishAttemptClicked, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Value="True" >
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Border BorderBrush="Gray" BorderThickness="0.5">
-                        <TextBlock Text="Quiz Navigation" Margin="5" Foreground="#C02424"/>
+                        <TextBlock Text="Quiz Navigation" Margin="5" Foreground="#C02424" />
                     </Border>
                 </Grid>
                 <Grid Grid.Row="1">
@@ -291,8 +282,9 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Content="{Binding QuestionNumber}" Margin="5" Command="{Binding DataContext.NavigateToQuestionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                CommandParameter="{Binding QuestionNumber}"/>
+                                        <!--<Button Content="{Binding QuestionNumber}"  Command="{Binding DataContext.NavigateToQuestionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding QuestionNumber}" />-->
+                                        <Button Content="{Binding QuestionNumber}" Width="50"  Margin="5" Command="{Binding DataContext.ScrollToItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -302,7 +294,7 @@
                                         <Style TargetType="Button">
                                             <Setter Property="Visibility" Value="Visible" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True">
+                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -314,7 +306,7 @@
                                         <Style TargetType="Button">
                                             <Setter Property="Visibility" Value="Collapsed" />
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True">
+                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -327,5 +319,37 @@
                 </Grid>
             </Grid>
         </Grid>
-    </Grid>
+        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+            <Popup Placement="Absolute" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True" HorizontalOffset="400" VerticalOffset="400">
+                <Border Width="800" Height="auto" Background="White" BorderBrush="Gray" BorderThickness="0.5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                                <TextBlock TextWrapping="Wrap" Text="Are you sure want to finish the quiz? Once you click YES there will no way back!" FontSize="18" Margin="10" />
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                            <Border BorderBrush="Gray" BorderThickness="0.5">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="YES" Command="{Binding FinishAttemptCommand}" FontSize="18" Margin="10" Background="#C02424" Foreground="White" />
+                                    <Button Content="NO" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}" />
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Grid>
+    </Grid>   
+    
+    
 </UserControl>
