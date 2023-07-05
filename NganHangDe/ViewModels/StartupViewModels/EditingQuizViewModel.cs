@@ -94,7 +94,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             ToggleShuffleCommand = new RelayCommand(ExecuteToggleShuffleCommand);
             SelectMultipleItemsCommand = new RelayCommand(ExecuteSelectMultipleItemsCommand);
             DeleteSelectQuestionsCommand = new RemoveQuestionsFromQuizCommand(this);
-            LoadQuiz();
+            _ = LoadQuiz();
             
         }
         public async Task LoadQuiz()
