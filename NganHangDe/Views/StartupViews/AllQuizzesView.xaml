@@ -7,7 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="white">
-    
+
+    <ScrollViewer>
+        
     
         <StackPanel>
             <ItemsControl ItemsSource="{Binding QuizList}">
@@ -36,6 +38,6 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-        
-  
+    </ScrollViewer>
+
 </UserControl>

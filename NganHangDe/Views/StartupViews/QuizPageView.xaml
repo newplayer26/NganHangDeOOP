@@ -12,6 +12,8 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
+    <ScrollViewer>
+        
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -109,5 +111,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+    </ScrollViewer>
 </UserControl>

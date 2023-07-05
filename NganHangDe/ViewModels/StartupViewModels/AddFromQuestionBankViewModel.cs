@@ -84,6 +84,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             LoadQuestionsCommand = new GetUnassignedQuestionsCommand(LoadQuestions, quizId);
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
+            ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
         }
         public void LoadCategories(List<CategoryModel> list)
         {
@@ -123,6 +124,13 @@ namespace NganHangDe.ViewModels.StartupViewModels
             {
                 MessageBox.Show("Please select a category.");
             }          
+        }
+        private void ExecuteToEditingQuizViewCommand(object parameter)
+        {
+            int quizId = _quizId;
+            Console.WriteLine(quizId);
+            EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
+            _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
     }
 }

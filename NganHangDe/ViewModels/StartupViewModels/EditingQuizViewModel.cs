@@ -136,7 +136,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
             question.Answers = answers;
             Console.WriteLine(question.IsMultipleAnswers);
             _questionList.Add(question);
-           
+            var correctAnswers = new ObservableCollection<AnswerModel>(answers.Where(answer => answer.Grade > 0));
+            question.CorrectAnswers = correctAnswers;
             //Console.WriteLine(question.Text);
         }
         private void ShuffleAnswers()
