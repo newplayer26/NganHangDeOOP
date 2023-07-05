@@ -1,6 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
-using iText.Kernel.Pdf;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Win32;
 using NganHangDe.Models;
@@ -14,9 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using Category = NganHangDe.ModelsDb.Category;
-using iTextKernelPdf = iText.Kernel.Pdf;
-using iTextLayout = iText.Layout;
-using iTextLayoutElement = iText.Layout.Element;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 namespace NganHangDe.Services
 {
     public class FileService : IFileService
@@ -26,20 +25,20 @@ namespace NganHangDe.Services
         {
             using (var outputStream = new MemoryStream())
             {
-                var pdfWriter = new iTextKernelPdf.PdfWriter(outputStream);
-                var pdfDocument = new iTextKernelPdf.PdfDocument(pdfWriter);
-                var document = new iTextLayout.Document(pdfDocument);
+                var pdfWriter = new iText.Kernel.Pdf.PdfWriter(outputStream);
+                var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfWriter);
+                var document = new iText.Layout.Document(pdfDocument);
                 int count = 0;
                 foreach (var question in questions)
                 {
                     count++;
-                    var questionParagraph = new iTextLayoutElement.Paragraph($"Question {count}: {question.Text}");
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"Question {count}: {question.Text}");
                     document.Add(questionParagraph);
                     char label = 'A';
-                    var answerList = new iTextLayoutElement.Div();
+                    var answerList = new iText.Layout.Element.Div();
                     foreach (var answer in question.Answers)
                     {
-                        var listItem = new iTextLayoutElement.Paragraph($"{label}. {answer.Text} ");
+                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ");
                         answerList.Add(listItem);
                         label++;
                     }
@@ -51,6 +50,49 @@ namespace NganHangDe.Services
                 return outputStream.ToArray(); // Return the byte array instead of the MemoryStream
             }
         }
+        public byte[] GeneratePdf(List<QuestionModel> questions, string password)
+        {
+            using (var outputStream = new MemoryStream())
+            {
+                // Set encryption properties for the PdfWriter
+                WriterProperties writerProperties = new WriterProperties();
+                writerProperties.SetStandardEncryption(
+                    Encoding.ASCII.GetBytes(password),
+                    Encoding.ASCII.GetBytes(password),
+                    EncryptionConstants.ALLOW_PRINTING,
+                    EncryptionConstants.ENCRYPTION_AES_128
+                );
+
+                // Initialize the PdfWriter with the provided encryption properties
+                var pdfWriter = new PdfWriter(outputStream, writerProperties);
+
+                var pdfDocument = new PdfDocument(pdfWriter);
+                var document = new iText.Layout.Document(pdfDocument);
+                int count = 0;
+
+                foreach (var question in questions)
+                {
+                    count++;
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"Question {count}: {question.Text}");
+                    document.Add(questionParagraph);
+                    char label = 'A';
+                    var answerList = new iText.Layout.Element.Div();
+
+                    foreach (var answer in question.Answers)
+                    {
+                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ");
+                        answerList.Add(listItem);
+                        label++;
+                    }
+
+                    document.Add(answerList);
+                }
+
+                document.Close();
+                return outputStream.ToArray(); // Return the byte array instead of the MemoryStream
+            }
+        }
+
         public void SavePdfFile(byte[] pdfData)
         {
             var saveFileDialog = new SaveFileDialog

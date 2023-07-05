@@ -33,6 +33,16 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(FormattedTimeLimit));
             }
         }
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));  
+            }
+        }
         public String Name
         {
             get
@@ -87,6 +97,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand ToPreviewQuizViewCommand { get; private set; }
         public ICommand ExportToPDFCommand { get; private set; }
+        public ICommand ExportToPDFWithPasswordCommand { get; private set; }
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
             _model = model;
@@ -97,6 +108,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
             ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
             ExportToPDFCommand = new ExportCommand(this);
+            ExportToPDFWithPasswordCommand = new ExportWithPasswordCommand(this);
             LoadQuiz();
         }
         private void ExecuteToEditingQuizViewCommand(object parameter)

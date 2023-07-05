@@ -15,12 +15,12 @@ using System.Windows;
 
 namespace NganHangDe.Commands
 {
-    public class ExportCommand : AsyncCommandBase
+    public class ExportWithPasswordCommand : AsyncCommandBase
     {
         private QuizPageViewModel _viewmodel;
         private FileService _fileService = new FileService();
         private QuizService _quizService = new QuizService();
-        public ExportCommand(QuizPageViewModel viewmodel)
+        public ExportWithPasswordCommand(QuizPageViewModel viewmodel)
         {
             _viewmodel = viewmodel;
         }
@@ -32,7 +32,7 @@ namespace NganHangDe.Commands
                 questionmodels = await _quizService.GetAllQuestionsFromQuizAsync(_viewmodel.Quiz.Id);
             }
             else questionmodels = _viewmodel.ShuffledQuestionList.ToList();
-            var pdfData = _fileService.GeneratePdf(questionmodels);
+            var pdfData = _fileService.GeneratePdf(questionmodels, _viewmodel.Password);
             _fileService.SavePdfFile(pdfData);
         }
     }
