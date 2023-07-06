@@ -46,7 +46,7 @@
                 </Grid>
                 <Grid Grid.Column="1" Background="#E7F3F5" Margin="5">
                     <StackPanel>
-                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                        <TextBlock Margin="5" Text="{Binding DisplayedText}"/>
                         <ItemsControl ItemsSource="{Binding Answers}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -97,7 +97,7 @@
                 </Grid>
                 <Grid Grid.Column="1" Background="#E7F3F5" Margin="5">
                     <StackPanel>
-                        <TextBlock Margin="5" Text="{Binding Text}"/>
+                        <TextBlock Margin="5" Text="{Binding DisplayedText}"/>
                         <ItemsControl ItemsSource="{Binding Answers}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

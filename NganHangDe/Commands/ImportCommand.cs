@@ -38,7 +38,7 @@ namespace NganHangDe.Commands
             }
             if (await _categoryService.GetNumberofCategoriesAsync() == 0)
             {
-                await _categoryService.CreateCategoryAsync(null, "18/07/2023", string.Empty);
+                await _categoryService.CreateCategoryAsync(null, "15/07/2023", string.Empty);
             }
             int categoryId = await _categoryService.GetRandomCategoryIdAsync();
             message = await _fileservice.AddQuestionsByFile(_viewmodel.SelectedFilePath, categoryId);

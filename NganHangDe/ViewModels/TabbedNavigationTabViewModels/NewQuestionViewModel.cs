@@ -191,13 +191,25 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         public string Number { get; set; }
         public AnswerModel Model = new AnswerModel();
         public NewQuestionViewModel ParentViewModel;
-        public Double Grade { get
+        public string Grade { get
             {
-                return Model.Grade;
+                if (Model.Grade == 0) return "None";
+                else
+                {
+                    return $"{Model.Grade * 100}%";
+                }
             }
             set
             {
-                Model.Grade = value;
+                if(value == "None")
+                {
+                    Model.Grade = 0;
+                }
+                else
+                {
+                    string tmp = value.Substring(0, value.Length - 1);
+                    Model.Grade = double.Parse(tmp) / 100;
+                }
                 ParentViewModel.QuestionName = ParentViewModel.QuestionName;
             }   
         }
@@ -214,21 +226,11 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                 ParentViewModel.QuestionName = ParentViewModel.QuestionName;
             }
         }
-        private List<Double> _gradeList = new List<Double>();
+        private List<string> _gradeList = new List<string>();
         public ItemViewModel()
         {
-            _gradeList = new List<Double>(new Double[] { 1.0, 0.9, 5.0 / 6.0, 0.8, 0.75, 0.7, 2.0 / 3.0, 0.6, 0.5, 0.4, 1.0 / 2.0, 0.25, 0.2, 1.0 / 6.0, 1.0 / 7.0, 0.125, 1.0 / 9.0, 0.1, 0.05 });
-            List<double> current = new List<Double>(_gradeList);
-            _gradeList.Reverse();
-            current.Add(0);
-            foreach (var el in _gradeList)
-            {
-                current.Add(-el);
-            }
-            
-            _gradeList = new List<Double>(current);
-
+            _gradeList = new List<string>(new string[] { "None", "100%", "90%", "83.33333%", "80%", "75%", "70%", "66.66667%", "60%", "50%", "40%", "33.33333%", "30%", "25%", "20%", "16.66667%", "14.28571%", "12.5%", "11.11111%", "10%", "5%", "-5%", "-10%", "-11.11111%", "-12.5%", "-14.28571%", "-16.66667%", "-20%", "-25%", "-30%", "-33.33333%", "-40%", "-50%", "-60%", "-66.66667%", "-70%", "-75%", "-80%", "-83.33333%" }); 
         }
-        public IEnumerable<Double> GradeList => _gradeList;
+        public IEnumerable<string> GradeList => _gradeList;
     }
 }

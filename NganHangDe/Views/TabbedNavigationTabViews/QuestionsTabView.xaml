@@ -10,7 +10,7 @@
             <TextBlock Text="Question bank" Foreground="#B1342D" FontSize="30"/>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Select a category: " FontSize="18" />
-                <ComboBox x:Name="comboBox"   Margin="10 5 0 10" MinWidth="150" ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}"   >
+                <ComboBox x:Name="comboBox"  Margin="10 5 0 10" MinWidth="150" ItemsSource="{Binding CategoryList}" SelectedItem="{Binding SelectedCategory}"   >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding DisplayedName}"/>
@@ -58,7 +58,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Image  Grid.Column="1" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
                                         <CheckBox Content="" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right"  Grid.Column="0"  />
-                                        <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="2"  />
+                                        <TextBlock Text="{Binding DisplayedText}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="2"  />
                                         <Button Content="Edit"  Grid.Column="3"  HorizontalAlignment="Left" Foreground="#469ddf" BorderThickness="0" Background="Transparent" Padding="0" Command="{Binding DataContext.ToNewQuestionViewCommand, RelativeSource={RelativeSource AncestorType={x:Type local:QuestionsTabView}}}" CommandParameter="{Binding}"  />
                                     </Grid>
                                 </Border>
