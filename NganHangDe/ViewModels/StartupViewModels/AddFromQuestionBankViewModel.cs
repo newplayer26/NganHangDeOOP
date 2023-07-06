@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using Microsoft.IdentityModel.Tokens;
 using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
@@ -24,15 +25,30 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private QuizService _quizService;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand SelectQuestionCommand { get; private set; }
+        public RelayCommand ChooseAllQuestionsCommand { get; private set; }
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
         private ObservableCollection<QuestionModel> _selectedQuestions = new ObservableCollection<QuestionModel>();
         public ObservableCollection<QuestionModel> SelectedQuestions => _selectedQuestions;
         public IEnumerable<CategoryModel> CategoryList => _categoryList;
         public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants ? _descendantsCategoriesList : _singleCategoryList;
 
+        private bool _canChooseAllQuestions;
+        public bool CanChooseAllQuestions
+        {
+            get
+            {
+                return _canChooseAllQuestions;
+            }
+            set
+            {
+                _canChooseAllQuestions = value;
+                OnPropertyChanged(nameof(CanChooseAllQuestions));
+            }
+        }
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
+            
         public CategoryModel SelectedCategory
         {
             get { return _selectedCategory; }
@@ -59,6 +75,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 _isShowingDescendants = value;
                 OnPropertyChanged(nameof(IsShowingDescendants));
                 OnPropertyChanged(nameof(QuestionList));
+                OnPropertyChanged(nameof(CanChooseAllQuestions));
             }
         }
         private ObservableCollection<QuestionModel> _singleCategoryList;
@@ -85,6 +102,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
+            ChooseAllQuestionsCommand = new RelayCommand(ExecuteChooseAllQuestionsCommand);
         }
         public void LoadCategories(List<CategoryModel> list)
         {
@@ -101,6 +119,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
             _selectedQuestions = new ObservableCollection<QuestionModel>();
             OnPropertyChanged(nameof(QuestionList));
+            if (QuestionList.Count() > 0) _canChooseAllQuestions = true;
+            else _canChooseAllQuestions = false;
+            OnPropertyChanged(nameof(CanChooseAllQuestions));
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
         {
@@ -131,6 +152,27 @@ namespace NganHangDe.ViewModels.StartupViewModels
             Console.WriteLine(quizId);
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+        }
+        private void ExecuteChooseAllQuestionsCommand(object parameter)
+        {
+            if (QuestionList.Count()>0)
+            {
+                foreach (var question in QuestionList)
+                {
+                    if (question.IsSelected)
+                    {
+                        question.IsSelected = false;
+                    }
+                    else
+                    {
+                        question.IsSelected = true;
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("NOTHING TO CHOOSE!");
+            }
         }
     }
 }
