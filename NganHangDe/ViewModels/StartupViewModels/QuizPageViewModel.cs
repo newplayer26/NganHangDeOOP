@@ -67,6 +67,17 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(IsPopupVisible));
             }
         }
+        private bool _isExportPopupVisible;
+        public bool IsExportPopupVisible
+        {
+            get { return _isExportPopupVisible; }
+            set
+            {
+                _isExportPopupVisible = value;
+                OnPropertyChanged(nameof(IsExportPopupVisible));
+            }
+        }
+
 
         private bool _isShuffleChecked = false;
 
@@ -93,7 +104,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             }
         }
         public RelayCommand ShowPopupCommand { get; private set; }
-        public RelayCommand HidePopupCommand { get; private set; }  
+        public RelayCommand HidePopupCommand { get; private set; }
+        public RelayCommand ShowExportPopupCommand { get; private set; }
+        public RelayCommand HideExportPopupCommand { get; private set; }
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand ToPreviewQuizViewCommand { get; private set; }
         public ICommand ExportToPDFCommand { get; private set; }
@@ -105,7 +118,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
             //ToEditingQuizViewCommand = new NavigateCommand<EditingQuizViewModel>(_ancestorNavigationStore, typeof(EditingQuizViewModel));
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
             ShowPopupCommand = new RelayCommand(ExecuteShowPopupCommand);
-            HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);            
+            HidePopupCommand = new RelayCommand(ExecuteHidePopupCommand);
+            ShowExportPopupCommand = new RelayCommand(ExecuteShowExportPopup);
+            HideExportPopupCommand = new RelayCommand(ExecuteHideExportPopup);
             ToPreviewQuizViewCommand = new RelayCommand(ExecuteToPreviewQuizViewCommand);
             ExportToPDFCommand = new ExportCommand(this);
             ExportToPDFWithPasswordCommand = new ExportWithPasswordCommand(this);
@@ -125,6 +140,15 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteHidePopupCommand(object parameter)
         {
             IsPopupVisible = false;
+        }
+        private void ExecuteShowExportPopup(object parameter)
+        { 
+            IsExportPopupVisible = true;
+        }
+
+        private void ExecuteHideExportPopup(object parameter)
+        { 
+            IsExportPopupVisible = false;
         }
         private void ExecuteToPreviewQuizViewCommand(object parameter)
         {
