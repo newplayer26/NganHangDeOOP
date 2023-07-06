@@ -1,4 +1,5 @@
 ﻿using NganHangDe.Commands;
+using NganHangDe.Extensions;
 using NganHangDe.Models;
 using NganHangDe.Stores;
 using System;
@@ -48,7 +49,18 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
             }
         }
 
-        public bool CanCreateQuestion => !string.IsNullOrEmpty(QuestionText) && !string.IsNullOrEmpty(QuestionName) && ValidatedAnswers.Count >= 2 && SelectedCategory != null && SelectedCategory.Id != null;
+        public bool CanCreateQuestion
+        {
+            get
+            {
+                double tmp = 0;
+                foreach (var answerModel in ValidatedAnswers)
+                {
+                    if (answerModel.Grade > 0) tmp += answerModel.Grade;
+                }
+                return !StringExtensions.IsNullOrEmptyOrWhiteSpace(QuestionText) && !StringExtensions.IsNullOrEmptyOrWhiteSpace(QuestionName) && ValidatedAnswers.Count >= 2 && SelectedCategory != null &&  tmp == 1;
+            }
+        }
 
         private readonly NavigationStore _ancestorNavigationStore;
 
@@ -113,7 +125,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
         public List<AnswerModel> ValidatedAnswers =>    
           Choices
             .Select(c => c.Model)
-            .Where(m => !string.IsNullOrEmpty(m.Text) && m.Text.Length > 0 && m.Grade != null)
+            .Where(m => !StringExtensions.IsNullOrEmptyOrWhiteSpace(m.Text) && m.Text.Length > 0 && m.Grade != null)
             .ToList();
                 
          

@@ -106,7 +106,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             _ancestorNavigationStore = ancestorNavigationStore;
             _quizId = quizId;
             _quizService = new QuizService();
-            LoadCategoriesCommand = new GetCategoriesCommand(LoadCategories);
+            LoadCategoriesCommand = new GetCategoriesWithUnassignedQuestionsCommand(LoadCategories, quizId);
             LoadQuestionsCommand = new GetUnassignedQuestionsCommand(LoadQuestions, quizId);
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);

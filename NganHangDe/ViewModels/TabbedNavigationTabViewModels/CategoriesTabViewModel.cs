@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml.Drawing.Diagrams;
 using NganHangDe.Commands;
+using NganHangDe.Extensions;
 using NganHangDe.Models;
 using NganHangDe.Stores;
 using System;
@@ -81,7 +82,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                 OnPropertyChanged(nameof(IdNumber));
             }    
         }
-        public bool CanCreateCategory => !string.IsNullOrEmpty(CategoryName);
+        public bool CanCreateCategory => !StringExtensions.IsNullOrEmptyOrWhiteSpace(CategoryName);
         public void LoadCategories (List<CategoryModel> list)
         {
             _categoryList.Clear();
