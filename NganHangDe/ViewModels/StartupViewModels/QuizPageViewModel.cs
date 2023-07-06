@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using NganHangDe.Commands;
 using NganHangDe.Models;
 using NganHangDe.ModelsDb;
@@ -40,7 +41,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
             set
             {
                 _password = value;
-                OnPropertyChanged(nameof(Password));  
+                OnPropertyChanged(nameof(Password));
+                OnPropertyChanged(nameof(CanConfirmPassword));
             }
         }
         public String Name
@@ -111,6 +113,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public RelayCommand ToPreviewQuizViewCommand { get; private set; }
         public ICommand ExportToPDFCommand { get; private set; }
         public ICommand ExportToPDFWithPasswordCommand { get; private set; }
+        public bool CanConfirmPassword => !Password.IsNullOrEmpty();
         public QuizPageViewModel(NavigationStore ancestorNavigationStore, QuizModel model)
         {
             _model = model;
@@ -144,6 +147,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteShowExportPopup(object parameter)
         { 
             IsExportPopupVisible = true;
+            IsPopupVisible = false;
         }
 
         private void ExecuteHideExportPopup(object parameter)

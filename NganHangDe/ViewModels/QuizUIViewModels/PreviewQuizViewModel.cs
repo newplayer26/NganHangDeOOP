@@ -253,13 +253,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private async Task LoadQuestionsAsync()
         {
             StartTime = DateTime.Now;
+            var quiz = await _quizService.GetFullQuizById(_quizId);
+            QuizSpan = quiz.TimeLimit;
+            StartTimer();
             if (_isShuffleChecked == false)
             {
                 try
                 {
-                    var quiz = await _quizService.GetFullQuizById(_quizId);
-                    QuizSpan = quiz.TimeLimit;
-                    StartTimer();
                     var questions = await _quizService.GetAllQuestionsFromQuizAsync(_quizId);
                     foreach (var question in questions)
                     {
@@ -373,9 +373,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private double CalculateAnswerGrade(QuestionModel question)
         {
             double totalAnswersGrade = 0;
-            foreach(var answer in question.Answers)
+            foreach (var answer in question.Answers)
             {
-                totalAnswersGrade += answer.Grade;
+                if (answer.Grade > 0)
+                {
+                    totalAnswersGrade += answer.Grade;
+                }
+                
             }
             return totalAnswersGrade;
         }
