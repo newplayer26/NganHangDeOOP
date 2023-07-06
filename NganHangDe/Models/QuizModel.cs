@@ -50,5 +50,6 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(QuestionCount));
             }
         }
+
     }
 }

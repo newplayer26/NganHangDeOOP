@@ -99,7 +99,7 @@
                                     <ColumnDefinition Width="0.14*" />
                                 </Grid.ColumnDefinitions>
                                 <Image  Grid.Column="2" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
-                                <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="3"  />
+                                <TextBlock Text="{Binding DisplayedText}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="3"  />
                             </Grid>
                         </Border>
                     </DataTemplate>

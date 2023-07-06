@@ -13,32 +13,12 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <ScrollViewer>
-        
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid Grid.Row="0">
-            <TextBlock Grid.Column="0" Text="{Binding Name}" FontSize="18" Foreground="Red"/>
-        </Grid>
-        <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
-            <Button Height="auto" Width="auto" BorderBrush="White" Background="White" Command="{Binding ToEditingQuizViewCommand}">
-                <Viewbox Height="30" Width="30">
-                    <Path Fill="Blue" Data="m388 976-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185 576q0-9 .5-20.5T188 535L80 456l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669 346l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592 850l-20 126H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410 576q0-29 20.5-49.5T480 506q29 0 49.5 20.5T550 576q0 29-20.5 49.5T480 646Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715 576q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538 348l-14-112h-88l-14 112q-34 7-63.5 24T306 414l-106-46-40 72 94 69q-4 17-6.5 33.5T245 576q0 17 2.5 33.5T254 643l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"/>
-                </Viewbox>
-                
-            </Button>
-        </Grid>
-        <Grid Grid.Row="1" Grid.Column="1">
+
+        <Grid Margin="10">
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
@@ -46,69 +26,89 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Time limit:" HorizontalAlignment="Right" Margin="5"/>
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Grading Method:" HorizontalAlignment="Right" Margin="5"/>
-            <TextBlock Grid.Column="1" Grid.Row="0" Text="" Margin="5"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="Last Attempt" Margin="5"/>
-        </Grid>
-        <Grid Grid.Row="2" Grid.ColumnSpan="2">
-            <TextBlock Text="Summary of your previous attempts" FontWeight="Bold" FontSize="16" Foreground="Red" Margin="20 10 0 10"/>
-        </Grid>
-        <Grid Grid.Row="3" Grid.ColumnSpan="2" Background="#009FE5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Attempt" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
-            <TextBlock Grid.Column="1" Text="State" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
-        </Grid>
-        <Grid Grid.Row="4" Grid.Column="1" Margin="50" HorizontalAlignment="Right">
-            <Button Content="PREVIEW QUIZ NOW" Width="160" Foreground="White" Background="#009FE5" Command="{Binding ShowPopupCommand}"/>
-        </Grid>
-        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
-            <Grid>
-                <Popup  Placement="Center" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True">
-                    <Border Width="800" Height="220" Background="White" BorderBrush="Gray" BorderThickness="0.5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                                <Border BorderBrush="Gray" BorderThickness="0.5">
-                                    <TextBlock Text="Start Attempt" FontSize="24" Margin="10"/>
-                                </Border>
-                            </Grid>
-                            <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
-                                <StackPanel>
-                                    <TextBlock Text="Time limit" FontSize="20" Foreground="#C02424"/>
-                                    <TextBlock TextWrapping="Wrap" FontSize="17">
+            <Grid Grid.Row="0">
+                <TextBlock Grid.Column="0" Text="{Binding Name}" FontSize="18" Foreground="Red"/>
+            </Grid>
+            <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+                <Button Height="auto" Width="auto" BorderBrush="White" Background="White" Command="{Binding ToEditingQuizViewCommand}">
+                    <Viewbox Height="30" Width="30">
+                        <Path Fill="Blue" Data="m388 976-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185 576q0-9 .5-20.5T188 535L80 456l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669 346l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592 850l-20 126H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410 576q0-29 20.5-49.5T480 506q29 0 49.5 20.5T550 576q0 29-20.5 49.5T480 646Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715 576q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538 348l-14-112h-88l-14 112q-34 7-63.5 24T306 414l-106-46-40 72 94 69q-4 17-6.5 33.5T245 576q0 17 2.5 33.5T254 643l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"/>
+                    </Viewbox>
+
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Time limit:" HorizontalAlignment="Left" Margin="131,5,0,0" Height="16" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Grading Method:" HorizontalAlignment="Right" Margin="5"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding FormattedTimeLimit}" Margin="5"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Last Attempt" Margin="5"/>
+            </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                <TextBlock Text="Summary of your previous attempts" FontWeight="Bold" FontSize="16" Foreground="Red" Margin="20 10 0 10"/>
+            </Grid>
+            <Grid Grid.Row="3" Grid.ColumnSpan="2" Background="#009FE5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Attempt" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Grid.Column="1" Text="State" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.Column="1" Margin="50" HorizontalAlignment="Right">
+                <Button Content="PREVIEW QUIZ NOW" Width="160" Foreground="White" Background="#009FE5" Command="{Binding ShowPopupCommand}"/>
+            </Grid>
+            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
+                <Grid>
+                    <Popup  Placement="Center" IsOpen="{Binding IsPopupVisible}" StaysOpen="False" AllowsTransparency="True">
+                        <Border Width="800" Height="220" Background="White" BorderBrush="Gray" BorderThickness="0.5">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <Border BorderBrush="Gray" BorderThickness="0.5">
+                                        <TextBlock Text="Start Attempt" FontSize="24" Margin="10"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
+                                    <StackPanel>
+                                        <TextBlock Text="Time limit" FontSize="20" Foreground="#C02424"/>
+                                        <TextBlock TextWrapping="Wrap" FontSize="17">
                                         <Run Text="Your attempt will have a time limit of "/>
                                         <Run Text="{Binding FormattedTimeLimit}"/>
                                         <Run Text=". When you start, the timer will begin to count down and cannot be paused. You must finish your attempt before it expires. Are you sure wish to start now?"/>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Grid>
-                            <Grid Grid.Row="2" Grid.ColumnSpan="2">
-                                <Border BorderBrush="Gray" BorderThickness="0.5">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Content="START ATTEMPT" FontSize="18" Margin="10" Background="#C02424" Foreground="White" Command="{Binding ToPreviewQuizViewCommand}"/>
-                                        <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
-                                            <Button Content="EXPORT" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding ShowExportPopupCommand}"/>
+                                        </TextBlock>
                                     </StackPanel>
-                                </Border>
+                                </Grid>
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                                    <Border BorderBrush="Gray" BorderThickness="0.5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="START ATTEMPT" FontSize="18" Margin="10" Background="#C02424" Foreground="White" Command="{Binding ToPreviewQuizViewCommand}"/>
+                                            <Button Content="CANCEL" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding HidePopupCommand}"/>
+                                            <Button Content="EXPORT" Margin="10" FontSize="18" Background="#009FE5" Foreground="White" Command="{Binding ShowExportPopupCommand}"/>
+                                        </StackPanel>
+                                    </Border>
 
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Border>
-                </Popup>
-            </Grid>
+                        </Border>
+                    </Popup>
+                </Grid>
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="2">
                     <Grid>
                         <Popup Placement="Center" IsOpen="{Binding IsExportPopupVisible}" StaysOpen="False" AllowsTransparency="True">
@@ -127,13 +127,13 @@
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Password for file access" FontSize="18" FontWeight="Bold" Margin="10"/>
 
-                                    <TextBox Grid.Row="1" Grid.Column="1" Width="200" Margin="10"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Width="200" Margin="10" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                    <Button Grid.Row="2" Grid.Column="1" Content="Confirm password" Foreground="White" Background="#009FE5" Width="150" Margin="10"/>
+                                    <Button Grid.Row="2" Grid.Column="1" Content="Confirm password" IsEnabled="{Binding CanConfirmPassword}" Foreground="White" Background="#009FE5" Width="150" Margin="10" Command="{Binding ExportToPDFWithPasswordCommand}"/>
 
                                     <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Or" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="10"/>
 
-                                    <Button Grid.Row="4" Grid.Column="1" Content="Create file without password" Foreground="White" Background="#009FE5"  Width="200" Margin="10"/>
+                                    <Button Grid.Row="4" Grid.Column="1" Content="Create file without password" Foreground="White" Background="#009FE5"  Width="200" Margin="10" Command="{Binding ExportToPDFCommand}"/>
                                 </Grid>
                             </Border>
                         </Popup>
@@ -141,6 +141,6 @@
                 </Grid>
 
             </Grid>
-    </Grid>
+        </Grid>
     </ScrollViewer>
 </UserControl>
