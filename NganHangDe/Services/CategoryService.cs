@@ -32,7 +32,7 @@ namespace NganHangDe.Services
             using (var _context = new AppDbContext ())
             {
                 var CategoryModels = new List<CategoryModel>();
-                var categoryList = await _context.Categories.Include(c => c.Questions).ThenInclude(q => q.Answers).ToListAsync();
+                var categoryList = await _context.Categories.Include(c => c.Questions).ToListAsync();
                 var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
                 foreach (var category in topCategories)
                 {

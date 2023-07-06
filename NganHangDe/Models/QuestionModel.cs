@@ -25,6 +25,7 @@ namespace NganHangDe.Models
             {
                 _text = value;
                 OnPropertyChanged(nameof(Text));
+                OnPropertyChanged(nameof(DisplayedText));
             }
         }
         public string Name
@@ -34,6 +35,7 @@ namespace NganHangDe.Models
             {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
+                OnPropertyChanged(nameof(DisplayedText));
             }
         }
         public List<AnswerModel> Answers
@@ -109,6 +111,6 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(QuizQuestions));
             }
         }
-
+        public string DisplayedText => $"{Name} {Text}"; 
     }
 }

@@ -25,7 +25,7 @@ namespace NganHangDe.Services
             {
                 return await _context.Questions
                     .Where(q => q.CategoryId == categoryId)
-                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text, CategoryId = q.CategoryId,
+                    .Select(q => new QuestionModel { Id = q.Id, Text = q.Text, CategoryId = q.CategoryId, Name = q.Name,
                         Answers = q.Answers.Select(a => new AnswerModel
                         {
                             Id = a.Id,
@@ -61,7 +61,7 @@ namespace NganHangDe.Services
             {
                 subcategoriesQuestions.Add(new QuestionModel
                 {
-                    Id = question.Id, Text = question.Text, CategoryId = question.CategoryId,
+                    Id = question.Id, Text = question.Text, CategoryId = question.CategoryId, Name = question.Name,
                     Answers = question.Answers.Select(a => new AnswerModel
                     {
                         Id = a.Id,
@@ -69,7 +69,7 @@ namespace NganHangDe.Services
                         Grade = a.Grade,
                     }).ToList(),
                     QuizQuestions = question.QuizQuestions.ToList()
-                }) ;
+                });
             }
             foreach(Category childCategory in topCategory.ChildCategories)
             {

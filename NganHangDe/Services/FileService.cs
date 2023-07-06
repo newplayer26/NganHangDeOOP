@@ -32,7 +32,7 @@ namespace NganHangDe.Services
                 foreach (var question in questions)
                 {
                     count++;
-                    var questionParagraph = new iText.Layout.Element.Paragraph($"Question {count}: {question.Text}");
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.Text}");
                     document.Add(questionParagraph);
                     char label = 'A';
                     var answerList = new iText.Layout.Element.Div();
@@ -73,7 +73,7 @@ namespace NganHangDe.Services
                 foreach (var question in questions)
                 {
                     count++;
-                    var questionParagraph = new iText.Layout.Element.Paragraph($"Question {count}: {question.Text}");
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.Text}");
                     document.Add(questionParagraph);
                     char label = 'A';
                     var answerList = new iText.Layout.Element.Div();
