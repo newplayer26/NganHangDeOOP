@@ -13,7 +13,6 @@ namespace NganHangDe.Models
         private string _name;
         private string _level;
         private int _questionNumber;
-        private string _displayedName;
         private string _info;
         public int Id { get; set; }
         public string Name
@@ -66,7 +65,9 @@ namespace NganHangDe.Models
                 }
                 return displayString;
             }
-        }  
+        }
+        public string DisplayedNameWithoutQuestions => Level + Name;
+        
     }
 
 

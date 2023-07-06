@@ -1,4 +1,5 @@
 ﻿using NganHangDe.Commands;
+using NganHangDe.Extensions;
 using NganHangDe.Models;
 using NganHangDe.Stores;
 using System;
@@ -88,7 +89,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(IsTimeEnabled));
             }
         }
-        public bool CanCreateQuiz => !string.IsNullOrEmpty(Name) && int.TryParse(Time, out _) && int.Parse(Time) > 0;
+        public bool CanCreateQuiz => !StringExtensions.IsNullOrEmptyOrWhiteSpace(Name) && int.TryParse(Time, out _) && int.Parse(Time) > 0;
         public ICommand CreateQuizCommand { get; }
 
         private readonly NavigationStore _ancestorNavigationStore;

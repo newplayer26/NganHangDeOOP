@@ -16,6 +16,10 @@ using Category = NganHangDe.ModelsDb.Category;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using iText.IO.Font;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf.Canvas.Draw;
+
 namespace NganHangDe.Services
 {
     public class FileService : IFileService
@@ -29,20 +33,23 @@ namespace NganHangDe.Services
                 var pdfDocument = new iText.Kernel.Pdf.PdfDocument(pdfWriter);
                 var document = new iText.Layout.Document(pdfDocument);
                 int count = 0;
+                var notoSansFont = PdfFontFactory.CreateFont("Fonts/NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
                 foreach (var question in questions)
                 {
                     count++;
-                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.DisplayedText}");
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.DisplayedTextInQuiz}").SetFont(notoSansFont);
                     document.Add(questionParagraph);
                     char label = 'A';
                     var answerList = new iText.Layout.Element.Div();
                     foreach (var answer in question.Answers)
                     {
-                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ");
+                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ").SetFont(notoSansFont);
                         answerList.Add(listItem);
                         label++;
                     }
                     document.Add(answerList);
+                    var separator = new LineSeparator(new SolidLine());
+                    document.Add(separator);
                 }
 
                 document.Close();
@@ -64,22 +71,25 @@ namespace NganHangDe.Services
                 var pdfDocument = new PdfDocument(pdfWriter);
                 var document = new iText.Layout.Document(pdfDocument);
                 int count = 0;
+                var notoSansFont = PdfFontFactory.CreateFont("Fonts/NotoSans-Regular.ttf", PdfEncodings.IDENTITY_H);
                 foreach (var question in questions)
                 {
                     count++;
-                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.DisplayedText}");
+                    var questionParagraph = new iText.Layout.Element.Paragraph($"{question.DisplayedTextInQuiz}").SetFont(notoSansFont);
                     document.Add(questionParagraph);
                     char label = 'A';
                     var answerList = new iText.Layout.Element.Div();
 
                     foreach (var answer in question.Answers)
                     {
-                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ");
+                        var listItem = new iText.Layout.Element.Paragraph($"{label}. {answer.Text} ").SetFont(notoSansFont);
                         answerList.Add(listItem);
                         label++;
                     }
 
                     document.Add(answerList);
+                    var separator = new LineSeparator(new SolidLine());
+                    document.Add(separator);
                 }
                 document.Close();
                 return outputStream.ToArray();
@@ -116,8 +126,8 @@ namespace NganHangDe.Services
                 {
                     foreach(QuestionModel question in questionList)
                     {
-                        Console.WriteLine(question.Text);
-                        Console.WriteLine(question.Answers[0].Text);
+                        //Console.WriteLine(question.Text);
+                        //Console.WriteLine(question.Answers[0].Text);
                         Question currentQuestion = await _service.CreateQuestionAsync(question, categoryId, question.Answers);
                     }
                 }
@@ -161,8 +171,8 @@ namespace NganHangDe.Services
             List<AnswerModel> answerList = new List<AnswerModel>();
             foreach (string line in lines)
             {
-                Console.WriteLine(line);
-                Console.WriteLine(cnt);
+                //Console.WriteLine(line);
+                //Console.WriteLine(cnt);
                 lineNumber++;
                 if (cnt == -1)
                 {
@@ -210,7 +220,7 @@ namespace NganHangDe.Services
                     }
                     else if (line.StartsWith("ANSWER: "))
                     {
-                        //Console.WriteLine(line[9]);
+                        //Console.WriteLine(line.Length);
                         if (line.Length >= 9)
                         {
                             int answer = line[8] - 'A';
@@ -218,7 +228,7 @@ namespace NganHangDe.Services
                             {
                                 return $"Error at line {lineNumber}";
                             }
-                            else if (line.Replace(" ", "").Length == 8)
+                            else if (line.Replace(" ", "").Replace("\u00A0", "").Length == 8)
                             {
                                 answerList[answer].Grade = 1;
                                 cnt = -1;
@@ -231,7 +241,10 @@ namespace NganHangDe.Services
                                 answerList = new List<AnswerModel>();
                                 questionText = "";
                             }
-                            else return $"Error at line {lineNumber}";
+                            else
+                            {
+                                return $"Error at line {lineNumber}";
+                            }
                         }
                         else return $"Error at line {lineNumber}";
                     }

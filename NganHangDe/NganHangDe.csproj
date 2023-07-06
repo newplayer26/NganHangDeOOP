@@ -46,4 +46,10 @@
     <Resource Include="Images\ImageGUI3.1.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Fonts\NotoSans-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

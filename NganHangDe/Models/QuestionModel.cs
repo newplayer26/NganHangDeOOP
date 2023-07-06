@@ -118,9 +118,9 @@ namespace NganHangDe.Models
             get
             {
                 string tmp = $"{Name} {Text}";
-                if(tmp.Length > 150)
+                if(tmp.Length > 100)
                 {
-                    return $"{tmp.Substring(0, 150)}...";
+                    return $"{tmp.Substring(0, 100)}...";
                 }
                 return tmp;
             }
