@@ -11,6 +11,7 @@ namespace NganHangDe.Services
     public interface ICategoryService
     {
         Task<List<CategoryModel>> GetAllCategoriesAsync();
+        Task<List<CategoryModel>> GetAllCategoriesAsync(int quizId);
         Task<Category> GetFullCategoryById(int categoryId);
         Task CreateCategoryAsync(int? parentCategoryId, string name, string info );
         Task<int> GetNumberofCategoriesAsync();

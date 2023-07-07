@@ -107,7 +107,7 @@
             </ItemsControl>
             
             <Button Content="ADD RANDOM" Grid.Column="1" Grid.Row="10" Margin="0 10 0 0" Foreground="White" Background="#0073A5" Width="200" Height="30" HorizontalAlignment="Left"
-                    Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
+                    IsEnabled="{Binding CanCreate}" Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
         </DockPanel>
     </Grid>
     </ScrollViewer>

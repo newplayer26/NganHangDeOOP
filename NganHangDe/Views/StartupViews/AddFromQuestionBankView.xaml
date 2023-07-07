@@ -91,7 +91,7 @@
         </Grid>
         <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
             <Button Content="ADD SELECTED QUESTIONS TO THE QUIZ" Foreground="White" Background="#0073A5" Width="300" HorizontalAlignment="Left" 
-                    Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
+                    IsEnabled="{Binding CanCreate}" Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
         </Grid>
     </Grid>
  </ScrollViewer>
