@@ -6,9 +6,11 @@ using NganHangDe.Services;
 using NganHangDe.Stores;
 using NganHangDe.ViewModels.StartupViewModels;
 using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
+using NganHangDe.Views.QuizUIViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,6 +19,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NganHangDe.ViewModels.QuizUIViewModels
@@ -33,39 +36,8 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
         
         public ObservableCollection<QuestionModel> LoadedQuestionList => _loadedQuestionList;
-        //private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
-        //public ObservableCollection<AnswerModel> SelectedCorrectAnswers
-        //{
-        //    get { return _selectedCorrectAnswers; }
-        //    set
-        //    {
-        //        _selectedCorrectAnswers = value;
-        //        OnPropertyChanged(nameof(SelectedCorrectAnswers));
-        //    }
-        //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
-        private ScrollViewer _questionScrollViewer ;
-        public ScrollViewer QuestionScrollViewer
-        {
-            get { return _questionScrollViewer; }
-            set
-            {
-                _questionScrollViewer= value;
-                OnPropertyChanged(nameof(QuestionScrollViewer));
-                OnPropertyChanged(nameof(ScrollToItemCommand));  
-            }
-        }
-        private ItemsControl _questionItemsControl;
-        public ItemsControl QuestionItemsControl
-        {
-            get { return _questionItemsControl; }
-            set
-            {
-                _questionItemsControl = value;
-                OnPropertyChanged(nameof(QuestionScrollViewer));
-                OnPropertyChanged(nameof(ScrollToItemCommand));
-            }
-        }
+        
         public RelayCommand ScrollToItemCommand { get; set; }
         //public ICommand ScrollToItemCommand { get; set; }
         public TimeSpan QuizSpan { get; set; }
@@ -142,6 +114,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 OnPropertyChanged(nameof(IsFinishAttemptClicked));
             }
         }
+        
         private DateTime startTime;
         public DateTime StartTime
         {
@@ -211,7 +184,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         public ICommand ToQuizzesViewCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
-            
             _isShuffleChecked = isShuffleChecked;
             _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
@@ -222,9 +194,15 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
             ToQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(ancestorNavigationStore, typeof(AllQuizzesViewModel));
-            Console.WriteLine(QuestionItemsControl);
             //ScrollToItemCommand = new ScrollToItemCommand(LoadedQuestionList, QuestionItemsControl, QuestionScrollViewer);
             ScrollToItemCommand = new RelayCommand(ExecuteScrollToItemCommand);
+            //foreach (var question in LoadedQuestionList)
+            //{
+            //    foreach (var answer in question.Answers)
+            //    {
+            //        answer.PropertyChanged += OnAnswerPropertyChanged;
+            //    }
+            //}
         }
         private DispatcherTimer _timer;
 
@@ -289,24 +267,12 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
-        {
-            
+        {           
             question.Answers = answers;
-            //foreach (var answer in answers)
-            //{
-            //    var answerModel = new AnswerModel
-            //    {
-            //        Id = answer.Id,
-            //        Grade = answer.Grade,
-            //        AnswerGroup = question.Id
-            //    };
-            //}
-            //Console.WriteLine(question.IsMultipleAnswers);
             _loadedQuestionList.Add(question);
             question.QuestionNumber = _questionNumber++;
             var correctAnswers = new ObservableCollection<AnswerModel>(answers.Where(answer => answer.Grade > 0));
             question.CorrectAnswers = correctAnswers;
-            //Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
         }
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
         {
@@ -317,8 +283,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 if (!_loadedQuestionList.Any(q => q.Id == question.Id))
                 {
                     _loadedQuestionList.Add(question);
-                }
-                
+                }               
             }
         }
         public void SetIsShuffleChecked(bool isShuffleChecked)
@@ -335,6 +300,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         public void FinishAttempt(object parameter)
         {
+            foreach(var question in LoadedQuestionList)
+            {
+                foreach(var answer in question.Answers)
+                {
+                    answer.CanModify = false;
+                }
+            }
             IsPopupVisible = false;
             FinishTime = DateTime.Now;
             // Tính toán các câu trả lời đúng
@@ -343,14 +315,12 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             foreach (var question in LoadedQuestionList)
             {
                 var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
-
                 question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
                 double questionSelectedGrade = CalculateQuestionGrade(question);
                 double questionGrade = CalculateAnswerGrade(question);
                 totalGrade += questionSelectedGrade;
                 totalAnswerGrade += questionGrade;
             }
-            //Console.WriteLine(totalGrade);
             TotalGrade = totalGrade;
             TotalAnswerGrade = totalAnswerGrade;
             ScoreOutOfTen = Math.Round((totalGrade / totalAnswerGrade)*10,2);
@@ -383,10 +353,44 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
             return totalAnswersGrade;
         }
-        private void ExecuteScrollToItemCommand(object parameter)
+        private double _questionListVerticalOffset;
+
+        public double QuestionListVerticalOffset
         {
-            Console.WriteLine(QuestionItemsControl);
+            get { return _questionListVerticalOffset; }
+            set { _questionListVerticalOffset = value;
+                OnPropertyChanged(nameof(QuestionListVerticalOffset));
+            }
         }
+
+        private void ExecuteScrollToItemCommand(object parameter)
+
+        {
+            Button button = (Button) parameter;
+            int questionNumber = (int)button.Content;
+            ItemsControl questionItemsControl = (ItemsControl)button.Tag;
+            QuestionModel item = LoadedQuestionList.Single(x => x.QuestionNumber == questionNumber);
+            var index = LoadedQuestionList.IndexOf(item);
+            if (index >= 0)
+            {
+                FrameworkElement itemContainer = (FrameworkElement)questionItemsControl.ItemContainerGenerator.ContainerFromItem(item);
+                ScrollViewer scrollViewer = FindVisualParent<ScrollViewer>(itemContainer);
+                FrameworkElement scrollViewerContent = (FrameworkElement)scrollViewer.Content;
+                GeneralTransform transform = itemContainer.TransformToAncestor(scrollViewerContent);
+                Point itemOffset = transform.Transform(new Point(0, 0));
+                scrollViewer.ScrollToVerticalOffset(itemOffset.Y);
+            }
+        }
+        public static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            return parent ?? FindVisualParent<T>(parentObject);
+        }
+
     }
 }
 

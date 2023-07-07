@@ -51,5 +51,18 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(AnswerGroup));
             }
         }
+        private bool _canModify = true;
+        public bool CanModify
+        {
+            get { return _canModify; }
+            set
+            {
+                if (_canModify != value)
+                {
+                    _canModify = value;
+                    OnPropertyChanged(nameof(CanModify));
+                }
+            }
+        }
     }
 }

@@ -113,6 +113,16 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(QuizQuestions));
             }
         }
+        //private string _isAnswered;
+        //public string IsAnswered
+        //{
+        //    get { return _isAnswered; }
+        //    set
+        //    {
+        //        _isAnswered = value;
+        //        OnPropertyChanged(nameof(IsAnswered));
+        //    }
+        //}
         public string DisplayedText
         {
             get
