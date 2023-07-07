@@ -41,6 +41,46 @@ namespace NganHangDe.Services
                 return CategoryModels;
             }
         }
+        public async Task<List<CategoryModel>> GetAllCategoriesAsync(int quizId)
+        {
+            using (var _context = new AppDbContext())
+            {
+                var CategoryModels = new List<CategoryModel>();
+                var categoryList = await _context.Categories.Include(c => c.Questions).ToListAsync();
+                var topCategories = categoryList.Where(c => c.ParentCategoryId == null);
+                foreach (var category in topCategories)
+                {
+                    await AddCategoryWithIndentation(category, "", CategoryModels, categoryList, quizId);
+                }
+                return CategoryModels;
+            }
+        }
+        private async Task AddCategoryWithIndentation(Category category, string level, List<CategoryModel> CategoryModels, List<Category> allCategories, int quizId)
+        {
+            List<Question> unassignedQuestion = new List<Question>();
+            using (var _context = new AppDbContext())
+            {
+                unassignedQuestion = await _context.Questions
+                    .Include(q => q.QuizQuestions)
+                    .Where(q => q.CategoryId == category.Id)
+                    .Where(q => !q.QuizQuestions.Any(qq => qq.QuizId == quizId))
+                    .ToListAsync();
+            }
+            CategoryModels.Add(new CategoryModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Level = level,
+                QuestionsNumber = unassignedQuestion.Count
+            }) ;
+
+            var childCategories = allCategories.Where(c => c.ParentCategoryId == category.Id);
+
+            foreach (var childCategory in childCategories)
+            {
+                await AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories, quizId);
+            }
+        }
         private void AddCategoryWithIndentation(Category category, string level, List<CategoryModel> CategoryModels, List<Category> allCategories)
         {
             CategoryModels.Add(new CategoryModel
@@ -58,6 +98,7 @@ namespace NganHangDe.Services
                 AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories);
             }
         }
+
         public async Task CreateCategoryAsync(int? parentCategoryId, string name, string info)
         {
             using (var _context = new AppDbContext())

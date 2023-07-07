@@ -78,7 +78,7 @@
                                             
                                             <Image  Grid.Column="2" Source="../../../Images/ImageGUI3.1.png" Height="13" Width="13" Margin="0 5 0 0" HorizontalAlignment="Left"/>
                                             <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right"  Grid.Column="1"  />
-                                            <TextBlock Text="{Binding Text}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="3"  />
+                                            <TextBlock Text="{Binding DisplayedText}" FontSize="15" Foreground="Black" VerticalAlignment="Center" Grid.Column="3"  />
                                             
                                         </Grid>
                                     </Border>
@@ -89,10 +89,15 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
-            <Button Content="ADD SELECTED QUESTIONS TO THE QUIZ" Foreground="White" Background="#0073A5" Width="300" HorizontalAlignment="Left" 
+            <Grid Grid.Row="3" Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="ADD SELECTED QUESTIONS TO THE QUIZ" Foreground="White" Background="#0073A5" Width="300" HorizontalAlignment="Left" 
                     Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
+                    <Button Content="CHOOSE ALL QUESTIONS" Foreground="White" Background="#0073A5" Width="200"
+                            Command="{Binding ChooseAllQuestionsCommand}" Margin="20 0 0 0"/>
+                </StackPanel>
+                
+            </Grid>
         </Grid>
-    </Grid>
  </ScrollViewer>
 </UserControl>

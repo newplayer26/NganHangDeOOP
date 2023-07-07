@@ -11,6 +11,7 @@ namespace NganHangDe.Services
     public interface IFileService
     {
         byte[] GeneratePdf(List<QuestionModel> questions);
+        byte[] GeneratePdf(List<QuestionModel> questions, string password);
         void SavePdfFile(byte[] pdfData);
         Task<string> AddQuestionsByFile(string filePath, int categoryId);
     }

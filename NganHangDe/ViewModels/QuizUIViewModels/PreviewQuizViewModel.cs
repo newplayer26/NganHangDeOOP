@@ -36,16 +36,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private ObservableCollection<QuestionModel> _loadedQuestionList = new ObservableCollection<QuestionModel>();
         
         public ObservableCollection<QuestionModel> LoadedQuestionList => _loadedQuestionList;
-        //private ObservableCollection<AnswerModel> _selectedCorrectAnswers;
-        //public ObservableCollection<AnswerModel> SelectedCorrectAnswers
-        //{
-        //    get { return _selectedCorrectAnswers; }
-        //    set
-        //    {
-        //        _selectedCorrectAnswers = value;
-        //        OnPropertyChanged(nameof(SelectedCorrectAnswers));
-        //    }
-        //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
         
         public RelayCommand ScrollToItemCommand { get; set; }
@@ -124,6 +114,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 OnPropertyChanged(nameof(IsFinishAttemptClicked));
             }
         }
+        
         private DateTime startTime;
         public DateTime StartTime
         {
@@ -193,7 +184,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         public ICommand ToQuizzesViewCommand { get; set; }
         public PreviewQuizViewModel(NavigationStore ancestorNavigationStore, int quizId, bool isShuffleChecked, ObservableCollection<QuestionModel> shuffledQuestionList)
         {
-            
             _isShuffleChecked = isShuffleChecked;
             _shuffledQuestionList = shuffledQuestionList;
             _ancestorNavigationStore = ancestorNavigationStore;
@@ -206,6 +196,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             ToQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(ancestorNavigationStore, typeof(AllQuizzesViewModel));
             //ScrollToItemCommand = new ScrollToItemCommand(LoadedQuestionList, QuestionItemsControl, QuestionScrollViewer);
             ScrollToItemCommand = new RelayCommand(ExecuteScrollToItemCommand);
+            //foreach (var question in LoadedQuestionList)
+            //{
+            //    foreach (var answer in question.Answers)
+            //    {
+            //        answer.PropertyChanged += OnAnswerPropertyChanged;
+            //    }
+            //}
         }
         private DispatcherTimer _timer;
 
@@ -234,13 +231,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private async Task LoadQuestionsAsync()
         {
             StartTime = DateTime.Now;
+            var quiz = await _quizService.GetFullQuizById(_quizId);
+            QuizSpan = quiz.TimeLimit;
+            StartTimer();
             if (_isShuffleChecked == false)
             {
                 try
                 {
-                    var quiz = await _quizService.GetFullQuizById(_quizId);
-                    QuizSpan = quiz.TimeLimit;
-                    StartTimer();
                     var questions = await _quizService.GetAllQuestionsFromQuizAsync(_quizId);
                     foreach (var question in questions)
                     {
@@ -270,24 +267,12 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
-        {
-            
+        {           
             question.Answers = answers;
-            //foreach (var answer in answers)
-            //{
-            //    var answerModel = new AnswerModel
-            //    {
-            //        Id = answer.Id,
-            //        Grade = answer.Grade,
-            //        AnswerGroup = question.Id
-            //    };
-            //}
-            //Console.WriteLine(question.IsMultipleAnswers);
             _loadedQuestionList.Add(question);
             question.QuestionNumber = _questionNumber++;
             var correctAnswers = new ObservableCollection<AnswerModel>(answers.Where(answer => answer.Grade > 0));
             question.CorrectAnswers = correctAnswers;
-            //Console.WriteLine("PreviewQuizShuffle = " + IsShuffleChecked);
         }
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
         {
@@ -298,8 +283,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 if (!_loadedQuestionList.Any(q => q.Id == question.Id))
                 {
                     _loadedQuestionList.Add(question);
-                }
-                
+                }               
             }
         }
         public void SetIsShuffleChecked(bool isShuffleChecked)
@@ -316,6 +300,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         public void FinishAttempt(object parameter)
         {
+            foreach(var question in LoadedQuestionList)
+            {
+                foreach(var answer in question.Answers)
+                {
+                    answer.CanModify = false;
+                }
+            }
             IsPopupVisible = false;
             FinishTime = DateTime.Now;
             // Tính toán các câu trả lời đúng
@@ -324,14 +315,12 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             foreach (var question in LoadedQuestionList)
             {
                 var selectedCorrectAnswers = question.Answers.Where(answer => answer.Grade > 0 && answer.IsSelected);
-
                 question.SelectedCorrectAnswers = new ObservableCollection<AnswerModel>(selectedCorrectAnswers);
                 double questionSelectedGrade = CalculateQuestionGrade(question);
                 double questionGrade = CalculateAnswerGrade(question);
                 totalGrade += questionSelectedGrade;
                 totalAnswerGrade += questionGrade;
             }
-            //Console.WriteLine(totalGrade);
             TotalGrade = totalGrade;
             TotalAnswerGrade = totalAnswerGrade;
             ScoreOutOfTen = Math.Round((totalGrade / totalAnswerGrade)*10,2);
@@ -354,9 +343,13 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private double CalculateAnswerGrade(QuestionModel question)
         {
             double totalAnswersGrade = 0;
-            foreach(var answer in question.Answers)
+            foreach (var answer in question.Answers)
             {
-                totalAnswersGrade += answer.Grade;
+                if (answer.Grade > 0)
+                {
+                    totalAnswersGrade += answer.Grade;
+                }
+                
             }
             return totalAnswersGrade;
         }

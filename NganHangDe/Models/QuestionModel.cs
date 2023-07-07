@@ -26,6 +26,7 @@ namespace NganHangDe.Models
                 _text = value;
                 OnPropertyChanged(nameof(Text));
                 OnPropertyChanged(nameof(DisplayedText));
+                OnPropertyChanged(nameof(DisplayedTextInQuiz));
             }
         }
         public string Name
@@ -36,6 +37,7 @@ namespace NganHangDe.Models
                 _name = value;
                 OnPropertyChanged(nameof(Name));
                 OnPropertyChanged(nameof(DisplayedText));
+                OnPropertyChanged(nameof(DisplayedTextInQuiz));
             }
         }
         public List<AnswerModel> Answers
@@ -111,6 +113,28 @@ namespace NganHangDe.Models
                 OnPropertyChanged(nameof(QuizQuestions));
             }
         }
-        public string DisplayedText => $"{Name} {Text}"; 
+        //private string _isAnswered;
+        //public string IsAnswered
+        //{
+        //    get { return _isAnswered; }
+        //    set
+        //    {
+        //        _isAnswered = value;
+        //        OnPropertyChanged(nameof(IsAnswered));
+        //    }
+        //}
+        public string DisplayedText
+        {
+            get
+            {
+                string tmp = $"{Name} {Text}";
+                if(tmp.Length > 100)
+                {
+                    return $"{tmp.Substring(0, 100)}...";
+                }
+                return tmp;
+            }
+        }
+        public string DisplayedTextInQuiz => $"{Name} {Text}";
     }
 }

@@ -59,7 +59,7 @@ namespace NganHangDe.ViewModels.TabbedNavigationTabViewModels
                 {
                     _selectedCategory = value;
                     OnPropertyChanged(nameof(SelectedCategory));
-                    LoadQuestionsCommand.Execute(value.Id);
+                    if(_selectedCategory != null) LoadQuestionsCommand.Execute(value.Id);
                 }
             }
         }

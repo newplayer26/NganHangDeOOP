@@ -34,6 +34,8 @@ namespace NganHangDe.Commands
             else questionmodels = _viewmodel.ShuffledQuestionList.ToList();
             var pdfData = _fileService.GeneratePdf(questionmodels, _viewmodel.Password);
             _fileService.SavePdfFile(pdfData);
+            _viewmodel.HideExportPopupCommand.Execute(null);
+            _viewmodel.HidePopupCommand.Execute(null);
         }
     }
 }
