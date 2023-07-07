@@ -25,4 +25,9 @@ namespace NganHangDe.Views.QuizUIViews
             InitializeComponent();
         }
     }
+    public class CustomCommandParam
+    {
+        public object Parameter1 { get; set; }
+        public object Parameter2 { get; set; }
+    }
 }

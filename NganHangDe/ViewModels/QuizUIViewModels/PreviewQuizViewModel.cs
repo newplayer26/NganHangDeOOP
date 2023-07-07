@@ -6,9 +6,11 @@ using NganHangDe.Services;
 using NganHangDe.Stores;
 using NganHangDe.ViewModels.StartupViewModels;
 using NganHangDe.ViewModels.TabbedNavigationTabViewModels;
+using NganHangDe.Views.QuizUIViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,6 +19,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NganHangDe.ViewModels.QuizUIViewModels
@@ -44,28 +47,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         //    }
         //}
         private ObservableCollection<QuestionModel> _shuffledQuestionList;
-        private ScrollViewer _questionScrollViewer ;
-        public ScrollViewer QuestionScrollViewer
-        {
-            get { return _questionScrollViewer; }
-            set
-            {
-                _questionScrollViewer= value;
-                OnPropertyChanged(nameof(QuestionScrollViewer));
-                OnPropertyChanged(nameof(ScrollToItemCommand));  
-            }
-        }
-        private ItemsControl _questionItemsControl;
-        public ItemsControl QuestionItemsControl
-        {
-            get { return _questionItemsControl; }
-            set
-            {
-                _questionItemsControl = value;
-                OnPropertyChanged(nameof(QuestionScrollViewer));
-                OnPropertyChanged(nameof(ScrollToItemCommand));
-            }
-        }
+        
         public RelayCommand ScrollToItemCommand { get; set; }
         //public ICommand ScrollToItemCommand { get; set; }
         public TimeSpan QuizSpan { get; set; }
@@ -222,7 +204,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             _quizService = new QuizService();
             _ = LoadQuestionsAsync();
             ToQuizzesViewCommand = new NavigateCommand<AllQuizzesViewModel>(ancestorNavigationStore, typeof(AllQuizzesViewModel));
-            Console.WriteLine(QuestionItemsControl);
             //ScrollToItemCommand = new ScrollToItemCommand(LoadedQuestionList, QuestionItemsControl, QuestionScrollViewer);
             ScrollToItemCommand = new RelayCommand(ExecuteScrollToItemCommand);
         }
@@ -379,10 +360,44 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             }
             return totalAnswersGrade;
         }
-        private void ExecuteScrollToItemCommand(object parameter)
+        private double _questionListVerticalOffset;
+
+        public double QuestionListVerticalOffset
         {
-            Console.WriteLine(QuestionItemsControl);
+            get { return _questionListVerticalOffset; }
+            set { _questionListVerticalOffset = value;
+                OnPropertyChanged(nameof(QuestionListVerticalOffset));
+            }
         }
+
+        private void ExecuteScrollToItemCommand(object parameter)
+
+        {
+            Button button = (Button) parameter;
+            int questionNumber = (int)button.Content;
+            ItemsControl questionItemsControl = (ItemsControl)button.Tag;
+            QuestionModel item = LoadedQuestionList.Single(x => x.QuestionNumber == questionNumber);
+            var index = LoadedQuestionList.IndexOf(item);
+            if (index >= 0)
+            {
+                FrameworkElement itemContainer = (FrameworkElement)questionItemsControl.ItemContainerGenerator.ContainerFromItem(item);
+                ScrollViewer scrollViewer = FindVisualParent<ScrollViewer>(itemContainer);
+                FrameworkElement scrollViewerContent = (FrameworkElement)scrollViewer.Content;
+                GeneralTransform transform = itemContainer.TransformToAncestor(scrollViewerContent);
+                Point itemOffset = transform.Transform(new Point(0, 0));
+                scrollViewer.ScrollToVerticalOffset(itemOffset.Y);
+            }
+        }
+        public static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            return parent ?? FindVisualParent<T>(parentObject);
+        }
+
     }
 }
 
