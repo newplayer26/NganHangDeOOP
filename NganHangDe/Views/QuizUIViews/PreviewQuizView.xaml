@@ -321,6 +321,7 @@
                             </Grid>
                         </StackPanel>
                     </Border>
+                    </ScrollViewer>
                 </Grid>
             </Grid>
         </Grid>
