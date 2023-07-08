@@ -20,12 +20,6 @@ namespace NganHangDe.Extensions
         }
 
         private bool _internalUpdate;
-
-        public BindableRichTextBox()
-        {
-            // No need for additional setup without text wrapping
-        }
-
         private static void OnBindableTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is BindableRichTextBox richTextBox && !richTextBox._internalUpdate)

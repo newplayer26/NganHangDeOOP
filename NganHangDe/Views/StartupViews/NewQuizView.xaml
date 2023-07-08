@@ -193,7 +193,7 @@
                               Width="auto"
                               HorizontalAlignment="left"
                                  Height="25"
-                                  SelectedIndex="0"
+                                  SelectedIndex="0" IsEnabled="False"
                               >
                             <ComboBoxItem x:Name="OnlyChoice">
                                 <TextBlock>Open attempts are submitted automatically</TextBlock>

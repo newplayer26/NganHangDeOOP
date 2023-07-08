@@ -87,6 +87,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 OnPropertyChanged(nameof(IsShowingDescendants));
                 OnPropertyChanged(nameof(QuestionList));
                 OnPropertyChanged(nameof(NumberOfQuestions));
+                UpdatePagedQuestionList();
+                UpdatePageNumbers();
+                OnPropertyChanged(nameof(CurrentPage));
                 SelectedNumber = 0;
             }
         }
