@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.ViewModels"
+             xmlns:extensions="clr-namespace:NganHangDe.Extensions"
              mc:Ignorable="d" 
              Background="White"
              d:DesignHeight="850" d:DesignWidth="600">
@@ -76,10 +77,10 @@
                         <TextBlock Text="Question text " FontSize="16"/>
                         <TextBlock Text="*" FontSize="16" Foreground="Red"/>
                     </StackPanel>
-                    <TextBox Text="{Binding QuestionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="5" MinHeight="100" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
-                         TextWrapping="Wrap" AcceptsReturn="True"/>
+                <extensions:BindableRichTextBox BindableText="{Binding QuestionText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="5" MinHeight="100" Width="300" HorizontalAlignment="Left" Margin="20 10 0 0" 
+                                                AcceptsReturn="True"/>
 
-                    <!--Default mark (cần chèn dấu ! bắt buộc !=NULL)-->
+                <!--Default mark (cần chèn dấu ! bắt buộc !=NULL)-->
                     <StackPanel Grid.Column="1" Grid.Row="6" Margin="20 10 0 0" Orientation="Horizontal">
                         <TextBlock Text="Default mark " FontSize="16"/>
                         <TextBlock Text="*" Foreground="red" FontSize="16"/>
@@ -122,7 +123,7 @@
      
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Grid.Row="0">
-                                        <TextBox Width="250" Height="80"  HorizontalAlignment="Left" Margin="20 10 0 0"  TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <extensions:BindableRichTextBox Width="250" Height="80"  HorizontalAlignment="Left" Margin="20 10 0 0" AcceptsReturn="True" BindableText="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <!--<ComboBox Width="250" HorizontalAlignment="Left" Margin="20 0 0 0"/>-->
                                         <ComboBox Width="80" HorizontalAlignment="Left" Margin="20 10 0 0" ItemsSource="{Binding GradeList}" SelectedItem="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
