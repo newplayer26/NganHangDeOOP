@@ -20,6 +20,9 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private QuizService _quizService;
         public RelayCommand ToEditingQuizViewCommand { get; private set; }
         public RelayCommand SelectQuestionCommand { get; private set; }
+        public RelayCommand PreviousPageCommand { get; private set; }
+        public RelayCommand NextPageCommand { get; private set; }
+        public RelayCommand ChangePageCommand { get; private set; }
         private ObservableCollection<CategoryModel> _categoryList = new ObservableCollection<CategoryModel>();
         public IEnumerable<CategoryModel> CategoryList => _categoryList;
         public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants ? _descendantsCategoriesList : _singleCategoryList;
@@ -100,6 +103,39 @@ namespace NganHangDe.ViewModels.StartupViewModels
             get { return _singleCategoryList; }
             set { _singleCategoryList = value; }
         }
+        private ObservableCollection<QuestionModel> _pagedQuestionList;
+        public ObservableCollection<QuestionModel> PagedQuestionList
+        {
+            get { return _pagedQuestionList; }
+            set
+            {
+                _pagedQuestionList = value;
+                OnPropertyChanged(nameof(PagedQuestionList));
+            }
+        }
+
+        private List<int> _pageNumbers;
+        public List<int> PageNumbers
+        {
+            get { return _pageNumbers; }
+            set
+            {
+                _pageNumbers = value;
+                OnPropertyChanged(nameof(PageNumbers));
+            }
+        }
+
+        private int _currentPage;
+        public int CurrentPage
+        {
+            get { return _currentPage; }
+            set
+            {
+                _currentPage = value;
+                OnPropertyChanged(nameof(CurrentPage));
+                UpdatePagedQuestionList();
+            }
+        }
 
         public AddARandomQuestionViewModel(NavigationStore ancestorNavigationStore, int quizId)
         {
@@ -111,6 +147,10 @@ namespace NganHangDe.ViewModels.StartupViewModels
             LoadCategoriesCommand.Execute(null);
             SelectQuestionCommand = new RelayCommand(ExecuteSelectQuestionCommand);
             ToEditingQuizViewCommand = new RelayCommand(ExecuteToEditingQuizViewCommand);
+            PreviousPageCommand = new RelayCommand(ExecutePreviousPageCommand);
+            NextPageCommand = new RelayCommand(ExecuteNextPageCommand);
+            ChangePageCommand = new RelayCommand(ExecuteChangePageCommand);
+            UpdatePageNumbers();
         }
 
         public void LoadCategories(List<CategoryModel> list)
@@ -124,8 +164,12 @@ namespace NganHangDe.ViewModels.StartupViewModels
         {
             SingleCategoryList = new ObservableCollection<QuestionModel>(singleCategoryList);
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
+            CurrentPage = 1;
+            UpdatePagedQuestionList();
+            UpdatePageNumbers();
             OnPropertyChanged(nameof(QuestionList));
             OnPropertyChanged(nameof(NumberOfQuestions));
+            OnPropertyChanged(nameof(CurrentPage));
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
         {
@@ -144,9 +188,62 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int quizId = _quizId;
-            Console.WriteLine(quizId);
+           // Console.WriteLine(quizId);
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
+        }
+        private void UpdatePagedQuestionList()
+        {
+            int startIndex = (CurrentPage - 1) * 10;
+            PagedQuestionList = new ObservableCollection<QuestionModel>(QuestionList.Skip(startIndex).Take(10));
+        }
+
+        private void UpdatePageNumbers()
+        {
+            if (QuestionList!=null)
+            {
+                int totalPages = (int)Math.Ceiling((double)QuestionList.Count() / 10);
+                PageNumbers = Enumerable.Range(1, totalPages).ToList();
+            }
+            else
+            {
+                PageNumbers = new List<int>(); // Khởi tạo PageNumbers thành một danh sách rỗng
+            }
+        }
+        private void ExecuteChangePageCommand(object parameter)
+        {
+            if (parameter is int page)
+            {
+                CurrentPage = page;
+                UpdatePagedQuestionList();
+            }
+        }
+        private void ExecutePreviousPageCommand(object parameter)
+        {            
+            if(CanExecutePreviousPageCommand(parameter))
+            {
+                CurrentPage--;
+                Console.WriteLine(CurrentPage);
+                UpdatePagedQuestionList();
+            }                        
+        }
+        private void ExecuteNextPageCommand(object parameter)
+        {
+            if (CanExecuteNextPageCommand(parameter))
+            {
+                CurrentPage++;
+                Console.WriteLine(CurrentPage);
+                UpdatePagedQuestionList();
+            }                        
+        }
+        private bool CanExecutePreviousPageCommand(object parameter)
+        {
+            return CurrentPage > 1;          
+        }
+
+        private bool CanExecuteNextPageCommand(object parameter)
+        {
+            return CurrentPage < PageNumbers.Count;
         }
     }
 }

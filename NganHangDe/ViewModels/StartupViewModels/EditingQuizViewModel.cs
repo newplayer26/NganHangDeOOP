@@ -117,7 +117,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 }
                 SelectedQuestions = new ObservableCollection<QuestionModel>(selectedQuestions);
             }
-            Console.WriteLine(_questionList.Count);
+            //Console.WriteLine(_questionList.Count);
             OnPropertyChanged(nameof(QuestionCount));
         }
         private void ExecuteAddFromQuestionBankViewCommand(object parameter)
@@ -134,7 +134,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {
             question.Answers = answers;
-            Console.WriteLine(question.IsMultipleAnswers);
+            //Console.WriteLine(question.IsMultipleAnswers);
             _questionList.Add(question);
             var correctAnswers = new ObservableCollection<AnswerModel>(answers.Where(answer => answer.Grade > 0));
             question.CorrectAnswers = correctAnswers;

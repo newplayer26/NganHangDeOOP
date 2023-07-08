@@ -50,7 +50,7 @@
                                                      IsEnabled="{Binding CanModify}">
                                             <TextBlock Text="{Binding Text}" TextWrapping="Wrap"/>
                                         </RadioButton>
-                                     
+
                                     </Grid>
                                     
                                     
@@ -288,39 +288,39 @@
                                             <!--<Button Content="{Binding QuestionNumber}"  Command="{Binding DataContext.NavigateToQuestionCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding QuestionNumber}" />-->
                                         <Button Content="{Binding QuestionNumber}" Width="50"  Margin="5" Command="{Binding DataContext.ScrollToItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" Tag="{Binding ElementName=QuestionItemsControl}"  CommandParameter="{Binding RelativeSource={RelativeSource Self}}" >
-                                           
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                            <Grid Margin="10">
-                                <Button Content="Finish Attempt" Command="{Binding ShowPopupCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#009FE5" Background="White" BorderBrush="White">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button Content="Finish Review" Foreground="#009FE5" Command="{Binding ToQuizzesViewCommand }" HorizontalAlignment="Left" VerticalAlignment="Center" Background="White" BorderBrush="White">
-                                    <Button.Style>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
+
+                                            </Button>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <Grid Margin="10">
+                                    <Button Content="Finish Attempt" Command="{Binding ShowPopupCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#009FE5" Background="White" BorderBrush="White">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                    <Button Content="Finish Review" Foreground="#009FE5" Command="{Binding ToQuizzesViewCommand }" HorizontalAlignment="Left" VerticalAlignment="Center" Background="White" BorderBrush="White">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFinishAttemptClicked}" Value="True" >
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
                     </ScrollViewer>
                 </Grid>
             </Grid>
