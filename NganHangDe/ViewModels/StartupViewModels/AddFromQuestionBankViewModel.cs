@@ -31,20 +31,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         public ObservableCollection<QuestionModel> SelectedQuestions => _selectedQuestions;
         public IEnumerable<CategoryModel> CategoryList => _categoryList;
         public IEnumerable<QuestionModel> QuestionList => IsShowingDescendants ? _descendantsCategoriesList : _singleCategoryList;
-
-        private bool _canChooseAllQuestions;
-        public bool CanChooseAllQuestions
-        {
-            get
-            {
-                return _canChooseAllQuestions;
-            }
-            set
-            {
-                _canChooseAllQuestions = value;
-                OnPropertyChanged(nameof(CanChooseAllQuestions));
-            }
-        }
+        public bool CanChoose => CanCreate && QuestionList != null && QuestionList.Count() > 0;
         public CategoryModel _selectedCategory;
         public ICommand LoadCategoriesCommand { get; }
         public ICommand LoadQuestionsCommand { get; }
@@ -59,6 +46,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                     _selectedCategory = value;
                     OnPropertyChanged(nameof(SelectedCategory));
                     OnPropertyChanged(nameof(CanCreate));
+                    OnPropertyChanged(nameof(CanChoose));
                     LoadQuestionsCommand.Execute(value.Id);
                 }
             }
@@ -76,7 +64,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 _isShowingDescendants = value;
                 OnPropertyChanged(nameof(IsShowingDescendants));
                 OnPropertyChanged(nameof(QuestionList));
-                OnPropertyChanged(nameof(CanChooseAllQuestions));
+                OnPropertyChanged(nameof(CanChoose));
             }
         }
         private ObservableCollection<QuestionModel> _singleCategoryList;
@@ -120,9 +108,8 @@ namespace NganHangDe.ViewModels.StartupViewModels
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
             _selectedQuestions = new ObservableCollection<QuestionModel>();
             OnPropertyChanged(nameof(QuestionList));
-            if (QuestionList.Count() > 0) _canChooseAllQuestions = true;
-            else _canChooseAllQuestions = false;
-            OnPropertyChanged(nameof(CanChooseAllQuestions));
+            Console.WriteLine(QuestionList.Count());
+            OnPropertyChanged(nameof(CanChoose));
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
         {
@@ -133,7 +120,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 foreach (var question in selectedQuestions)
                 {
                     _selectedQuestions.Add(question);
-                    Console.WriteLine(question.Id);
+                    //Console.WriteLine(question.Id);
                 }
                 foreach (var question in selectedQuestions)
                 {
@@ -150,7 +137,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int quizId = _quizId;
-            Console.WriteLine(quizId);
+            //Console.WriteLine(quizId);
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
