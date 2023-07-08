@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NganHangDe.Views.StartupViews"
+             xmlns:res="clr-namespace:NganHangDe.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <res:PageHighlightConverter x:Key="PageHighlightConverter"/>
+    </UserControl.Resources>
     <ScrollViewer>
         
  
@@ -67,26 +71,48 @@
         </StackPanel>
         <TextBlock Text="questions" Grid.Column="1" Grid.Row="6"/>
         <TextBlock Text="Questions matching this filter" Grid.Column="1" Grid.Row="7" Margin="0 10 0 0"/>
-        <WrapPanel  Grid.Column="1" Grid.Row="8" Margin="0 30 0 0" Orientation="Horizontal">
-            <Button Margin="0" Width="30" Height="30">
-                <TextBlock Text="&lt;" FontSize="15"  FontWeight="Bold" />
-            </Button>
-            <Button Content="1" Width="30" Height="30" />
-            <Button Content="2" Width="30" Height="30" />
-            <Button Content="3" Width="30" Height="30" />
-            <Button Content="4" Width="30" Height="30" />
-            <Button Content="5" Width="30" Height="30" />
-            <Button Content="6" Width="30" Height="30" />
-            <Button Content="7" Width="30" Height="30"/>
-            <Button Content="8" Width="30" Height="30"/>
-            <Button Content="9" Width="30" Height="30"/>
-            <Button Content="..."  Width="30" Height="30"/>
-            <Button  Width="30" Height="30" >
-                <TextBlock Text="&gt;" FontSize="15" FontWeight="Bold" />
-            </Button>
-        </WrapPanel>
-        <DockPanel Grid.Column="1" Grid.Row="9" Margin="0 30 0 0">
-            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding QuestionList}">
+            <WrapPanel Grid.Column="1" Grid.Row="8" Margin="0 30 0 0" Orientation="Horizontal">
+                <Button Margin="0" Width="30" Height="30" Command="{Binding PreviousPageCommand}">
+                    <TextBlock Text="&lt;" FontSize="15" FontWeight="Bold" />
+                </Button>
+                <ItemsControl ItemsSource="{Binding PageNumbers}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Width="30" Height="30" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Foreground" Value="Black" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="LightGray" />
+                                            </Trigger>
+                                            <DataTrigger Value="True">
+                                                <DataTrigger.Binding>
+                                                    <Binding Path="Content" RelativeSource="{RelativeSource Self}" />
+                                                </DataTrigger.Binding>
+                                                <Setter Property="Background" Value="Yellow" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                                <Button.Content>
+                                    <TextBlock Text="{Binding}" />
+                                </Button.Content>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Width="30" Height="30" Command="{Binding NextPageCommand}">
+                    <TextBlock Text="&gt;" FontSize="15" FontWeight="Bold" />
+                </Button>
+            </WrapPanel>
+            <DockPanel Grid.Column="1" Grid.Row="9" Margin="0 30 0 0">
+            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding PagedQuestionList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Background="#F0F0F0" Margin="0 10 0 0">
