@@ -68,11 +68,12 @@ namespace NganHangDe.ViewModels.StartupViewModels
                 {
                     _selectedCategory = value;
                     OnPropertyChanged(nameof(SelectedCategory));
+                    OnPropertyChanged(nameof(CanCreate));
                     LoadQuestionsCommand.Execute(value.Id);
                 }
             }
         }
-
+        public bool CanCreate => SelectedCategory != null; 
         private bool _isShowingDescendants;
         public bool IsShowingDescendants
         {
@@ -181,7 +182,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Please select a category.");
+                MessageBox.Show("Please try again.");
             }
            
         }

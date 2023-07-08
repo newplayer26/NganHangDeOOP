@@ -92,9 +92,9 @@
             <Grid Grid.Row="3" Grid.Column="1">
                 <StackPanel Orientation="Horizontal">
                     <Button Content="ADD SELECTED QUESTIONS TO THE QUIZ" Foreground="White" Background="#0073A5" Width="300" HorizontalAlignment="Left" 
-                    Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
+                    IsEnabled="{Binding CanCreate}" Command="{Binding SelectQuestionCommand}" CommandParameter="{Binding}"/>
                     <Button Content="CHOOSE ALL QUESTIONS" Foreground="White" Background="#0073A5" Width="200"
-                            Command="{Binding ChooseAllQuestionsCommand}" Margin="20 0 0 0"/>
+                            IsEnabled="{Binding CanChoose}" Command="{Binding ChooseAllQuestionsCommand}" Margin="20 0 0 0"/>
                 </StackPanel>
                 
             </Grid>
