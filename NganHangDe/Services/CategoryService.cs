@@ -78,7 +78,7 @@ namespace NganHangDe.Services
 
             foreach (var childCategory in childCategories)
             {
-                await AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories, quizId);
+                await AddCategoryWithIndentation(childCategory, level + "  ", CategoryModels, allCategories, quizId);
             }
         }
         private void AddCategoryWithIndentation(Category category, string level, List<CategoryModel> CategoryModels, List<Category> allCategories)
@@ -95,7 +95,7 @@ namespace NganHangDe.Services
 
             foreach (var childCategory in childCategories)
             {
-                AddCategoryWithIndentation(childCategory, level + "   ", CategoryModels, allCategories);
+                AddCategoryWithIndentation(childCategory, level + "  ", CategoryModels, allCategories);
             }
         }
 
