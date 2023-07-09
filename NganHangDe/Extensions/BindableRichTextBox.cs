@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
@@ -45,7 +46,13 @@ namespace NganHangDe.Extensions
             {
                 _internalUpdate = true;
                 TextRange textRange = new TextRange(Document.ContentStart, Document.ContentEnd);
-                BindableText = textRange.Text;
+                string text = textRange.Text;
+                if (text.EndsWith(Environment.NewLine))
+                {
+                    text = text.Substring(0, text.Length - Environment.NewLine.Length);
+                }
+
+                BindableText = text;
                 _internalUpdate = false;
             }
         }

@@ -236,7 +236,7 @@
                                             <ItemsControl ItemsSource="{Binding CorrectAnswers}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Margin="272 5 0 5" Text="{Binding Text}" />
+                                                        <TextBlock Margin="272 5 0 5" Text="{Binding Text}" TextWrapping="Wrap" />
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
