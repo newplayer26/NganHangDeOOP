@@ -34,7 +34,7 @@
 
         </Grid.RowDefinitions>
         <Grid Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="Add a random question to page 1" Foreground="red"/>
+                <TextBlock FontSize="18" Text="Add a random question to page 1" Foreground="red"/>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="2">
             <Button Content="Back" HorizontalAlignment="Center" Foreground="Black" Background="White" 

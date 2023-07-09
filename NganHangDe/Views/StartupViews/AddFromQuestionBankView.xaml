@@ -23,7 +23,7 @@
             <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="Add from the question bank at the end" Foreground="red"/>
+                <TextBlock FontSize="18" Text="Add from the question bank at the end" Foreground="red"/>
         <Grid Grid.Row="1" Grid.Column="2">
             <Button Content="Back" HorizontalAlignment="Right" Command="{Binding ToEditingQuizViewCommand}" Background="White"/>
 

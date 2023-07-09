@@ -46,8 +46,11 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
                 <!--Name-->
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="Name" FontSize="16" Margin="20 20 0 0"/>
-                <TextBox Text="{Binding CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="3" Width="330" HorizontalAlignment="Left" Margin="0 20 0 0"
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="20 20 0 0">
+                        <TextBlock Text="Name" FontSize="16"/>
+                        <TextBlock Text="*" FontSize="16" Foreground="Red"/>
+                    </StackPanel>
+                    <TextBox Text="{Binding CategoryName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" Grid.Row="3" Width="330" HorizontalAlignment="Left" Margin="0 20 0 0"
                          TextWrapping="Wrap" AcceptsReturn="True"/>
                 <!--Category info-->
                 <TextBlock Grid.Column="1" Grid.Row="4" Text="Category info" FontSize="16" Margin="20 20 0 0"/>
