@@ -54,7 +54,7 @@
                 <Button Content="REPAGINATE" Background="#009FE5" Foreground="White"/>
                 <Button Content="SELECT MULTIPLE ITEMS" Command="{Binding SelectMultipleItemsCommand}" Background="#009FE5" Foreground="White" Margin="10 0 0 0"/>
                 <Grid Margin="10 0 0 0">
-                    <Button Content="DELETE" Command="{Binding DeleteSelectQuestionsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="Red"  Height="28" Width="65"/>
+                    <Button Content="DELETE" Command="{Binding DeleteSelectQuestionsCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Background="Red"  Height="28" Width="80"/>
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Style.Triggers>

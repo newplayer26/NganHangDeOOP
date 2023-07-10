@@ -132,7 +132,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
         private void ExecuteToEditingQuizViewCommand(object parameter)
         {
             int quizId = _model.Id;
-            Console.WriteLine(quizId);
+            //Console.WriteLine(quizId);
             EditingQuizViewModel editingQuizViewModel = new EditingQuizViewModel(_ancestorNavigationStore, quizId);
             _ancestorNavigationStore.CurrentViewModel = editingQuizViewModel;
         }
@@ -163,15 +163,11 @@ namespace NganHangDe.ViewModels.StartupViewModels
             PreviewQuizViewModel previewQuizViewModel = new PreviewQuizViewModel(_ancestorNavigationStore, quizid, isShuffleChecked, shuffledQuestionList);
             _ancestorNavigationStore.CurrentViewModel = previewQuizViewModel;
             
-            Console.WriteLine(_isShuffleChecked);
+            //Console.WriteLine(_isShuffleChecked);
         }
         public void SetShuffledQuestionList(ObservableCollection<QuestionModel> shuffledQuestionList)
         {
             ShuffledQuestionList = shuffledQuestionList;
-            foreach (QuestionModel question in ShuffledQuestionList)
-            {
-                Console.WriteLine(question.Id);
-            }
         }
         public void SetIsShuffledChecked(bool isShuffledChecked)
         {

@@ -227,7 +227,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             if(CanExecutePreviousPageCommand(parameter))
             {
                 CurrentPage--;
-                Console.WriteLine(CurrentPage);
+                //Console.WriteLine(CurrentPage);
                 UpdatePagedQuestionList();
             }                        
         }
@@ -236,7 +236,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             if (CanExecuteNextPageCommand(parameter))
             {
                 CurrentPage++;
-                Console.WriteLine(CurrentPage);
+                //Console.WriteLine(CurrentPage);
                 UpdatePagedQuestionList();
             }                        
         }

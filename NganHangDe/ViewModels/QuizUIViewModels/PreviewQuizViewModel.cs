@@ -212,28 +212,24 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             _timer.Interval = TimeSpan.FromSeconds(1); // Set the interval duration (1 second in this example)
             _timer.Tick += Timer_Tick; // Attach the event handler
             _timer.Start();
+            StartTime = DateTime.Now;
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            
             QuizSpan = QuizSpan.Subtract(TimeSpan.FromSeconds(1));
             DisplayTime = QuizSpan.ToString();
             if (QuizSpan <= TimeSpan.Zero)
             {
-                
                 _timer.Stop();
                 IsFinishAttemptClicked = true;
-                OnPropertyChanged(nameof(IsFinishAttemptClicked));
                 FinishAttemptCommand.Execute(this); 
             }
         }
 
         private async Task LoadQuestionsAsync()
         {
-            StartTime = DateTime.Now;
             var quiz = await _quizService.GetFullQuizById(_quizId);
             QuizSpan = quiz.TimeLimit;
-            StartTimer();
             if (_isShuffleChecked == false)
             {
                 try
@@ -265,6 +261,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
             {
                 SetShuffledQuestionList(_shuffledQuestionList);
             }
+            StartTimer();
         }
         private void LoadQuestionCallback(QuestionModel question, List<AnswerModel> answers)
         {           
@@ -300,7 +297,8 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         }
         public void FinishAttempt(object parameter)
         {
-            foreach(var question in LoadedQuestionList)
+            FinishTime = DateTime.Now;
+            foreach (var question in LoadedQuestionList)
             {
                 foreach(var answer in question.Answers)
                 {
@@ -308,7 +306,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                 }
             }
             IsPopupVisible = false;
-            FinishTime = DateTime.Now;
             // Tính toán các câu trả lời đúng
             double totalGrade = 0;
             double totalAnswerGrade = 0; //tổng điểm của quiz 
@@ -330,7 +327,6 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
         private double CalculateQuestionGrade(QuestionModel question)
         {
             double totalGrade = 0;
-            
             foreach (var answer in question.Answers)
             {
                 if (answer.IsSelected)
@@ -338,7 +334,7 @@ namespace NganHangDe.ViewModels.QuizUIViewModels
                     totalGrade += answer.Grade;
                 }
             }
-            return totalGrade;
+            return Math.Round(totalGrade, 2);
         }
         private double CalculateAnswerGrade(QuestionModel question)
         {
