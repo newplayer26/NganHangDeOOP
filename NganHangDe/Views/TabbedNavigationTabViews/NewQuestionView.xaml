@@ -125,7 +125,7 @@
                                     <StackPanel Grid.Column="1" Grid.Row="0">
                                         <extensions:BindableRichTextBox Width="250" Height="80"  HorizontalAlignment="Left" Margin="20 10 0 0" AcceptsReturn="True" BindableText="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                         <!--<ComboBox Width="250" HorizontalAlignment="Left" Margin="20 0 0 0"/>-->
-                                        <ComboBox Width="80" HorizontalAlignment="Left" Margin="20 10 0 0" ItemsSource="{Binding GradeList}" SelectedItem="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <ComboBox Width="110" HorizontalAlignment="Left" Margin="20 10 0 0" ItemsSource="{Binding GradeList}" SelectedItem="{Binding Grade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                     </StackPanel>
                                 </Grid>

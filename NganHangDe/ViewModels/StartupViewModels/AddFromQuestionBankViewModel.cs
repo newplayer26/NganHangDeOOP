@@ -108,7 +108,7 @@ namespace NganHangDe.ViewModels.StartupViewModels
             DescendantsCategoriesList = new ObservableCollection<QuestionModel>(descendantsCategoriesList);
             _selectedQuestions = new ObservableCollection<QuestionModel>();
             OnPropertyChanged(nameof(QuestionList));
-            Console.WriteLine(QuestionList.Count());
+            //Console.WriteLine(QuestionList.Count());
             OnPropertyChanged(nameof(CanChoose));
         }
         private async void ExecuteSelectQuestionCommand(object parameter)
