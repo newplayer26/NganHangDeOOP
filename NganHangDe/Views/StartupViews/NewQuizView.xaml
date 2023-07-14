@@ -103,27 +103,37 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox HorizontalAlignment="Left"
-                                  Width="50" 
-                                   Grid.Column="0"
-                                   Margin="0 20 5 0"/>
-                            <ComboBox Grid.Column="1"
-                                Width="75"
-                                Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="2"
-                                 Width="60"
-                                 Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="3"
-                                 Width="50"
-                                Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="4"
-                                Width="50"
-                                 Margin="5 20 5 0"
-                                 HorizontalAlignment="Left"/>
-                            <CheckBox Content="Enable" 
+                                <ComboBox HorizontalAlignment="Left" IsEnabled="False"
+          Width="50" 
+          Grid.Column="0"
+          Margin="0 20 5 0">
+                                    <ComboBoxItem Content="18" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="1" IsEnabled="False"
+          Width="75"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="July" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="2" IsEnabled="False"
+          Width="60"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="2023" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="3" IsEnabled="False"
+          Width="50"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="10" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="4" IsEnabled="False"
+          Width="50"
+          Margin="5 20 5 0"
+          HorizontalAlignment="Left">
+                                    <ComboBoxItem Content="30" IsSelected="True"/>
+                                </ComboBox>
+                                <CheckBox Content="Enable" 
                                 Margin="5 20 0 0"
                                  Grid.Column="5"/>
                         </Grid>
@@ -136,30 +146,40 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <ComboBox HorizontalAlignment="Left"
-                                  Width="50" 
-                                   Grid.Column="0"
-                                   Margin="0 20 5 0"/>
-                            <ComboBox Grid.Column="1"
-                                Width="75"
-                                Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="2"
-                                 Width="60"
-                                 Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="3"
-                                 Width="50"
-                                Margin="5 20 5 0"
-                                 HorizontalAlignment="left"/>
-                            <ComboBox Grid.Column="4"
-                                Width="50"
-                                 Margin="5 20 5 0"
-                                 HorizontalAlignment="Left"/>
-                            <CheckBox Content="Enable" 
+                                <ComboBox HorizontalAlignment="Left" IsEnabled="False"
+          Width="50" 
+          Grid.Column="0"
+          Margin="0 20 5 0">
+                                    <ComboBoxItem Content="18" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="1" IsEnabled="False"
+          Width="75"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="July" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="2" IsEnabled="False"
+          Width="60"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="2023" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="3" IsEnabled="False"
+          Width="50"
+          Margin="5 20 5 0"
+          HorizontalAlignment="left">
+                                    <ComboBoxItem Content="10" IsSelected="True"/>
+                                </ComboBox>
+                                <ComboBox Grid.Column="4" IsEnabled="False"
+          Width="50"
+          Margin="5 20 5 0"
+          HorizontalAlignment="Left">
+                                    <ComboBoxItem Content="30" IsSelected="True"/>
+                                </ComboBox>
+                                <CheckBox Content="Enable" 
                                 Margin="5 20 0 0"
                                  Grid.Column="5"/>
-                        </Grid>
+                            </Grid>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
